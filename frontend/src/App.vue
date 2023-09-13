@@ -1,19 +1,17 @@
 <template>
 
-hello it is me
-  <rood-component/>
-  <blauw-component/>
+  <insect-counter/>
 
 </template>
 
 <script>
-import RoodComponent from './components/RoodComponent.vue'
-import BlauwComponent  from "@/components/BlauwComponent.vue";
+import InsectCounter from "@/components/InsectCounter";
 
 export default {
   name: 'App',
   components: {
-    RoodComponent, BlauwComponent
+    InsectCounter,
+
   }
 }
 </script>
