@@ -11,4 +11,6 @@ public class PassengerWagon {
 
         return 0;
     }
+
+
 }

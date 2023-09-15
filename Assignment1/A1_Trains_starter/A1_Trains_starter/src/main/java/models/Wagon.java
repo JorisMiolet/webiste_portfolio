@@ -45,7 +45,7 @@ public class Wagon {
     public boolean hasPreviousWagon() {
         // TODO
 
-        return false;
+        return this.previousWagon != null;
     }
 
     /**
@@ -66,7 +66,13 @@ public class Wagon {
     public int getSequenceLength() {
         // TODO traverse the sequence and find its length
 
-        return 0;
+        int size = 1;
+        Wagon current = this;
+        while(current.nextWagon != null){
+            current = current.nextWagon;
+            size++;
+        }
+        return size;
     }
 
     /**
@@ -105,10 +111,14 @@ public class Wagon {
      *          or <code>null</code> if it had no previousWagon.
      */
     public Wagon detachFront() {
+        if (current.nextWagon == null && current.previousWagon == null) return null;
+        Wagon toReturn = this;
+        previousWagon.nextWagon = null;
+
         // TODO detach this wagon from its predecessor (sustaining the invariant propositions).
         //   and return that predecessor
 
-        return null;
+        return toReturn;
     }
 
     /**
