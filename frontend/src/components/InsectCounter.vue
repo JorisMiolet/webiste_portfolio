@@ -1,15 +1,20 @@
 <template>
+  <section v-bind:style="'background: ' + color">
   <div>
     <h1>{{ getMessage }}</h1>
   </div>
   <div>
     Je hebt {{ this.counts.length }} insecten gezien
   </div>
+  <div  >
+    Show in
+    <input v-model="color">
+    </div>
 
   <div v-if="this.counts.length > 0">
     <ul>
       <li v-for="count in counts" :key="count.date">
-        <count-component v-bind:count-item="count"></count-component>
+        <count-component v-bind:count-item="count" v-on:delete-count="deleteCount(count.id)"></count-component>
       </li>
     </ul>
   </div>
@@ -23,6 +28,8 @@
     </form>
     <button v-on:click="addInsect()">Voeg toe</button>
   </div>
+
+  </section>
 </template>
 
 <script>
@@ -35,7 +42,8 @@ export default {
   data() {
     return {
       counts: [],
-      newCount: new InsectCount()
+      newCount: new InsectCount(),
+      color: 'green'
     }
   },
   methods: {
@@ -44,6 +52,10 @@ export default {
       this.newCount.date = new Date();
       this.counts.push(this.newCount);
       this.newCount = new InsectCount();
+    },
+
+    deleteCount(id){
+     this.counts.splice(id, 1);
     }
   },
   computed: {

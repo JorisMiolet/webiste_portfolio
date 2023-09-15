@@ -1,6 +1,8 @@
 <template>
 
-  <div> {{ countItem.quantity + ' ' + countItem.name + ' gezien op ' + countItem.date.toLocaleDateString() }}</div>
+  <div> {{ countItem.quantity + ' ' + countItem.name + ' gezien op ' + countItem.date.toLocaleDateString() }}
+  <button @click="$emit('delete-count', countItem.id)">Delete</button>
+  </div>
 </template>
 
 <script>
@@ -13,7 +15,9 @@ export default {
       type: InsectCount,
       required: true
     }, name: String
-  }
+  },
+  emits: ["delete-count"]
+
 }
 </script>
 
