@@ -36,7 +36,7 @@ public class Wagon {
     public boolean hasNextWagon() {
         // TODO
 
-        return false;
+        return this.nextWagon != null;
     }
 
     /**
@@ -55,8 +55,11 @@ public class Wagon {
      */
     public Wagon getLastWagonAttached() {
         // TODO find the last wagon in the sequence
-
-        return null;
+        Wagon current = this;
+            while(current.nextWagon != null){
+                current = current.nextWagon;
+            }
+        return current;
     }
 
     /**

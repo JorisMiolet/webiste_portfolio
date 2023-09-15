@@ -24,7 +24,7 @@ public class Train {
     public boolean hasWagons() {
         // TODO
 
-        return false;   // replace by proper outcome
+        return firstWagon.getNextWagon() != null;   // replace by proper outcome
     }
 
     /**
