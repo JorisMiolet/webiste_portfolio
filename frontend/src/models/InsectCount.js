@@ -8,8 +8,6 @@ export class InsectCount {
     quantity;
 
     constructor() {
-        this.name ="unkown";
-        this.quantity =1;
     }
 
 }
