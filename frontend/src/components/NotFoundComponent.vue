@@ -1,6 +1,6 @@
 <template>
   <div >
-    Hello world
+    Component not found
   </div>
 
 </template>

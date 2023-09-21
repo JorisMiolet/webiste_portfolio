@@ -1,5 +1,5 @@
 <template>
-  <div> {{ 1+ 1}}   </div>
+  <div> rood component  </div>
 </template>
 
 <script>
