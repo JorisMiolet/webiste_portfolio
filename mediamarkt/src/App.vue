@@ -1,5 +1,5 @@
 <template>
-  <admin-overview/>
+  <router-view/>
 </template>
 
 <script>
