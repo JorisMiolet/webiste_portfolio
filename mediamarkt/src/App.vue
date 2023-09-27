@@ -1,13 +1,13 @@
 <template>
-  <log-in></log-in>
+  <admin-overview/>
 </template>
 
 <script>
 import './main.css'
-import LogIn from "@/components/login/login";
+import AdminOverview from "@/components/admin/adminOverview.vue";
 export default {
   name: 'App',
-  components: {LogIn},
+  components: {AdminOverview},
 }
 </script>
 
