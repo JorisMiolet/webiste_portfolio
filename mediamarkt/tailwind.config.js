@@ -1,0 +1,22 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./src/**/*.{js,ts,vue,tsx}",
+    './components/**/*.{html,js,vue}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'primary': '#FE4A49',
+        'secondary': '#FFFFFF',
+        'tertiary': '#ADC9C4',
+
+      }
+    },
+  },
+  plugins: [],
+}
+
+
+
+
