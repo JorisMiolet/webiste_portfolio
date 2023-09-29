@@ -11,12 +11,8 @@
 
 <template>
   <aside>
-    <ul>
-      <li>create image</li>
-      <li>edit users</li>
-      <li>export images</li>
-      <li>edit images</li>
-    </ul>
+    admin home
+    <router-view/>
   </aside>
 </template>
 

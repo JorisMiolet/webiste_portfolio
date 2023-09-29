@@ -1,13 +1,13 @@
 <template>
-  <router-view/>
+  <temp-homepage/>
 </template>
 
 <script>
 import './main.css'
-import AdminOverview from "@/components/admin/adminOverview.vue";
+import TempHomepage from "@/components/tempHomepage.vue";
 export default {
   name: 'App',
-  components: {AdminOverview},
+  components: {TempHomepage},
 }
 </script>
 
