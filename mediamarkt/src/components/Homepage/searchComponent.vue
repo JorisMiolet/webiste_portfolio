@@ -1,5 +1,5 @@
 <template>
-3
+search
 </template>
 
 <script>

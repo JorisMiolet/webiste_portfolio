@@ -1,5 +1,5 @@
 <template>
-x
+image
 </template>
 
 <script>
