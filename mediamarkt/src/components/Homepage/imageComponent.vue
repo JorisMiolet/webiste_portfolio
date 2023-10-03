@@ -1,10 +1,12 @@
 <template>
-  <div class="w-2/4  h-64 p-4  flex flex-col items-end ml-auto mr-9">
-    <div v-for="(laptop, index) in laptops" :key="index" class="mb-8 border border-gray-300 p-4 rounded-lg shadow-md hover:shadow-lg w-4/5 ">
+  <div class="w-3/4 p-4 grid grid-cols-2  ml-auto mr-9 gap-4 ">
+    <div v-for="(laptop, index) in laptops" :key="index" class="border border-gray-300 p-4 rounded-lg shadow-md hover:shadow-lg h-[300px]">
       <h2 class="text-lg font-semibold">{{ laptop['Description / Model type'] }}</h2>
       <p class="text-gray-600">{{ laptop.Brand }}</p>
       <p class="text-gray-600">{{ laptop.PROCESSOR }}</p>
-
+      <p class="text-gray-600">{{ laptop.EAN}}</p>
+      <p class="text-gray-600">{{ laptop.RAM }}</p>
+      <p class="text-gray-600">{{ laptop.STORAGE }}</p>
     </div>
   </div>
 </template>
@@ -16,12 +18,12 @@ export default {
   name: "imageComponent",
   data() {
     return {
-      laptops: Object.values(dummyData), // Converteer de objecten uit de JSON naar een array
+      laptops: Object.values(dummyData),
     };
   },
 };
 </script>
 
 <style scoped>
-/* Voeg eventuele aanvullende stijlen toe met behulp van Tailwind CSS-klassen */
+
 </style>
