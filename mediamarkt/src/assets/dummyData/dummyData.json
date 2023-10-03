@@ -14,7 +14,7 @@
   "laptop2": {
     "Article NR": "3801104",
     "EAN": "4718235312787",
-    "Brand": "ACER",
+    "Brand": "HP",
     "Description / Model type": "AS 1804 WSMIB_100 DX11 (LX.A3905.031)",
     "PROCESSOR": "AMD Ryzen 7",
     "RAM": "16GB",
@@ -98,7 +98,7 @@
   "laptop9": {
     "Article NR": "3800924",
     "EAN": "4718235246952",
-    "Brand": "ACER",
+    "Brand": "HP",
     "Description / Model type": "ASPIRE 1802 WSMIB DX9 (LX.A2905.044)",
     "PROCESSOR": "Intel Core i5",
     "RAM": "8GB",
@@ -110,7 +110,7 @@
   "laptop10": {
     "Article NR": "3800894",
     "EAN": "4718235233587",
-    "Brand": "ACER",
+    "Brand": "HP",
     "Description / Model type": "ASPIRE 1661 WLM DX7 (LX.A3005.117)",
     "PROCESSOR": "AMD Ryzen 5",
     "RAM": "12GB",

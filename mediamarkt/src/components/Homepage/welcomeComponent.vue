@@ -1,4 +1,5 @@
 <template>
+  <header-component/>
   <search-component/>
   <sidenav-component/>
   <image-component/>
@@ -8,10 +9,11 @@
 import SidenavComponent from "@/components/Homepage/sidenavComponent.vue";
 import SearchComponent from "@/components/Homepage/searchComponent.vue";
 import ImageComponent from "@/components/Homepage/imageComponent.vue";
+import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
 
 export default {
   name: "welkomComponent",
-  components: {ImageComponent, SearchComponent, SidenavComponent}
+  components: {HeaderComponent, ImageComponent, SearchComponent, SidenavComponent}
 }
 </script>
 
