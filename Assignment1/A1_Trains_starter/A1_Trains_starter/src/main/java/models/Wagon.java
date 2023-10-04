@@ -98,6 +98,36 @@ public abstract class Wagon {
         this.nextWagon = tail;
     }
 
+
+//    public void attachTail(Wagon tail) {
+//        if (tail.getPreviousWagon() != null) {
+//            tail.detachFront();
+//        }
+//
+//        if (nextWagon != null) {
+//            throw new IllegalStateException(
+//                    String.format("%s is already pulling %s", this.toString(), nextWagon.toString())
+//            );
+//        }
+//
+//        if (tail.getPreviousWagon() != null) {
+//            throw new IllegalStateException(
+//                    String.format("%s has already been attached to %s", tail.toString(), tail.getPreviousWagon().toString())
+//            );
+//        }
+//
+//        nextWagon = tail;
+//        tail.previousWagon = this;
+//    }
+
+    public void setNextWagon(Wagon nextWagon) {
+        this.nextWagon = nextWagon;
+    }
+
+    public void setPreviousWagon(Wagon previousWagon) {
+        this.previousWagon = previousWagon;
+    }
+
     /**
      * Detaches the tail from this wagon and returns the first wagon of this tail.
      * @return the first wagon of the tail that has been detached

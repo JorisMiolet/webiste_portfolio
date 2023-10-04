@@ -16,5 +16,8 @@ public class Locomotive {
 
     // TODO
 
+    public int getLocNumber() {
+        return locNumber;
+    }
 
 }

@@ -15,6 +15,8 @@ public class PassengerWagon extends Wagon{
         return numberOfSeats;
     }
 
+
+
     @Override
     public String toString() {
         return String.format("[Wagon-%d]", getId());

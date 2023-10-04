@@ -314,9 +314,11 @@ public class TrainTest {
                 "cannot split from beyond the last wagon of a train");
         assertFalse(passengerTrain.splitAtPosition(2, freightTrain),
                 "cannot split towards an incompatible train");
-
+        System.out.println(trainWithoutWagons);
+        System.out.println(passengerTrain);
         assertTrue(passengerTrain.splitAtPosition(0, trainWithoutWagons),
                 "can split at the first wagon of a train");
+        System.out.println(trainWithoutWagons);
         assertEquals(7, trainWithoutWagons.getNumberOfWagons());
         assertEquals(0, passengerTrain.getNumberOfWagons());
 
@@ -332,10 +334,13 @@ public class TrainTest {
     @Test
     public void T20_CantSplitTowardsAFullTrain() {
         assertTrue(trainWithoutWagons.attachToRear(passengerWagon1));
+        System.out.println(trainWithoutWagons);
         assertFalse(trainWithoutWagons.splitAtPosition(0, passengerTrain),
                 "cannot split 3 wagons towards an almost full passenger train");
+        System.out.println(trainWithoutWagons);
         assertFalse(trainWithoutWagons.splitAtPosition(1, passengerTrain),
                 "cannot split 2 wagons towards an almost full passenger train");
+        System.out.println(trainWithoutWagons);
         assertEquals(3, trainWithoutWagons.getNumberOfWagons());
         assertEquals(7, passengerTrain.getNumberOfWagons());
         assertTrue(trainWithoutWagons.splitAtPosition(2, passengerTrain),
