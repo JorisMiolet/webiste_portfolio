@@ -173,6 +173,19 @@ public abstract class Wagon {
      * No action if this Wagon has no succeeding next wagon attached.
      * @return the new start Wagon of the reversed sequence (with is the former last Wagon of the original sequence)
      */
+    public Wagon reverseSequence() {
+        if (this.nextWagon == null) {
+            return this;
+        }
+
+        Wagon newFront = this.getNextWagon().reverseSequence();
+
+        this.removeFromSequence();
+
+        newFront.getLastWagonAttached().attachTail(this);
+
+        return newFront;
+    }
 //    public Wagon reverseSequence() {
 //        if (this.nextWagon == null) {
 //            return this;
@@ -204,19 +217,7 @@ public abstract class Wagon {
 ////        return lastWagon;
 //        return newFront;
 //    }
-    public Wagon reverseSequence() {
-        if (this.nextWagon == null) {
-            return this;
-        }
 
-        Wagon newFront = this.getNextWagon().reverseSequence();
-
-        this.removeFromSequence();
-
-        newFront.getLastWagonAttached().attachTail(this);
-
-        return newFront;
-    }
 
 
 
