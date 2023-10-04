@@ -13,6 +13,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "core-js": "^3.8.3",
+    "tw-elements": "^1.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.2.5"
   },
