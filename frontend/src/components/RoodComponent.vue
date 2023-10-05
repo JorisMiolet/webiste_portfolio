@@ -1,5 +1,9 @@
 <template>
-  <div> rood component  </div>
+  <div> rood component
+
+  </div>
+
+  <router-view></router-view>
 </template>
 
 <script>

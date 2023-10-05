@@ -13,7 +13,9 @@ history: createWebHashHistory(),
 
         {path: '/', component : HelloWorld
         },
-        {path: '/rood', component: RoodComponent},
+        {path: '/rood', component: RoodComponent,
+            children: [{path: 'blauw', component: BlauwComponent},  {path: 'rood', component: RoodComponent}]
+        },
         {path: '/blauw', component: BlauwComponent},
         {path: '/counter', component: InsectCounter},
         {path: '/:pathMatch(.+)+', component: NotFoundComponent}

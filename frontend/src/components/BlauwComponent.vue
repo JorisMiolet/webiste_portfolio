@@ -1,5 +1,8 @@
 <template>
-  <div> blauw component </div>
+  <div> blauw component
+
+
+  </div>
 </template>
 
 <script>
