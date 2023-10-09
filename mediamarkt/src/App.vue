@@ -1,12 +1,16 @@
 <template>
-<router-view/>
+<detail-image/>
+  <router-view/>
+
 </template>
 
-<script>
+<script >
 import './main.css'
 export default {
   name: 'App',
 }
+
+
 </script>
 
 <style>

@@ -3,6 +3,7 @@ export default {
   content: [
     "./src/**/*.{js,ts,vue,tsx}",
     './components/**/*.{html,js,vue}',
+    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     extend: {
@@ -14,7 +15,7 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [require("tw-elements/dist/plugin.cjs")],
 }
 
 
