@@ -6,6 +6,7 @@ import exportData from "@/components/admin/pages/exportData.vue";
 import userOverview from "@/components/admin/pages/userOverview.vue";
 import editImage from "@/components/admin/pages/editImage.vue";
 import welcomeComponent from "@/components/Homepage/welcomeComponent.vue";
+import Login from "@/components/login/login";
 
 const routes = [
     {
@@ -26,7 +27,8 @@ const routes = [
             }
         ]
     }, { path: "/", redirect: "/home",},
-    {path: "/home", name: "welcome", component: welcomeComponent}
+    {path: "/home", name: "welcome", component: welcomeComponent},
+    {path: "/Login", name: "login", component: Login}
 ];
 export const router = createRouter({
     history: createWebHistory(),

@@ -1,4 +1,5 @@
 <template>
+  <HeaderComponent />
 <div class="h-[100vh] w-full flex items-center justify-center">
   <img :src="backgroundImage" alt="background_img" class="h-[100vh] z-[-1] absolute top-0 left-0">
   <div class="login-small w-[500px] h-[500px] shadow-2xl bg-secondary flex flex-col ml-[200px]">
@@ -23,7 +24,12 @@
       />
     </div>
     <div class="pb-10 w-full flex items-center justify-center">
-        <button class="text-3xl text-white rounded bg-primary px-[23%] py-5 hover:drop-shadow-lg hover:bg-[#F36261FF]" @click="handleButton">Log In</button>
+
+        <button class="text-3xl text-white rounded bg-primary px-[23%] py-5 hover:drop-shadow-lg hover:bg-[#F36261FF]"
+                @click="handleButton"
+        >
+          Log In
+        </button>
     </div>
   </div>
 </div>
@@ -34,8 +40,10 @@ import bgImage from "../../assets/images/loginbg.png";
 import show from "../../assets/images/view.png";
 import hide from "../../assets/images/hide.png";
 import jsonData from "../../assets/dummyData/loginData.json"
+import HeaderComponent from "@/components/Homepage/heeaderComponent";
 export default {
   name: "log-in",
+  components: {HeaderComponent},
   data() {
     return {
       backgroundImage: bgImage,
@@ -58,7 +66,7 @@ export default {
         window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
         return;
       }
-      window.alert("je bent ingelogd!")
+      this.$router.push("/")
     }
   }
 }
