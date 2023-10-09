@@ -144,16 +144,58 @@
 
 </template>
 
+<!--<script>-->
+<!--import jsonData from '@/assets/dummyData/dummyData.json';-->
+<!--// import {onMounted} from "vue";-->
+<!--// import {Carousel, initTE} from "tw-elements";-->
+<!--//-->
+<!--//-->
+<!--// onMounted(() => {-->
+<!--//   console.log("asd");-->
+<!--//   initTE({Carousel});-->
+<!--// });-->
+
+<!--export default {-->
+<!--  name: 'detail-image',-->
+<!--  props: ['selectedImage'],-->
+<!--  data() {-->
+<!--    return {-->
+<!--      popupVisible: true,-->
+<!--      selectedImageInfo: null,-->
+<!--    };-->
+<!--  },-->
+<!--  methods: {-->
+<!--    getLaptopData() {-->
+<!--      const laptopData = jsonData['laptop1'];-->
+<!--      const formattedData = [];-->
+
+<!--      for (const key in laptopData) {-->
+<!--        formattedData.push({key, value: laptopData[key]});-->
+<!--      }-->
+
+<!--      return formattedData;-->
+<!--    },-->
+<!--    openPopup() {-->
+<!--      this.popupVisible = true;-->
+<!--    },-->
+<!--    closePopup() {-->
+<!--      this.popupVisible = false;-->
+<!--      this.selectedImageInfo = null;-->
+<!--    },-->
+<!--  },-->
+<!--  computed:{-->
+<!--    loadSelectedImage(){-->
+<!--      return this.selectedImage;-->
+<!--    }-->
+<!--  }-->
+<!--}-->
+<!--</script>-->
+
+
 <script>
 import jsonData from '@/assets/dummyData/dummyData.json';
-// import {onMounted} from "vue";
-// import {Carousel, initTE} from "tw-elements";
-//
-//
-// onMounted(() => {
-//   console.log("asd");
-//   initTE({Carousel});
-// });
+import { onMounted } from "vue";
+import { Carousel, initTE } from "tw-elements";
 
 export default {
   name: 'detail-image',
@@ -170,7 +212,7 @@ export default {
       const formattedData = [];
 
       for (const key in laptopData) {
-        formattedData.push({key, value: laptopData[key]});
+        formattedData.push({ key, value: laptopData[key] });
       }
 
       return formattedData;
@@ -183,13 +225,20 @@ export default {
       this.selectedImageInfo = null;
     },
   },
-  computed:{
-    loadSelectedImage(){
+  computed: {
+    loadSelectedImage() {
       return this.selectedImage;
     }
+  },
+  setup() {
+// Initialize the Carousel when the component is mounted
+    onMounted(() => {
+      initTE({ Carousel });
+    });
   }
 }
 </script>
+
 
 <!--<script>-->
 <!--import jsonData from '@/assets/dummyData/dummyData.json';-->
