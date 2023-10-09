@@ -1,8 +1,14 @@
 <template>
   <header-component/>
-  <search-component/>
-  <sidenav-component/>
-  <image-component/>
+  <div class="container flex flex-row">
+    <div>
+      <sidenav-component/>
+    </div>
+    <div class="flex-col content mr-auto">
+      <search-component/>
+      <image-component/>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,5 +24,8 @@ export default {
 </script>
 
 <style scoped>
-
+.content{
+  flex-grow: 1;
+  align-content: center;
+}
 </style>
