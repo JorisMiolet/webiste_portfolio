@@ -1,27 +1,29 @@
 {
-  "user1": {
-    "name": "John",
-    "password": "test123",
-    "admin": true
-  },
-  "user2": {
-    "name": "Tessa",
-    "password": "test456",
-    "admin": false
-  },
-  "user3": {
-    "name": "Tim",
-    "password": "nogEenTest",
-    "admin": false
-  },
-  "user4": {
-    "name": "Jeffry",
-    "password": "enNogEenTest",
-    "admin": true
-  },
-  "user5": {
-    "name": "Pieter",
-    "password": "laatsteTest",
-    "admin": false
-  }
+  "users": [
+    {
+      "name": "John",
+      "password": "test123",
+      "admin": true
+    },
+    {
+      "name": "Tessa",
+      "password": "test456",
+      "admin": false
+    },
+    {
+      "name": "Tim",
+      "password": "nogEenTest",
+      "admin": false
+    },
+    {
+      "name": "Jeffry",
+      "password": "enNogEenTest",
+      "admin": true
+    },
+    {
+      "name": "Pieter",
+      "password": "laatsteTest",
+      "admin": false
+    }
+  ]
 }
