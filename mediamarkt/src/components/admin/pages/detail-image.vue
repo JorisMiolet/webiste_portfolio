@@ -1,6 +1,6 @@
 <template>
     <!-- Knop om de popup te openen -->
-    <button @click="openPopup">Open Popup</button>
+<!--    <button @click="openPopup">Open Popup</button>-->
 
     <!-- Overlay / Achtergrond donker maken -->
     <div v-if="popupVisible" class="overlay"></div>
@@ -146,20 +146,21 @@
 
 <script>
 import jsonData from '@/assets/dummyData/dummyData.json';
-import {onMounted} from "vue";
-import {Carousel, initTE} from "tw-elements";
-
-
-onMounted(() => {
-  console.log("asd");
-  initTE({Carousel});
-});
+// import {onMounted} from "vue";
+// import {Carousel, initTE} from "tw-elements";
+//
+//
+// onMounted(() => {
+//   console.log("asd");
+//   initTE({Carousel});
+// });
 
 export default {
   name: 'detail-image',
+  props: ['selectedImage'],
   data() {
     return {
-      popupVisible: false,
+      popupVisible: true,
       selectedImageInfo: null,
     };
   },
@@ -182,7 +183,12 @@ export default {
       this.selectedImageInfo = null;
     },
   },
-};
+  computed:{
+    loadSelectedImage(){
+      return this.selectedImage;
+    }
+  }
+}
 </script>
 
 <!--<script>-->
