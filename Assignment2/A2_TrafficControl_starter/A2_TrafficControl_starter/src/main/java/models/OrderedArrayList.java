@@ -50,7 +50,33 @@ public class OrderedArrayList<E>
     //   do not invoke a sort or reorder items otherwise differently than is specified by the ArrayList contract)
 
 
+    @Override
+    public void add(int index, E element) {
+        super.add(index, element);
+        nSorted++;
+        sort();
+    }
 
+    @Override
+    public E remove(int index) {
+        E removed = null;
+        removed = super.remove(index);
+
+        if(index >= 0 && index < nSorted) nSorted--;
+
+        return removed;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+
+        if(indexOf(o) >= 0){
+            boolean removed = super.remove(o);
+            if(indexOf(o) < nSorted) nSorted--;
+            return removed;
+        }
+        return false;
+    }
 
     @Override
     public void sort() {
@@ -91,14 +117,28 @@ public class OrderedArrayList<E>
     public int indexOfByIterativeBinarySearch(E searchItem) {
 
         // TODO implement an iterative binary search on the sorted section of the arrayList, 0 <= index < nSorted
-        //   to find the position of an item that matches searchItem (this.sortOrder comparator yields a 0 result)
-
-
-
+        //   to find the position of an item that matches searchItem (this.sortOrder comparator yields a 0 result)=
+        //init to and from indexes
+        int from = 0;
+        int to = nSorted - 1;
+        //while from is smaller than to
+        while(from <= to){
+            //get mid index
+            int midIndex = (from + to) / 2;
+            //compare the item found at the midIndex to the search item.
+            int compared = getSortOrder().compare(get(midIndex), searchItem);
+            //searchItem is same as item at midIndex
+            if(compared == 0){
+                return midIndex;
+            }else if (compared < 0) { //search item is bigger than midIndex
+                from = midIndex + 1;
+            }else{ //search item is smaller then midIndex
+                to = midIndex - 1;
+            }
+        }
         // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
 
-
-        return -1;  // nothing was found ???
+        return linearSearch(searchItem, nSorted, size());  // nothing was found ???
     }
 
     /**
@@ -114,28 +154,50 @@ public class OrderedArrayList<E>
 
         // TODO implement a recursive binary search on the sorted section of the arrayList, 0 <= index < nSorted
         //   to find the position of an item that matches searchItem (this.sortOrder comparator yields a 0 result)
-
-
-
+        int itemFound = binarySearchRecursive(searchItem, 0, nSorted - 1);
         // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
+        if (itemFound == -1){
+            itemFound = linearSearch(searchItem, nSorted, size());
+        }
 
+        return itemFound;  // nothing was found ???
+    }
+    private int binarySearchRecursive(E searchItem, int from, int to) {
+        if (from > to) {
+            return -1;
+        }
+        int midIndex = (from + 2) / 2;
 
-        return -1;  // nothing was found ???
+        int compared = getSortOrder().compare(get(midIndex), searchItem);
+
+        if (compared == 0) {
+            return midIndex;
+        } else if (compared < 0) {
+            return binarySearchRecursive(searchItem, midIndex + 1, to);
+        } else {
+            return binarySearchRecursive(searchItem, from, midIndex - 1);
+        }
     }
 
-
-
-    /**
-     * finds a match of newItem in the list and applies the merger operator with the newItem to that match
-     * i.e. the found match is replaced by the outcome of the merge between the match and the newItem
-     * If no match is found in the list, the newItem is added to the list.
-     * @param newItem
-     * @param merger    a function that takes two items and returns an item that contains the merged content of
-     *                  the two items according to some merging rule.
-     *                  e.g. a merger could add the value of attribute X of the second item
-     *                  to attribute X of the first item and then return the first item
-     * @return  whether a new item was added to the list or not
-     */
+    private int linearSearch(E searchItem, int startIndex, int endIndex) {
+        for (int i = startIndex; i <= endIndex; i++) {
+            if (getSortOrder().compare(get(i), searchItem) == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+            /**
+             * finds a match of newItem in the list and applies the merger operator with the newItem to that match
+             * i.e. the found match is replaced by the outcome of the merge between the match and the newItem
+             * If no match is found in the list, the newItem is added to the list.
+             * @param newItem
+             * @param merger    a function that takes two items and returns an item that contains the merged content of
+             *                  the two items according to some merging rule.
+             *                  e.g. a merger could add the value of attribute X of the second item
+             *                  to attribute X of the first item and then return the first item
+             * @return  whether a new item was added to the list or not
+             */
     @Override
     public boolean merge(E newItem, BinaryOperator<E> merger) {
         if (newItem == null) return false;
@@ -147,7 +209,10 @@ public class OrderedArrayList<E>
         } else {
             // TODO retrieve the matched item and
             //  replace the matched item in the list with the merger of the matched item and the newItem
-
+            E matchedItem = get(matchedItemIndex);
+            E mergedItem = merger.apply(matchedItem, newItem);
+            this.remove(matchedItem);
+            this.add(matchedItemIndex, mergedItem);
 
 
             return false;
@@ -166,7 +231,10 @@ public class OrderedArrayList<E>
         // TODO loop over all items and use the mapper
         //  to calculate and accumulate the contribution of each item
 
-
+        for (E item : this) {
+            double contribution = mapper.apply(item);
+            sum += contribution;
+        }
 
         return sum;
     }

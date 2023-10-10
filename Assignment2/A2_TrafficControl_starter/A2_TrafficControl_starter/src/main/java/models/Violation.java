@@ -43,6 +43,11 @@ public class Violation {
 
         return combinedViolation;
     }
+    public static Comparator<Violation> getComparatorByCarAndCity() {
+        return Comparator
+                .comparing(Violation::getCar)
+                .thenComparing(Violation::getCity);
+    }
 
     public Car getCar() {
         return car;

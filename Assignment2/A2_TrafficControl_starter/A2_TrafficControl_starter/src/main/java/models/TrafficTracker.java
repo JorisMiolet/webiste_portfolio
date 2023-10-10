@@ -18,8 +18,8 @@ public class TrafficTracker {
         // TODO initialize cars with an empty ordered list which sorts items by licensePlate.
         //  initalize violations with an empty ordered list which sorts items by car and city.
         //  Use your generic implementation class OrderedArrayList
-
-
+        cars = new OrderedArrayList<>(Comparator.comparing(Car::getLicensePlate));
+        violations = new OrderedArrayList<>(Violation.getComparatorByCarAndCity());
     }
 
     /**
@@ -67,18 +67,18 @@ public class TrafficTracker {
             // the file is a folder (a.k.a. directory)
             //  retrieve a list of all files and sub folders in this directory
             File[] filesInDirectory = Objects.requireNonNullElse(file.listFiles(), new File[0]);
-
             // TODO recursively process all files and sub folders from the filesInDirectory list.
             //  also track the total number of offences found
-
-
-
+            if(filesInDirectory != null){
+                for(File f : filesInDirectory){
+                    totalNumberOfOffences += mergeDetectionsFromVaultRecursively(f);
+                }
+            }
         } else if (file.getName().matches(TRAFFIC_FILE_PATTERN)) {
             // the file is a regular file that matches the target pattern for raw detection files
             // process the content of this file and merge the offences found into this.violations
             totalNumberOfOffences += this.mergeDetectionsFromFile(file);
         }
-
         return totalNumberOfOffences;
     }
 
@@ -97,7 +97,7 @@ public class TrafficTracker {
 
         // TODO import all detections from the specified file into the newDetections list
         //  using the importItemsFromFile helper method and the Detection.fromLine parser.
-
+        importItemsFromFile(newDetections, file, line -> Detection.fromLine(line, this.cars));
 
 
         System.out.printf("Imported %d detections from %s.\n", newDetections.size(), file.getPath());
@@ -107,6 +107,19 @@ public class TrafficTracker {
         // TODO validate all detections against the purple criteria and
         //  merge any resulting offences into this.violations, accumulating offences per car and per city
         //  also keep track of the totalNumberOfOffences for reporting
+        for (Detection detection : newDetections){
+            Violation violation = detection.validatePurple();
+        if(violation == null)continue;;
+
+            int index = this.violations.indexOf(violation);
+
+            if(index != -1){
+            violations.get(index).setOffencesCount(this.violations.get(index).getOffencesCount() + 1);
+            }else{
+                this.violations.add(violation);
+            }
+            totalNumberOfOffences++;
+        }
 
 
 
@@ -124,8 +137,11 @@ public class TrafficTracker {
         return this.violations.aggregate(
                 // TODO provide a calculator function for the specified fine scheme
                 //  of €25 per truck-offence and €35 per coach-offence
+                violation -> {
+                    if(violation.getCar().getCarType() == Car.CarType.Truck)return 25.0 * violation.getOffencesCount();
 
-                null  // replace this reference
+                    return 35.0 * violation.getOffencesCount();
+                }
         );
     }
 
@@ -136,15 +152,26 @@ public class TrafficTracker {
      * @return              a list of topNum items that provides the top aggregated violations
      */
     public List<Violation> topViolationsByCar(int topNumber) {
+        OrderedArrayList<Violation> aggregatedViolations = mergeAndAggregateViolationsByCity(Comparator.comparing(Violation::getCar));
 
-        // TODO merge all violations from this.violations into a new OrderedArrayList
-        //   which orders and aggregates violations by city
-        // TODO sort the new list by decreasing offencesCount.
-        // TODO use .subList to return only the topNumber of violations from the sorted list
-        //  (You may want to prepare/reuse a local private method for all this)
+        aggregatedViolations.sort((v1, v2) -> Integer.compare(v2.getOffencesCount(), v1.getOffencesCount()));
 
-        return null;  // replace this reference
+        return aggregatedViolations.subList(0, Math.min(topNumber, aggregatedViolations.size()));
     }
+
+    private OrderedArrayList<Violation> mergeAndAggregateViolationsByCity(Comparator<Violation> comparator) {
+        OrderedArrayList<Violation> aggregatedViolations = new OrderedArrayList<>(comparator);
+
+        for (Violation violation : this.violations) {
+            aggregatedViolations.merge(violation, (existing, newItem) -> {
+                existing.setOffencesCount(existing.getOffencesCount() + newItem.getOffencesCount());
+                return existing;
+            });
+        }
+
+        return aggregatedViolations;
+    }
+
 
     /**
      * Prepares a list of topNumber of violations that show the highest offencesCount
@@ -160,7 +187,11 @@ public class TrafficTracker {
         // TODO use .subList to return only the topNumber of violations from the sorted list
         //  (You may want to prepare/reuse a local private method for all this)
 
-        return null;  // replace this reference
+        OrderedArrayList<Violation> aggregatedViolations = mergeAndAggregateViolationsByCity(Comparator.comparing(Violation::getCity));
+
+        aggregatedViolations.sort((v1, v2) -> Integer.compare(v2.getOffencesCount(), v1.getOffencesCount()));
+
+        return aggregatedViolations.subList(0, Math.min(topNumber, aggregatedViolations.size()));
     }
 
 
@@ -185,11 +216,11 @@ public class TrafficTracker {
             numberOfLines++;
 
             // TODO convert the line to an instance of E
-
+            E lineE = converter.apply(line);
 
 
             // TODO add a successfully converted item to the list of items
-
+            items.add(lineE);
 
         }
 
