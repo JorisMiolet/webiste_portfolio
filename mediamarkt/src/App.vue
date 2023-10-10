@@ -1,5 +1,4 @@
 <template>
-<detail-image/>
   <router-view/>
 
 </template>
