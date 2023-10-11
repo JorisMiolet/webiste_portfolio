@@ -10,8 +10,18 @@ import java.util.List;
 @Repository
 public class DutchBookRepository implements BookRepository{
 
+    private List<Book> books = Arrays.asList(new Book("De uitvreter", 1019, 1911, "Nescio"), new Book("Max Hevelaar", 892849, 1923, "Mutatuli"));
+
     @Override
     public List<Book> getAllBooks() {
-        return Arrays.asList(new Book("De uitvreter", 1019), new Book("Max Hevelaar", 892849));
+        return books;
     }
+
+    @Override
+    public void addBook(Book book) {
+        books.add(book);
+
+    }
+
+
 }

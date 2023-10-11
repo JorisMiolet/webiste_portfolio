@@ -7,4 +7,6 @@ import java.util.List;
 public interface BookRepository {
 
     List<Book> getAllBooks();
+
+    void addBook(Book book);
 }
