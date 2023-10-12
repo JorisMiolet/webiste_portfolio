@@ -138,7 +138,7 @@ public class OrderedArrayList<E>
         }
         // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
 
-        return linearSearch(searchItem, nSorted, size());  // nothing was found ???
+        return linearSearch(searchItem, nSorted, size() - 1);  // nothing was found ???
     }
 
     /**
@@ -157,7 +157,7 @@ public class OrderedArrayList<E>
         int itemFound = binarySearchRecursive(searchItem, 0, nSorted - 1);
         // TODO if no match was found, attempt a linear search of searchItem in the section nSorted <= index < size()
         if (itemFound == -1){
-            itemFound = linearSearch(searchItem, nSorted, size());
+            itemFound = linearSearch(searchItem, nSorted, size() -1);
         }
 
         return itemFound;  // nothing was found ???
@@ -166,7 +166,7 @@ public class OrderedArrayList<E>
         if (from > to) {
             return -1;
         }
-        int midIndex = (from + 2) / 2;
+        int midIndex = (from + to) / 2;
 
         int compared = getSortOrder().compare(get(midIndex), searchItem);
 
