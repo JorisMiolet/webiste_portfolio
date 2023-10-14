@@ -37,20 +37,20 @@ public class Detection {
      * or null if the textLine is corrupt or incomplete
      */
     public static Detection fromLine(String textLine, List<Car> cars) {
-        Detection newDetection = null;
         // TODO convert the information in the textLine into a new Detection instance
         //  use the cars.indexOf to find the car that is associated with the licensePlate of the detection
         //  if no car can be found a new Car shall be instantiated and added to the list and associated with the detection
         String[] splitLine = textLine.split("," );
-        Car car = null;
-        int carIndex =cars.indexOf(splitLine[0]);
-        if(carIndex != -1) {
-            car = new Car(splitLine[0], 0, CarType.Unknown, FuelType.Unknown, LocalDate.parse(splitLine[2].trim()));
-        }else{
-            car = cars.get(carIndex);
+        if(splitLine.length != 3)return null;
+        Car car = new Car(splitLine[0]);
+
+        int carIndex =cars.indexOf(car);
+        if(carIndex == -1) {
+            cars.add(car);
+            carIndex = cars.indexOf(car);
         }
-        newDetection = new Detection(car, splitLine[1].trim(), LocalDateTime.parse(splitLine[2].trim()));
-        return newDetection;
+        return new Detection(cars.get(carIndex), splitLine[1].trim(), LocalDateTime.parse(splitLine[2].trim()));
+
     }
 
     /**
@@ -63,11 +63,12 @@ public class Detection {
     public Violation validatePurple() {
         // TODO validate that diesel trucks and diesel coaches have an emission category of 6 or above
         //prepare checks
+        System.out.println(getCar());
         boolean carIsTruckOrCoach = getCar().getCarType() == CarType.Truck || getCar().getCarType() == CarType.Coach;
         boolean carIsDiesel = getCar().getFuelType() == FuelType.Diesel;
         int emissionCategory = getCar().getEmissionCategory();
         //if checks return true then return new Violation
-        if(carIsDiesel && carIsTruckOrCoach && emissionCategory > 6)return new Violation(getCar(), getCity());
+        if(carIsDiesel && carIsTruckOrCoach && emissionCategory < 6)return new Violation(getCar(), getCity());
         //else return null
         return null;
     }

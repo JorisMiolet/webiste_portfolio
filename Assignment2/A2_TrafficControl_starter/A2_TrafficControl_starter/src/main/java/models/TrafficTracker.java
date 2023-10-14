@@ -95,34 +95,23 @@ public class TrafficTracker {
         // use a regular ArrayList to load the raw detection info from the file
         List<Detection> newDetections = new ArrayList<>();
 
-        // TODO import all detections from the specified file into the newDetections list
-        //  using the importItemsFromFile helper method and the Detection.fromLine parser.
-        importItemsFromFile(newDetections, file, line -> Detection.fromLine(line, this.cars));
+        int totalNumberOfOffences = importItemsFromFile(newDetections, file, line -> Detection.fromLine(line, cars));
 
+        // import all detections from the specified file into the newDetections list
+        //  using the importItemsFromFile helper method and the Detection.fromLine parser.
 
         System.out.printf("Imported %d detections from %s.\n", newDetections.size(), file.getPath());
 
-        int totalNumberOfOffences = 0; // tracks the number of offences that emerges from the data in this file
-
-        // TODO validate all detections against the purple criteria and
+        //  validate all detections against the purple criteria and
         //  merge any resulting offences into this.violations, accumulating offences per car and per city
         //  also keep track of the totalNumberOfOffences for reporting
-        for (Detection detection : newDetections){
+        for (Detection detection : newDetections) {
             Violation violation = detection.validatePurple();
-        if(violation == null)continue;;
-
-            int index = this.violations.indexOf(violation);
-
-            if(index != -1){
-            violations.get(index).setOffencesCount(this.violations.get(index).getOffencesCount() + 1);
-            }else{
-                this.violations.add(violation);
+            if (violation != null) {
+                violations.merge(violation, Violation::combineOffencesCounts);
+                totalNumberOfOffences++;
             }
-            totalNumberOfOffences++;
         }
-
-
-
 
         return totalNumberOfOffences;
     }

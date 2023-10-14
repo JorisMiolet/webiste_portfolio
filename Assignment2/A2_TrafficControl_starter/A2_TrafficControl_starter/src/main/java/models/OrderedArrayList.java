@@ -52,10 +52,16 @@ public class OrderedArrayList<E>
 
     @Override
     public void add(int index, E element) {
+        if (index <= nSorted) {
+            super.add(index, element);
+            if(index == 0)index++;
+            nSorted = index;
+            return;
+        }
         super.add(index, element);
-        nSorted++;
-        sort();
+
     }
+
 
     @Override
     public E remove(int index) {
@@ -211,8 +217,7 @@ public class OrderedArrayList<E>
             //  replace the matched item in the list with the merger of the matched item and the newItem
             E matchedItem = get(matchedItemIndex);
             E mergedItem = merger.apply(matchedItem, newItem);
-            this.remove(matchedItem);
-            this.add(matchedItemIndex, mergedItem);
+            this.set(matchedItemIndex, mergedItem);
 
 
             return false;
