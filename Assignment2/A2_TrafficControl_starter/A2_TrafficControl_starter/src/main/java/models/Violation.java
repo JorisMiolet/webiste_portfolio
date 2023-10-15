@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Violation {
     private final Car car;
@@ -14,13 +15,11 @@ public class Violation {
     }
 
     public static int compareByLicensePlateAndCity(Violation v1, Violation v2) {
-        // TODO compute the sort order of v1 vs v2 as per conventions of Comparator<Violation>
         int licensePLateCompare = v1.getCar().getLicensePlate().compareTo(v2.getCar().getLicensePlate());
-        if (licensePLateCompare != 0)return licensePLateCompare;
+        if (licensePLateCompare != 0) return licensePLateCompare;
 
         return v1.getCity().compareTo(v2.getCity());   // replace by a proper outcome
     }
-
 
 
     /**
@@ -28,13 +27,15 @@ public class Violation {
      * nullifying identifying attributes car and/or city that do not match
      * identifying attributes that match are retained in the result.
      * This method can be used for aggregating violations applying different grouping criteria
+     *
      * @param other
-     * @return  a new violation with the accumulated offencesCount and matching identifying attributes.
+     * @return a new violation with the accumulated offencesCount and matching identifying attributes.
      */
     public Violation combineOffencesCounts(Violation other) {
         Violation combinedViolation = new Violation(
                 // nullify the car attribute iff this.car does not match other.car
                 this.car != null && this.car.equals(other.car) ? this.car : null,
+
                 // nullify the city attribute iff this.city does not match other.city
                 this.city != null && this.city.equals(other.city) ? this.city : null);
 
@@ -43,6 +44,7 @@ public class Violation {
 
         return combinedViolation;
     }
+
     public static Comparator<Violation> getComparatorByCarAndCity() {
         return Comparator
                 .comparing(Violation::getCar)
@@ -65,10 +67,25 @@ public class Violation {
         this.offencesCount = offencesCount;
     }
 
-    // TODO represent the violation in the format: licensePlate/city/offencesCount
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Violation violation = (Violation) o;
+        return offencesCount == violation.offencesCount &&
+                Objects.equals(car, violation.car) &&
+                Objects.equals(city, violation.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(car, city, offencesCount);
+    }
+
+
     @Override
     public String toString() {
-
-        return "TODO:Violation.toString";   // replace by a proper outcome
+        return car.getLicensePlate() + "/" + city + "/" + offencesCount;
     }
+
 }

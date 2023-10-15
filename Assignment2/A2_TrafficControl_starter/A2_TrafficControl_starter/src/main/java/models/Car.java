@@ -11,6 +11,7 @@ public class Car implements Comparable<Car> {
         Truck,
         Coach
     }
+
     public enum FuelType {
         Unknown,
         Gasoline,
@@ -24,6 +25,11 @@ public class Car implements Comparable<Car> {
     private CarType carType;
     private FuelType fuelType;
     private LocalDate dateOfAdmission;      // date of registration of the car at RDW
+
+    public Car(String licensePlate, CarType carType) {
+        this(licensePlate);
+        this.carType = carType;
+    }
 
     public Car(String licensePlate) {
         // base constructor for unregistered and foreign cars
@@ -46,9 +52,10 @@ public class Car implements Comparable<Car> {
      * parses car information from a textLine
      * with format: licensePlate, emissionCategory, carType, fuelType, dateOfAdmission
      * should ignore leading and trailing whitespaces in each field
+     *
      * @param textLine
-     * @return  a new Car instance with the provided information
-     *          or null if the textLine is corrupt, incomplete or empty
+     * @return a new Car instance with the provided information
+     * or null if the textLine is corrupt, incomplete or empty
      */
     public static Car fromLine(String textLine) {
         Car newCar = null;
@@ -91,9 +98,6 @@ public class Car implements Comparable<Car> {
         return carType;
     }
 
-    public void setCarType(CarType carType) {
-        this.carType = carType;
-    }
 
     public FuelType getFuelType() {
         return fuelType;
@@ -103,17 +107,9 @@ public class Car implements Comparable<Car> {
         this.fuelType = fuelType;
     }
 
-    public void setDateOfAdmission(LocalDate dateOfAdmission) {
-        this.dateOfAdmission = dateOfAdmission;
-    }
-
-    public LocalDate getDateOfAdmission() {
-        return dateOfAdmission;
-    }
 
     @Override
     public int compareTo(Car other) {
-        // cars are uniquely defined by their license plate
         return this.licensePlate.compareTo(other.licensePlate);
     }
 
@@ -128,8 +124,8 @@ public class Car implements Comparable<Car> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Car)) return false;
-        Car car = (Car)o;
-        // cars are uniquely defined by their license plate
+        Car car = (Car) o;
+
         return licensePlate.equals(car.licensePlate);
     }
 
