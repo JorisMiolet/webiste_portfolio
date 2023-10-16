@@ -39,7 +39,7 @@
 import bgImage from "../../assets/images/loginbg.png";
 import show from "../../assets/images/view.png";
 import hide from "../../assets/images/hide.png";
-import jsonData from "../../assets/dummyData/loginData.json"
+import jsonData from "../../../../backend/src/main/data/loginData.json"
 import HeaderComponent from "@/components/Homepage/heeaderComponent";
 export default {
   name: "log-in",

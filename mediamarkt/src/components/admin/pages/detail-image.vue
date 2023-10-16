@@ -193,7 +193,7 @@
 
 
 <script>
-import jsonData from '@/assets/dummyData/dummyData.json';
+import jsonData from '@/../../../../../backend/src/main/data/dummyData.json';
 import { onMounted } from "vue";
 import { Carousel, initTE } from "tw-elements";
 
