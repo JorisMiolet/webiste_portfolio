@@ -1,30 +1,30 @@
-package com.example.backend.data;
+package com.mediamarkt.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ConcreteLaptopData {
+public class image {
     @JsonProperty("Article NR")
-    private String articleNumber;
+    public String articleNumber;
     @JsonProperty("EAN")
-    private String ean;
+    public String ean;
     @JsonProperty("Brand")
-    private String brand;
+    public String brand;
     @JsonProperty("Description / Model type")
-    private String description;
+    public String description;
     @JsonProperty("PROCESSOR")
-    private String processor;
+    public String processor;
     @JsonProperty("RAM")
-    private String ram;
+    public String ram;
     @JsonProperty("STORAGE")
-    private String storage;
+    public String storage;
     @JsonProperty("GPU")
-    private String gpu;
+    public String gpu;
     @JsonProperty("SCREENSIZE (inch)")
-    private String screenSizeInch;
+    public String screenSizeInch;
     @JsonProperty("SCREENSIZE (cm)")
-    private String screenSizeCm;
+    public String screenSizeCm;
 
-    public ConcreteLaptopData(String articleNumber,
+    public image(String articleNumber,
                               String ean, String brand,
                               String description, String processor,
                               String ram, String storage,
