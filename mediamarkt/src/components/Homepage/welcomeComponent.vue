@@ -1,6 +1,6 @@
 <template>
   <header-component/>
-  <div class="container flex flex-row">
+  <div class="container flex flex-row mt-16">
     <div>
       <sidenav-component/>
     </div>

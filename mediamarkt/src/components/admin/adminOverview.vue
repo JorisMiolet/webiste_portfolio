@@ -1,7 +1,9 @@
 <script>
+  import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
+
   export default {
     name:"admin-overview",
-    components: {},
+    components: {HeaderComponent},
     data(){
       return {
 
@@ -11,8 +13,8 @@
 </script>
 
 <template>
-
-  <div class="wrapper">
+  <header-component/>
+  <div class="wrapper mt-16">
     <aside>
       <nav class="bg-red-800 text-white w-44 h-full min-h-screen">
         <ul class="space-y-3">
