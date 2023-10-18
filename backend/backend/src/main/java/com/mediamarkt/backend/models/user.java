@@ -2,20 +2,27 @@ package com.mediamarkt.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 public class user {
+
+    @JsonProperty("uuid")
+    public UUID uuid;
+
     @JsonProperty("username")
     public String username;
 
     @JsonProperty("password")
     public String password;
 
-    @JsonProperty("isAdmin")
-    public boolean isAdmin;
+    @JsonProperty("admin")
+    public boolean admin;
 
     public user(String username, String password, boolean isAdmin) {
         this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.admin = isAdmin;
+        this.uuid = UUID.randomUUID();
     }
 
     public String getUsername() {
@@ -29,7 +36,7 @@ public class user {
 
 
     public boolean isAdmin() {
-        return isAdmin;
+        return admin;
     }
 
 }
