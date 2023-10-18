@@ -3,10 +3,7 @@ package com.mediamarkt.backend.rest;
 import com.mediamarkt.backend.models.image;
 import com.mediamarkt.backend.repositories.imageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,10 @@ public class imageController {
     @GetMapping("{articleNr}")
     public image getImageById(@PathVariable String articleNr){
         return imagesRepository.findById(articleNr);
+    }
+
+    @PostMapping("/create-image")
+    public image createImage(@RequestBody image newImage){
+        return imagesRepository.create(newImage);
     }
 }

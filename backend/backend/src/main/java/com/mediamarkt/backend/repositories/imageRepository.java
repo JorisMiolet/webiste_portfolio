@@ -147,4 +147,9 @@ public class imageRepository {
         }
         return null;
     }
+
+    public image create(image newImage) {
+        images.add(newImage);
+        return newImage;
+    }
 }
