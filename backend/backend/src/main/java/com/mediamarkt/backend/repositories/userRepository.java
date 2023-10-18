@@ -35,4 +35,9 @@ public class userRepository {
         }
         return null;
     }
+
+    public user create(user newUser) {
+        users.add(newUser);
+        return newUser;
+    }
 }

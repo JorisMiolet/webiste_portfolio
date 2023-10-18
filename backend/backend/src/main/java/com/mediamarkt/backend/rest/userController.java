@@ -4,10 +4,7 @@ import com.mediamarkt.backend.models.image;
 import com.mediamarkt.backend.models.user;
 import com.mediamarkt.backend.repositories.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,5 +24,10 @@ public class userController {
     @GetMapping("{uuid}")
     public user getUserByUUID(@PathVariable UUID uuid){
         return usersRepository.getUserByUUID(uuid);
+    }
+
+    @PostMapping("/create-user")
+    public user createUser(@RequestBody user newUser){
+        return usersRepository.create(newUser);
     }
 }
