@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import dummyData from "../../../../backend/src/main/resources/data/dummyData.json";
+import dummyData from "./dummyData.json";
 import detailImage from "@/components/admin/pages/detail-image";
 
 export default {
