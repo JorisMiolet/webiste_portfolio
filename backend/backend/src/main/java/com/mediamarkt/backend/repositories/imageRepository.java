@@ -138,4 +138,13 @@ public class imageRepository {
     public List<image> getAll() {
         return images;
     }
+
+    public image findById(String articleNr) {
+        for(image imageById: images){
+            if (imageById.getArticleNumber().equals(articleNr)) {
+                return imageById;
+            }
+        }
+        return null;
+    }
 }
