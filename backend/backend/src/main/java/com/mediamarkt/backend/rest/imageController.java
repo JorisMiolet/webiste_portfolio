@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/images")
@@ -27,5 +28,14 @@ public class imageController {
     @PostMapping("/create-image")
     public image createImage(@RequestBody image newImage){
         return imagesRepository.create(newImage);
+    }
+
+    @PutMapping("{articleNr}")
+    public image updateImageById(@PathVariable String articleNr, @RequestBody image newImage){
+        if(!Objects.equals(articleNr, newImage.articleNumber)){
+            throw new RuntimeException("article numbers do not match");
+        }
+
+        return imagesRepository.updateImage(newImage);
     }
 }

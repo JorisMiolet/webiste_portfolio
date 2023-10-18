@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class imageRepository {
@@ -151,5 +152,16 @@ public class imageRepository {
     public image create(image newImage) {
         images.add(newImage);
         return newImage;
+    }
+
+    public image updateImage(image newImage) {
+        for(image foundImage : images){
+            if(Objects.equals(foundImage.articleNumber, newImage.articleNumber)){
+                int index = images.indexOf(foundImage);
+                images.set(index, newImage);
+                return foundImage;
+            }
+        }
+        return null;
     }
 }
