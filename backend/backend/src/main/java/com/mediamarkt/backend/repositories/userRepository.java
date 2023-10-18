@@ -1,10 +1,12 @@
 package com.mediamarkt.backend.repositories;
 
+import com.mediamarkt.backend.models.image;
 import com.mediamarkt.backend.models.user;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class userRepository {
@@ -23,5 +25,14 @@ public class userRepository {
 
     public List<user> getAll() {
         return users;
+    }
+
+    public user getUserByUUID(UUID uuid) {
+        for(user foundUser: users){
+            if (foundUser.getUuid().equals(uuid)) {
+                return foundUser;
+            }
+        }
+        return null;
     }
 }

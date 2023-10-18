@@ -39,4 +39,7 @@ public class user {
         return admin;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
 }
