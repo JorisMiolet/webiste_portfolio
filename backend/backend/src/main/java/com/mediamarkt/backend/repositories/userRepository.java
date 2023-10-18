@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -39,5 +40,16 @@ public class userRepository {
     public user create(user newUser) {
         users.add(newUser);
         return newUser;
+    }
+
+    public user updateUser(user newUser, UUID uuid) {
+        for(user foundUser : users){
+            if(Objects.equals(foundUser.getUuid(), uuid)){
+                int index = users.indexOf(foundUser);
+                users.set(index, newUser);
+                return newUser;
+            }
+        }
+        return null;
     }
 }

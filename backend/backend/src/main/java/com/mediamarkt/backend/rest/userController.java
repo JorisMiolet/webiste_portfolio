@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RestController
@@ -29,5 +30,10 @@ public class userController {
     @PostMapping("/create-user")
     public user createUser(@RequestBody user newUser){
         return usersRepository.create(newUser);
+    }
+
+    @PutMapping("{uuid}")
+    public user updateImageById(@PathVariable UUID uuid, @RequestBody user newUser){
+        return usersRepository.updateUser(newUser, uuid);
     }
 }
