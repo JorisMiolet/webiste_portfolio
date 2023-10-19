@@ -1,37 +1,36 @@
 package com.mediamarkt.backend.rest;
 
-import com.mediamarkt.backend.models.image;
-import com.mediamarkt.backend.repositories.imageRepository;
+import com.mediamarkt.backend.models.Image;
+import com.mediamarkt.backend.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/images")
-public class imageController {
+public class ImageController {
 
     @Autowired
-    private imageRepository imagesRepository;
+    private ImageRepository imagesRepository;
 
     @GetMapping("/all")
-    public List<image> getAllImages(){
+    public List<Image> getAllImages(){
         return imagesRepository.getAll();
     }
 
     @GetMapping("{articleNr}")
-    public image getImageById(@PathVariable String articleNr){
+    public Image getImageById(@PathVariable String articleNr){
         return imagesRepository.findById(articleNr);
     }
 
     @PostMapping("/create-image")
-    public image createImage(@RequestBody image newImage){
+    public Image createImage(@RequestBody Image newImage){
         return imagesRepository.create(newImage);
     }
 
     @PutMapping("{articleNr}")
-    public image updateImageById(@PathVariable String articleNr, @RequestBody image newImage){
+    public Image updateImageById(@PathVariable String articleNr, @RequestBody Image newImage){
         if(!articleNr.equals(newImage.articleNumber)){
             throw new RuntimeException("article numbers do not match");
         }

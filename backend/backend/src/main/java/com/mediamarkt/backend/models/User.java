@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class user {
+public class User {
 
     @JsonProperty("uuid")
     public UUID uuid;
@@ -18,7 +18,7 @@ public class user {
     @JsonProperty("admin")
     public boolean admin;
 
-    public user(String username, String password, boolean isAdmin) {
+    public User(String username, String password, boolean isAdmin) {
         this.username = username;
         this.password = password;
         this.admin = isAdmin;

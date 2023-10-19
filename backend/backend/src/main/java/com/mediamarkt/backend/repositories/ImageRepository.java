@@ -1,20 +1,19 @@
 package com.mediamarkt.backend.repositories;
 
-import com.mediamarkt.backend.models.image;
+import com.mediamarkt.backend.models.Image;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Component
-public class imageRepository {
+public class ImageRepository {
 
-    private List<image> images;
+    private List<Image> images;
 
-    public imageRepository(){
+    public ImageRepository(){
         images = new ArrayList<>();
-        images.add(new image(
+        images.add(new Image(
                 "3801105",
                 "4718235328610",
                 "ACER",
@@ -26,7 +25,7 @@ public class imageRepository {
                 "15.6",
                 "39.62"
                 ));
-        images.add(new image(
+        images.add(new Image(
                 "3801104",
                 "4718235312787",
                 "HP",
@@ -38,7 +37,7 @@ public class imageRepository {
                 "17.3",
                 "43.94"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3801078",
                 "4718235303136",
                 "ACER",
@@ -50,7 +49,7 @@ public class imageRepository {
                 "14.0",
                 "35.56"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3801051",
                 "4718235291754",
                 "ACER",
@@ -62,7 +61,7 @@ public class imageRepository {
                 "15.6",
                 "39.62"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3801050",
                 "4718235292270",
                 "ACER",
@@ -74,7 +73,7 @@ public class imageRepository {
                 "13.3",
                 "33.78"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3801018",
                 "4718235291976",
                 "ACER",
@@ -86,7 +85,7 @@ public class imageRepository {
                 "17.3",
                 "43.94"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3800966",
                 "4718235271800",
                 "ACER",
@@ -98,7 +97,7 @@ public class imageRepository {
                 "15.6",
                 "39.62"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3800930",
                 "4718235271466",
                 "ACER",
@@ -110,7 +109,7 @@ public class imageRepository {
                 "14.0",
                 "35.56"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3800924",
                 "4718235246952",
                 "HP",
@@ -122,7 +121,7 @@ public class imageRepository {
                 "13.3",
                 "33.78"
         ));
-        images.add(new image(
+        images.add(new Image(
                 "3800894",
                 "4718235233587",
                 "HP",
@@ -136,12 +135,12 @@ public class imageRepository {
         ));
     }
 
-    public List<image> getAll() {
+    public List<Image> getAll() {
         return images;
     }
 
-    public image findById(String articleNr) {
-        for(image imageById: images){
+    public Image findById(String articleNr) {
+        for(Image imageById: images){
             if (imageById.getArticleNumber().equals(articleNr)) {
                 return imageById;
             }
@@ -149,13 +148,13 @@ public class imageRepository {
         return null;
     }
 
-    public image create(image newImage) {
+    public Image create(Image newImage) {
         images.add(newImage);
         return newImage;
     }
 
-    public image updateImage(image newImage) {
-        for(image foundImage : images){
+    public Image updateImage(Image newImage) {
+        for(Image foundImage : images){
             if(foundImage.articleNumber.equals(newImage.articleNumber)){
                 int index = images.indexOf(foundImage);
                 images.set(index, newImage);

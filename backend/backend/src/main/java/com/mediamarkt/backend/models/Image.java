@@ -2,7 +2,7 @@ package com.mediamarkt.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class image {
+public class Image {
     @JsonProperty("Article NR")
     public String articleNumber;
     @JsonProperty("EAN")
@@ -24,12 +24,12 @@ public class image {
     @JsonProperty("SCREENSIZE (cm)")
     public String screenSizeCm;
 
-    public image(String articleNumber,
-                              String ean, String brand,
-                              String description, String processor,
-                              String ram, String storage,
-                              String gpu, String screenSizeInch,
-                              String screenSizeCm) {
+    public Image(String articleNumber,
+                 String ean, String brand,
+                 String description, String processor,
+                 String ram, String storage,
+                 String gpu, String screenSizeInch,
+                 String screenSizeCm) {
         this.articleNumber = articleNumber;
         this.ean = ean;
         this.brand = brand;
