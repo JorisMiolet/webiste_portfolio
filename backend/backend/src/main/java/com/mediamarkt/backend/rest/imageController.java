@@ -32,7 +32,7 @@ public class imageController {
 
     @PutMapping("{articleNr}")
     public image updateImageById(@PathVariable String articleNr, @RequestBody image newImage){
-        if(!Objects.equals(articleNr, newImage.articleNumber)){
+        if(!articleNr.equals(newImage.articleNumber)){
             throw new RuntimeException("article numbers do not match");
         }
 

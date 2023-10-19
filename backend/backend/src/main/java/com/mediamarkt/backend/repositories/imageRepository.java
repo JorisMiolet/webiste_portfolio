@@ -156,7 +156,7 @@ public class imageRepository {
 
     public image updateImage(image newImage) {
         for(image foundImage : images){
-            if(Objects.equals(foundImage.articleNumber, newImage.articleNumber)){
+            if(foundImage.articleNumber.equals(newImage.articleNumber)){
                 int index = images.indexOf(foundImage);
                 images.set(index, newImage);
                 return foundImage;

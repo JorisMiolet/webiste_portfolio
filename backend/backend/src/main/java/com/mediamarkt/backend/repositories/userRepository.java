@@ -1,6 +1,5 @@
 package com.mediamarkt.backend.repositories;
 
-import com.mediamarkt.backend.models.image;
 import com.mediamarkt.backend.models.user;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +43,7 @@ public class userRepository {
 
     public user updateUser(user newUser, UUID uuid) {
         for(user foundUser : users){
-            if(Objects.equals(foundUser.getUuid(), uuid)){
+            if(foundUser.getUuid().equals(uuid)){
                 int index = users.indexOf(foundUser);
                 users.set(index, newUser);
                 return newUser;
