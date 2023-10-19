@@ -10,7 +10,7 @@ import java.util.UUID;
 @Component
 public class UserRepository {
 
-    private List<User> users;
+    private final List<User> users;
 
     public UserRepository(){
         users = new ArrayList<>();
