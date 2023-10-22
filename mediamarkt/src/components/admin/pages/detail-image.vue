@@ -1,6 +1,5 @@
 <template>
     <!-- Knop om de popup te openen -->
-<!--    <button @click="openPopup">Open Popup</button>-->
 
     <!-- Overlay / Achtergrond donker maken -->
     <div v-if="popupVisible" class="overlay"></div>
@@ -193,7 +192,7 @@
 
 
 <script>
-import jsonData from '@/../../../../../backend/src/main/data/dummyData.json';
+import jsonData from "./dummyData.json";
 import { onMounted } from "vue";
 import { Carousel, initTE } from "tw-elements";
 

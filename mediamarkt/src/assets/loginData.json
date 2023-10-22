@@ -1,0 +1,29 @@
+ {
+  "users": [
+    {
+      "name": "John",
+      "password": "test123",
+      "admin": true
+    },
+    {
+      "name": "Tessa",
+      "password": "test456",
+      "admin": false
+    },
+    {
+      "name": "Tim",
+      "password": "nogEenTest",
+      "admin": false
+    },
+    {
+      "name": "Jeffry",
+      "password": "enNogEenTest",
+      "admin": true
+    },
+    {
+      "name": "Pieter",
+      "password": "laatsteTest",
+      "admin": false
+    }
+  ]
+}
