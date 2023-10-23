@@ -39,7 +39,7 @@
 import bgImage from "../../assets/images/loginbg.png";
 import show from "../../assets/images/view.png";
 import hide from "../../assets/images/hide.png";
-import jsonData from "./loginData.json";
+import axios from "axios"
 import HeaderComponent from "@/components/Homepage/heeaderComponent";
 export default {
   name: "log-in",
@@ -50,25 +50,32 @@ export default {
       showEye: show,
       hiddenEye: hide,
       showPassword: false,
-      data: jsonData,
+      userList: [],
       nameInput: "",
       passwordInput: ""
     }
   },
+  mounted() {
+    this.loadUserList();
+  },
   methods: {
-    async handleClickEye() {
+    handleClickEye() {
       this.showPassword ? this.showPassword = false : this.showPassword = true;
     },
-    async handleButton(){
-      const users = this.data.users;
-      const userExists = await users.find(u => u.name === this.nameInput && u.password === this.passwordInput);
-      if(!userExists){
-        window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
-        return;
+    loadUserList() {
+      axios.get('http://localhost:8085/api/users/all').then(response => this.userList = response.data)
+    },
+    async handleButton() {
+      const users = this.userList;
+        const userExists = await users.find(u => u.username === this.nameInput && u.password === this.passwordInput);
+        if(!userExists){
+          window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
+          return;
+        }
+        this.$router.push("/")
       }
-      this.$router.push("/")
     }
-  }
+
 }
 </script>
 
