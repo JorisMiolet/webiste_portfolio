@@ -52,6 +52,8 @@ public class OrderedArrayList<E>
 
     @Override
     public void add(int index, E element) {
+        if(index > size() || index < 0)return;
+
         if (index <= nSorted) {
             super.add(index, element);
             if(index == 0)index++;
@@ -65,10 +67,11 @@ public class OrderedArrayList<E>
 
     @Override
     public E remove(int index) {
-        E removed = null;
+        if(index < 0 || index > size())return null;
+        E removed;
         removed = super.remove(index);
 
-        if(index >= 0 && index < nSorted) nSorted--;
+        if(index < nSorted) nSorted--;
 
         return removed;
     }

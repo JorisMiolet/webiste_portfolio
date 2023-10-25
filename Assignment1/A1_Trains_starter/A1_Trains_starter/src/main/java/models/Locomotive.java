@@ -14,10 +14,13 @@ public class Locomotive {
         return maxWagons;
     }
 
-    // TODO
 
     public int getLocNumber() {
         return locNumber;
     }
 
+    @Override
+    public String toString() {
+        return "[loc-" + locNumber + "]";
+    }
 }

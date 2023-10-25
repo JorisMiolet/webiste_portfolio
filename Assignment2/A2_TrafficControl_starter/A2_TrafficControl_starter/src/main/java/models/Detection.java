@@ -61,9 +61,7 @@ public class Detection {
      *          null if no offence was found.
      */
     public Violation validatePurple() {
-        // TODO validate that diesel trucks and diesel coaches have an emission category of 6 or above
         //prepare checks
-        System.out.println(getCar());
         boolean carIsTruckOrCoach = getCar().getCarType() == CarType.Truck || getCar().getCarType() == CarType.Coach;
         boolean carIsDiesel = getCar().getFuelType() == FuelType.Diesel;
         int emissionCategory = getCar().getEmissionCategory();
