@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import dummyData from "./dummyData.json";
 import detailImage from "@/components/admin/pages/detail-image";
+import axios from "axios";
 
 export default {
   name: "imageComponent",
@@ -29,9 +29,12 @@ export default {
   },
   data() {
     return {
-      laptops: Object.values(dummyData),
+      laptops: [],
       selectedImageInfo: null,
     };
+  },
+  mounted() {
+    this.loadUserList();
   },
   methods:{
     setSelectedImage(image) {
@@ -41,6 +44,9 @@ export default {
         this.selectedImageInfo = image;
         console.log(image)
       }
+    },
+    loadUserList() {
+      axios.get('http://localhost:8085/api/images/all').then(response => this.laptops = response.data)
     },
   }
 };

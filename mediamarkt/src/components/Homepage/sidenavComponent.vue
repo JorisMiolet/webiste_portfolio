@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-red-500 sidenav">
+  <div class="bg-red-500 fixed sidenav">
     <div class="m-3 flex">
       <input type="checkbox" id="update">
       <label for="update">OUTDATED</label>
@@ -251,11 +251,11 @@ export default {
 <style scoped>
 .sidenav {
   height: 100%;
-  width: 100%;
+  overflow-y: scroll;
   z-index: 1;
   top: 0;
   left: 0;
-  overflow-x: hidden;
+
 }
 
 .checkboxes {
