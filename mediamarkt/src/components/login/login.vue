@@ -68,10 +68,13 @@ export default {
     async handleButton() {
       const users = this.userList;
         const userExists = await users.find(u => u.username === this.nameInput && u.password === this.passwordInput);
+
         if(!userExists){
           window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
           return;
         }
+        localStorage.setItem("user_id", userExists.uuid);
+        localStorage.setItem("isAdmin", userExists.admin);
         this.$router.push("/")
       }
     }
