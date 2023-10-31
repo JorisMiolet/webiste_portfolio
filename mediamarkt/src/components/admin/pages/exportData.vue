@@ -2,10 +2,11 @@
 import imageData from './dummyData.json';
 import {PCImage} from "@/image.js";
 import axios from "axios";
+import * as XLSX from "xlsx";
 export default {
   name: 'exportData',
   components: {},
-  data(){
+  data() {
     return {
       images: [],
       dummyData: imageData,
@@ -15,7 +16,7 @@ export default {
   created() {
     this.loadAllImages();
     console.log(this.images)
-   },methods: {
+  }, methods: {
     createOffer(image) {
       image = PCImage.createSampleImage(
           image.ArticleNR,
@@ -29,26 +30,42 @@ export default {
       )
       this.images.push(image);
     },
-    editImage(pcimage){
+    editImage(pcimage) {
       this.selectedImage = pcimage;
       this.toggleView();
     },
-    deleteImage(){
+    deleteImage() {
       this.images = this.images.filter((image) => image === this.selectedImage);
       this.selectedImage = null;
     },
-    resetImage(){
+    resetImage() {
       this.$router.push(this.$route.matched[0].path)
     },
-    onSelect(image){
+    onSelect(image) {
       this.selectedImage = image;
     },
-    loadAllImages(){
+    loadAllImages() {
       axios.get('http://localhost:8085/api/images/all')
           .then(response => this.images = response.data)
           .then(response => console.log(response));
-    }
-  },
+    },
+      exportToExcel() {
+      const worksheet = XLSX.utils.json_to_sheet(this.images);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+      const excelBuffer = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
+
+      const blob = new Blob([excelBuffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'exported_data.xlsx';
+      a.click();
+      URL.revokeObjectURL(url);
+    },
+
+  }
 }
 
 </script>
@@ -56,7 +73,10 @@ export default {
 <template>
   <table class="table-auto text-left ml-3">
     <caption class="text-left">
-      <button class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">Export data</button>
+      <button class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded" @click="exportToExcel"
+      >
+        Export data
+      </button>
       <button class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">
         <router-link :to="{name: 'createImage'}">Create image</router-link>
       </button>
