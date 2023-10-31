@@ -5,7 +5,7 @@
       <sidenav-component/>
     </div>
     <div class="flex-col content mr-auto">
-      <search-component/>
+<!--      <search-component/>-->
       <image-component/>
     </div>
   </div>
@@ -13,13 +13,13 @@
 
 <script>
 import SidenavComponent from "@/components/Homepage/sidenavComponent.vue";
-import SearchComponent from "@/components/Homepage/searchComponent.vue";
+// import SearchComponent from "@/components/Homepage/searchComponent.vue";
 import ImageComponent from "@/components/Homepage/imageComponent.vue";
 import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
 
 export default {
   name: "welkomComponent",
-  components: {HeaderComponent, ImageComponent, SearchComponent, SidenavComponent}
+  components: {HeaderComponent, ImageComponent, SidenavComponent}
 }
 </script>
 

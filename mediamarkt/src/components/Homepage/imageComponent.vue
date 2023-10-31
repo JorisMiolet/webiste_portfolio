@@ -1,4 +1,5 @@
 <template>
+  <search-component @search="filterLaptops" />
   <div class="w-3/4 p-4 grid grid-cols-2  ml-auto mr-9 gap-4">
     <div v-for="(laptop, index) in laptops"
          :key="index"
@@ -21,15 +22,18 @@
 <script>
 import detailImage from "@/components/admin/pages/detail-image";
 import axios from "axios";
+import searchComponent from "@/components/Homepage/searchComponent.vue";
 
 export default {
   name: "imageComponent",
   components:{
-    detailImage
+    detailImage,
+    searchComponent,
   },
   data() {
     return {
       laptops: [],
+      originalLaptops: [], // Voeg een array toe om de oorspronkelijke lijst met laptops op te slaan
       selectedImageInfo: null,
     };
   },
@@ -46,7 +50,24 @@ export default {
       }
     },
     loadUserList() {
-      axios.get('http://localhost:8085/api/images/all').then(response => this.laptops = response.data)
+      axios.get('http://localhost:8085/api/images/all').then((response) => {
+        this.laptops = response.data;
+        this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
+      });
+    },
+    filterLaptops(searchQuery) {
+      if (searchQuery.trim() === "") {
+        // Als de zoekopdracht leeg is, herstel de originele lijst met laptops
+        this.laptops = [...this.originalLaptops];
+      } else {
+        // Anders, filter de lijst op basis van de zoekopdracht
+        this.laptops = this.originalLaptops.filter((laptop) => {
+          return (
+              laptop['Description / Model type'].toLowerCase().includes(searchQuery.toLowerCase()) ||
+              laptop.Brand.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+        });
+      }
     },
   }
 };
