@@ -141,7 +141,7 @@ public class ImageRepository {
 
     public Image findById(String articleNr) {
         for(Image imageById: images){
-            if (imageById.getArticleNumber().equals(articleNr)) {
+            if (imageById.articleNumber.equals(articleNr)) {
                 return imageById;
             }
         }

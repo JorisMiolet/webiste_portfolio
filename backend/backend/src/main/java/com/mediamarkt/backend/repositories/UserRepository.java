@@ -28,7 +28,7 @@ public class UserRepository {
 
     public User getUserByUUID(UUID uuid) {
         for(User foundUser: users){
-            if (foundUser.getUuid().equals(uuid)) {
+            if (foundUser.uuid.equals(uuid)) {
                 return foundUser;
             }
         }
@@ -42,7 +42,7 @@ public class UserRepository {
 
     public User updateUser(User newUser, UUID uuid) {
         for(User foundUser : users){
-            if(foundUser.getUuid().equals(uuid)){
+            if(foundUser.uuid.equals(uuid)){
                 int index = users.indexOf(foundUser);
                 users.set(index, newUser);
                 return newUser;

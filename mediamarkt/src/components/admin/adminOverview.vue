@@ -14,7 +14,7 @@
 
 <template>
   <header-component/>
-  <div class="wrapper mt-16">
+  <div class="wrapper mt-2">
     <aside>
       <nav class="bg-red-800 text-white w-44 h-full min-h-screen">
         <ul class="space-y-3">
