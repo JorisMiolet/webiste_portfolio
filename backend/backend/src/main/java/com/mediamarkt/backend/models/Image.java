@@ -41,44 +41,4 @@ public class Image {
         this.screenSizeInch = screenSizeInch;
         this.screenSizeCm = screenSizeCm;
     }
-
-    public String getArticleNumber() {
-        return articleNumber;
-    }
-
-    public String getEan() {
-        return ean;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getProcessor() {
-        return processor;
-    }
-
-    public String getRam() {
-        return ram;
-    }
-
-    public String getStorage() {
-        return storage;
-    }
-
-    public String getGpu() {
-        return gpu;
-    }
-
-    public String getScreenSizeInch() {
-        return screenSizeInch;
-    }
-
-    public String getScreenSizeCm() {
-        return screenSizeCm;
-    }
 }

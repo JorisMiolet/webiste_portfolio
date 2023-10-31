@@ -25,21 +25,4 @@ public class User {
         this.uuid = UUID.randomUUID();
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
 }

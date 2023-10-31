@@ -1,6 +1,7 @@
 <script>
 import imageData from './dummyData.json';
 import {PCImage} from "@/image.js";
+import axios from "axios";
 export default {
   name: 'exportData',
   components: {},
@@ -12,13 +13,8 @@ export default {
     }
   },
   created() {
-    for (let i = 1; i <= 10; i++) {
-      const laptopKey = `laptop${i}`;
-      if (this.dummyData[laptopKey]) {
-        const laptop = this.dummyData[laptopKey];
-        this.createOffer(laptop);
-      }
-    }
+    this.loadAllImages();
+    console.log(this.images)
    },methods: {
     createOffer(image) {
       image = PCImage.createSampleImage(
@@ -46,6 +42,11 @@ export default {
     },
     onSelect(image){
       this.selectedImage = image;
+    },
+    loadAllImages(){
+      axios.get('http://localhost:8085/api/images/all')
+          .then(response => this.images = response.data)
+          .then(response => console.log(response));
     }
   },
 }
@@ -72,19 +73,19 @@ export default {
     </tr>
     </thead>
     <tbody>
-    <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in images" :key="pcimage.EAN">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage.ArticleNR }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage.EAN }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage.PCBrand }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage.Description }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage.PROCESSOR }}</td>
-      <td class="whitespace-nowrap px-6 py-4">
-        <button>
-          <router-link :to="{name:'editImage', params: {ArticleNR: pcimage.ArticleNR}}" @click="onSelect(pcimage)">edit</router-link>
-        </button>
-      </td>
-    </tr>
+      <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in images" :key="pcimage.EAN">
+        <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">
+          <button>
+            <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">edit</router-link>
+          </button>
+        </td>
+      </tr>
     </tbody>
   </table>
   <router-view :key="$route.fullPath"/>

@@ -1,6 +1,22 @@
 <script>
-  export default {
+  import axios from "axios";
 
+  export default {
+    data(){
+      return {
+        user: null,
+      }
+    },
+    created() {
+      this.getUser(this.$route.params.id)
+    },
+    methods: {
+      getUser(uuid){
+        axios.get(`http://127.0.0.1:8085/api/users/${uuid}`)
+            .then(response => this.user = response.data)
+            .then(console.log(this.user));
+      }
+    }
   }
 </script>
 
