@@ -16,7 +16,15 @@ public class SorterImpl<E> implements Sorter<E> {
      */
     public List<E> selInsBubSort(List<E> items, Comparator<E> comparator) {
         // TODO implement selection sort or insertion sort or bubble sort
-
+        for (int i = 1; i < items.size(); i++) {
+            E temp = items.get(i);
+            int j = i - 1;
+            while(j >= 0 && comparator.compare(temp, items.get(j)) > 0){
+                items.set(j + 1, items.get(j));
+                j--;
+            }
+            items.set(j + 1, temp);
+        }
 
 
 
@@ -93,14 +101,10 @@ public class SorterImpl<E> implements Sorter<E> {
 
             // TODO swap item[0] and item[i];
             //  this moves item[0] to its designated position
-
-
-
+            swap(items, 0, i);
             // TODO the new root may have violated the heap condition
             //  repair the heap condition on the remaining heap of size i
-
-
-
+            heapSwim(items, i, comparator);
         }
 
         return items;
@@ -117,11 +121,15 @@ public class SorterImpl<E> implements Sorter<E> {
      * @param comparator
      */
     protected void heapSwim(List<E> items, int heapSize, Comparator<E> comparator) {
-        // TODO swim items[heapSize-1] up the heap until
-        //      i==0 || items[(i-1]/2] <= items[i]
-
-
-
+        int k = heapSize - 1;
+        while (k > 0) {
+            int parent = (k - 1) / 2;
+            if (comparator.compare(items.get(k), items.get(parent)) <= 0) {
+                break;
+            }
+            swap(items, k, parent);
+            k = parent;
+        }
     }
     /**
      * Repairs the zero-based heap condition for its root items[0] on the basis of the comparator
@@ -134,10 +142,28 @@ public class SorterImpl<E> implements Sorter<E> {
      * @param comparator
      */
     protected void heapSink(List<E> items, int heapSize, Comparator<E> comparator) {
-        // TODO sink items[0] down the heap until
-        //      2*i+1>=heapSize || (items[i] <= items[2*i+1] && items[i] <= items[2*i+2])
-
-
-
+        int k = 0;
+        while (2 * k + 1 < heapSize) {
+            int child = 2 * k + 1;
+            if (child < heapSize - 1 && comparator.compare(items.get(child), items.get(child + 1)) < 0) {
+                child++;
+            }
+            if (comparator.compare(items.get(k), items.get(child)) >= 0) {
+                break;
+            }
+            swap(items, k, child);
+            k = child;
+        }
+    }
+    /**
+     * Helper method to swap two items in the list.
+     * @param items
+     * @param i
+     * @param j
+     */
+    private void swap(List<E> items, int i, int j) {
+        E temp = items.get(i);
+        items.set(i, items.get(j));
+        items.set(j, temp);
     }
 }
