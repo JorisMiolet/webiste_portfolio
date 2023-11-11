@@ -84,7 +84,7 @@ public class Song {
      * @return  negative number, zero or positive number according to Comparator convention
      */
     public int compareByHighestStreamsCountTotal(Song other) {
-        return Integer.compare(this.getStreamsCountTotal(), other.getStreamsCountTotal());// replace by proper result
+        return Integer.compare(other.getStreamsCountTotal(), this.getStreamsCountTotal());// replace by proper result
     }
 
     /**
@@ -94,10 +94,13 @@ public class Song {
      * @return  negative number, zero or positive number according to Comparator conventions
      */
     public int compareForDutchNationalChart(Song other) {
+        int comparedByLanguage = other.getLanguage().compareTo(this.getLanguage());
 
+        if (comparedByLanguage == 0) {
+            return Integer.compare(this.getStreamsCountTotal(), other.getStreamsCountTotal());
+        }
 
-
-        return 0;    // replace by proper result
+        return comparedByLanguage;
     }
 
 
@@ -119,4 +122,8 @@ public class Song {
     // TODO provide a toString implementation to format songs as in "artist/title{language}(total streamsCount)"
 
 
+    @Override
+    public String toString() {
+        return String.format("%s/%s{%s}(%d)", getArtist(), getTitle(), getLanguage(), getStreamsCountTotal());
+    }
 }

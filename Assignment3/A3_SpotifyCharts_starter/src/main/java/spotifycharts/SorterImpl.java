@@ -1,5 +1,6 @@
 package spotifycharts;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -15,20 +16,20 @@ public class SorterImpl<E> implements Sorter<E> {
      * @return  the items sorted in place
      */
     public List<E> selInsBubSort(List<E> items, Comparator<E> comparator) {
-        // TODO implement selection sort or insertion sort or bubble sort
-        for (int i = 1; i < items.size(); i++) {
-            E temp = items.get(i);
+        int n = items.size();
+        for (int i = 1; i < n; i++) {
+            E key = items.get(i);
             int j = i - 1;
-            while(j >= 0 && comparator.compare(temp, items.get(j)) > 0){
+
+
+            while (j >= 0 && comparator.compare(key, items.get(j)) > 0) {
                 items.set(j + 1, items.get(j));
                 j--;
             }
-            items.set(j + 1, temp);
+            items.set(j + 1, key);
         }
 
-
-
-        return items;   // replace as you find appropriate
+        return items;
     }
 
     /**
@@ -40,12 +41,41 @@ public class SorterImpl<E> implements Sorter<E> {
      * @return  the items sorted in place
      */
     public List<E> quickSort(List<E> items, Comparator<E> comparator) {
-        // TODO provide a recursive quickSort implementation,
-        //  that is different from the example given in the lecture
+        if (items == null || items.size() <= 1) {
+            // Base case: already sorted
+            return items;
+        }
 
+        int pivotIndex = items.size() / 2;
+        E pivot = items.get(pivotIndex);
 
+        // Partition the list into two halves
+        List<E> lesser = partition(items, pivot, comparator, -1);
+        List<E> greater = partition(items, pivot, comparator, 1);
 
-        return items;   // replace as you find appropriate
+        // Recursive calls on the two halves
+        quickSort(lesser, comparator);
+        quickSort(greater, comparator);
+
+        // Combine the results
+        items.clear();
+        items.addAll(lesser);
+        items.add(pivot);
+        items.addAll(greater);
+
+        return items;
+    }
+
+    private List<E> partition(List<E> items, E pivot, Comparator<E> comparator, int compareDirection) {
+        List<E> result = new ArrayList<>();
+        for (E item : items) {
+            int cmp = comparator.compare(item, pivot);
+            if (cmp * compareDirection < 0) {
+                // item is lesser (for one half) or greater (for the other half) than the pivot
+                result.add(item);
+            }
+        }
+        return result;
     }
 
     /**
@@ -104,7 +134,7 @@ public class SorterImpl<E> implements Sorter<E> {
             swap(items, 0, i);
             // TODO the new root may have violated the heap condition
             //  repair the heap condition on the remaining heap of size i
-            heapSwim(items, i, comparator);
+            heapSink(items, i, reverseComparator);
         }
 
         return items;
@@ -124,7 +154,7 @@ public class SorterImpl<E> implements Sorter<E> {
         int k = heapSize - 1;
         while (k > 0) {
             int parent = (k - 1) / 2;
-            if (comparator.compare(items.get(k), items.get(parent)) <= 0) {
+            if (comparator.compare(items.get(k), items.get(parent)) >= 0) {
                 break;
             }
             swap(items, k, parent);
@@ -153,6 +183,8 @@ public class SorterImpl<E> implements Sorter<E> {
             }
             swap(items, k, child);
             k = child;
+
+            System.out.println("Heap: " + items.subList(0, heapSize));
         }
     }
     /**
