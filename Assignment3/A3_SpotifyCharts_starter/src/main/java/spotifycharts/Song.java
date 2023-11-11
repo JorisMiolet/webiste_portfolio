@@ -94,13 +94,13 @@ public class Song {
      * @return  negative number, zero or positive number according to Comparator conventions
      */
     public int compareForDutchNationalChart(Song other) {
-        int comparedByLanguage = other.getLanguage().compareTo(this.getLanguage());
-
-        if (comparedByLanguage == 0) {
-            return Integer.compare(this.getStreamsCountTotal(), other.getStreamsCountTotal());
+        if (this.getLanguage() == Language.NL && other.getLanguage() != Language.NL) {
+            return -1;
+        } else if (this.getLanguage() != Language.NL && other.getLanguage() == Language.NL) {
+            return 1;
         }
 
-        return comparedByLanguage;
+        return Integer.compare(other.getStreamsCountTotal(), this.getStreamsCountTotal());
     }
 
 
@@ -119,7 +119,6 @@ public class Song {
     public Map<Country, Integer> getStreamsPerCountry() {
         return streamsPerCountry;
     }
-    // TODO provide a toString implementation to format songs as in "artist/title{language}(total streamsCount)"
 
 
     @Override
