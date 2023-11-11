@@ -42,41 +42,38 @@ public class SorterImpl<E> implements Sorter<E> {
      */
     public List<E> quickSort(List<E> items, Comparator<E> comparator) {
         if (items == null || items.size() <= 1) {
-            // Base case: already sorted
             return items;
         }
 
         int pivotIndex = items.size() / 2;
         E pivot = items.get(pivotIndex);
 
-        // Partition the list into two halves
-        List<E> lesser = partition(items, pivot, comparator, -1);
-        List<E> greater = partition(items, pivot, comparator, 1);
+        List<E> lesser = new ArrayList<>();
+        List<E> equal = new ArrayList<>();
+        List<E> greater = new ArrayList<>();
 
-        // Recursive calls on the two halves
-        quickSort(lesser, comparator);
-        quickSort(greater, comparator);
+        for (E item : items) {
+            int cmp = comparator.compare(item, pivot);
+            if (cmp < 0) {
+                lesser.add(item);
+            } else if (cmp > 0) {
+                greater.add(item);
+            } else {
+                equal.add(item);
+            }
+        }
 
-        // Combine the results
+        lesser = quickSort(lesser, comparator);
+        greater = quickSort(greater, comparator);
+
         items.clear();
         items.addAll(lesser);
-        items.add(pivot);
+        items.addAll(equal);
         items.addAll(greater);
 
         return items;
     }
 
-    private List<E> partition(List<E> items, E pivot, Comparator<E> comparator, int compareDirection) {
-        List<E> result = new ArrayList<>();
-        for (E item : items) {
-            int cmp = comparator.compare(item, pivot);
-            if (cmp * compareDirection < 0) {
-                // item is lesser (for one half) or greater (for the other half) than the pivot
-                result.add(item);
-            }
-        }
-        return result;
-    }
 
     /**
      * Identifies the lead collection of numTops items according to the ordening criteria of comparator
