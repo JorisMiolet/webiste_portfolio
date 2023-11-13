@@ -26,6 +26,14 @@ public class ImageController {
         }
         return images;
     }
+    @GetMapping("/barcode/{barcode}")
+    public Image getByBarcode(@PathVariable String barcode){
+        Image image = imagesRepository.findByBarcode(barcode);
+        if(image == null){
+            throw new ResourceNotFoundException("Er is geen image gelinkt aan deze barcode: " + barcode);
+        }
+        return image;
+    }
 
     @GetMapping("{articleNr}")
     public Image getImageById(@PathVariable String articleNr){

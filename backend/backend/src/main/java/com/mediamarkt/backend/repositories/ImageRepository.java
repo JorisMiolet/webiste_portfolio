@@ -148,6 +148,14 @@ public class ImageRepository {
     public List<Image> getAll() {
         return images;
     }
+    public Image findByBarcode(String barcode) {
+        for (Image image : images){
+            if (image.barcode.equals(barcode)){
+                return image;
+            }
+        }
+        return null;
+    }
 
     public Image findById(String articleNr) {
         for(Image imageById: images){
