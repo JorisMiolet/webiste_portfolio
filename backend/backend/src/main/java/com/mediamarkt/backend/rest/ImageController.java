@@ -54,4 +54,13 @@ public class ImageController {
 
         return imagesRepository.updateImage(newImage);
     }
+
+    @GetMapping("/EAN/{EAN}")
+    public Image GetImageByEAN(@PathVariable String EAN){
+        Image image = imagesRepository.findByEAN(EAN);
+        if(image == null){
+            throw new ResourceNotFoundException("Er is geen image met EANnr: " + EAN + " gevonden");
+        }
+        return image;
+    }
 }
