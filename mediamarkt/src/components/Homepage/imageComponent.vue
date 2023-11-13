@@ -27,7 +27,7 @@ import searchComponent from "@/components/Homepage/searchComponent.vue";
 import sidenavComponent from "@/components/Homepage/sidenavComponent.vue";
 export default {
   name: "imageComponent",
-  components:{
+  components: {
     detailImage,
     searchComponent,
     sidenavComponent
@@ -42,7 +42,8 @@ export default {
   mounted() {
     this.loadUserList();
   },
-  methods:{
+  methods: {
+
     setSelectedImage(image) {
       if (image === (this.selectedImageInfo ? this.selectedImageInfo : null)) {
         this.selectedImageInfo = null;
@@ -51,42 +52,51 @@ export default {
         console.log(image)
       }
     },
+
+    //loads all laptops
     loadUserList() {
       axios.get('http://localhost:8085/api/images/all').then((response) => {
         this.laptops = response.data;
         this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
       });
     },
+
     filterLaptops(searchQuery) {
       if (searchQuery.trim() === "") {
-        // Als de zoekopdracht leeg is, herstel de originele lijst met laptops
-        this.laptops = [...this.originalLaptops];
+        this.loadUserList(); // Reset to the original list if the search query is empty
       } else {
-        // Anders, filter de lijst op basis van de zoekopdracht
+        //checks if searchQuery matches a laptop
+        const pattern = new RegExp(`^${searchQuery}.*$`, 'i');
         this.laptops = this.originalLaptops.filter((laptop) => {
-          return (
-              laptop['Description / Model type'].toLowerCase().includes(searchQuery.toLowerCase()) ||
-              laptop.Brand.toLowerCase().includes(searchQuery.toLowerCase())
-          );
+          return pattern.test(laptop['Description / Model type']) || pattern.test(laptop['Brand']);
         });
+
+        // If no laptops match the search query, set this.laptops to an empty array
+        if (this.laptops.length === 0) {
+          this.laptops = [];
+        }
       }
     },
+
+
     filterLaptopsbyEAN(searchQuery) {
       if (searchQuery.trim() === "") {
-        // Als de zoekopdracht leeg is, herstel de originele lijst met laptops
-        this.laptops = [...this.originalLaptops];
+        this.loadUserList(); // Reset to the original list if the search query is empty
       } else {
-        // Anders, filter de lijst op basis van de zoekopdracht
+        //check if searchQuery mathes a laptop
+        const pattern = new RegExp(`^${searchQuery}.*$`);
         this.laptops = this.originalLaptops.filter((laptop) => {
-          return (
-              laptop['EAN'].toLowerCase().includes(searchQuery.toLowerCase()) ||
-              laptop.EAN.toLowerCase().includes(searchQuery.toLowerCase())
-          );
+          return pattern.test(laptop['EAN']);
         });
+
+        // If no laptops match the search query, set this.laptops to an empty array
+        if (this.laptops.length === 0) {
+          this.laptops = [];
+        }
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>

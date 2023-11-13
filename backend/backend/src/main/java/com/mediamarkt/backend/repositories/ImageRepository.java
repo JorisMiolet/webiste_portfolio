@@ -157,6 +157,14 @@ public class ImageRepository {
         }
         return null;
     }
+    public Image findByEAN(String EAN) {
+        for(Image imageByEAN: images){
+            if (imageByEAN.ean.equals(EAN)) {
+                return imageByEAN;
+            }
+        }
+        return null;
+    }
 
     public Image create(Image newImage) {
         images.add(newImage);

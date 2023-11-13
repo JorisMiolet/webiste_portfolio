@@ -22,13 +22,10 @@ export default {
     };
   },
   methods: {
-    resetSearch() {
-      this.searchQuery = "";
-    },
     handleSearch() {
-      this.$emit("search", this.searchquery);
+        this.$emit("search", this.searchquery);
+      }
     },
-  }
 }
 </script>
 
