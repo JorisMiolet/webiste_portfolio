@@ -153,6 +153,7 @@ public class ImageRepository {
             if (image.barcode.equals(barcode)){
                 return image;
             }
+            System.out.println(barcode +" - " +image.barcode);
         }
         return null;
     }

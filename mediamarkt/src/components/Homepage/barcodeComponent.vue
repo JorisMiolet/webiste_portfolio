@@ -23,10 +23,10 @@ export default {
       console.log(result);
 
       // Assuming the barcode contains a unique identifier for your laptops
-      const barcode = result.text;
+      const barcode = result;
 
       // Make an API call to fetch laptop information based on the scanned barcode
-      axios.get(`http://localhost:8085/images/barcode/${barcode}`)
+      axios.get(`http://localhost:8085/api/images/barcode/${barcode}`)
           .then(response => {
             // Update the component's data with the fetched laptop information
             this.laptopInfo = response.data;

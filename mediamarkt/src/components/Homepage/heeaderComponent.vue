@@ -4,6 +4,7 @@
       <h1 class="text-white text-2xl font-semibold">MediaMARKt</h1>
       <nav class="space-x-4">
         <router-link to="/" class="text-white hover:underline">Home</router-link>
+        <button>camera</button>
         <router-link to="/" class="text-white hover:underline">Over ons</router-link>
         <router-link to="/" class="text-white hover:underline">Diensten</router-link>
         <router-link to="/" class="text-white hover:underline">Contact</router-link>
