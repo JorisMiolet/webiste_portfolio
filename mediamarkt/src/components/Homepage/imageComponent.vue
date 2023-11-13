@@ -59,16 +59,18 @@ export default {
     },
     filterLaptops(searchQuery) {
       if (searchQuery.trim() === "") {
-        // Als de zoekopdracht leeg is, herstel de originele lijst met laptops
-        this.laptops = [...this.originalLaptops];
+        this.loadUserList(); // Reset to the original list if the search query is empty
       } else {
-        // Anders, filter de lijst op basis van de zoekopdracht
+        const pattern = new RegExp(`^${searchQuery}.*$`, 'i'); // Add the 'i' flag for case-insensitivity
         this.laptops = this.originalLaptops.filter((laptop) => {
-          return (
-              laptop['Description / Model type'].toLowerCase().includes(searchQuery.toLowerCase()) ||
-              laptop.Brand.toLowerCase().includes(searchQuery.toLowerCase())
-          );
+          // Check if the description/model type or brand matches the search query
+          return pattern.test(laptop['Description / Model type']) || pattern.test(laptop['Brand']);
         });
+
+        // If no laptops match the search query, set this.laptops to an empty array
+        if (this.laptops.length === 0) {
+          this.laptops = [];
+        }
       }
     },
     filterLaptopsbyEAN(searchQuery) {
