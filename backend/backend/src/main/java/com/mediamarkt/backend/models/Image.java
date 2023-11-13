@@ -24,12 +24,15 @@ public class Image {
     @JsonProperty("SCREENSIZE (cm)")
     public String screenSizeCm;
 
+    @JsonProperty("BARCODE")
+    public String barcode;
+
     public Image(String articleNumber,
                  String ean, String brand,
                  String description, String processor,
                  String ram, String storage,
                  String gpu, String screenSizeInch,
-                 String screenSizeCm) {
+                 String screenSizeCm, String barcode) {
         this.articleNumber = articleNumber;
         this.ean = ean;
         this.brand = brand;
@@ -40,5 +43,6 @@ public class Image {
         this.gpu = gpu;
         this.screenSizeInch = screenSizeInch;
         this.screenSizeCm = screenSizeCm;
+        this.barcode = barcode;
     }
 }

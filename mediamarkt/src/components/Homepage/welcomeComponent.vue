@@ -6,18 +6,18 @@
     </div>
     <div class="flex-col content mr-auto">
 <!--      <search-component/>-->
-      <image-component/>
+      <barcode-component/>
     </div>
   </div>
 </template>
 
 <script>
-import ImageComponent from "@/components/Homepage/imageComponent.vue";
+// import ImageComponent from "@/components/Homepage/imageComponent.vue";
 import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
-
+import barcodeComponent from "@/components/Homepage/barcodeComponent.vue";
 export default {
   name: "welkomComponent",
-  components: {HeaderComponent, ImageComponent}
+  components: {HeaderComponent, barcodeComponent}
 }
 </script>
 

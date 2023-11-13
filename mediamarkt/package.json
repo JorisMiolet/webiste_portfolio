@@ -16,6 +16,7 @@
     "core-js": "^3.8.3",
     "tw-elements": "^1.0.0",
     "vue": "^3.2.13",
+    "vue-barcode-reader": "^1.0.3",
     "vue-router": "^4.2.5",
     "xlsx": "^0.18.5"
   },

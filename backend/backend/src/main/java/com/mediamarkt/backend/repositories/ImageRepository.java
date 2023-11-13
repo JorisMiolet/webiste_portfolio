@@ -23,7 +23,8 @@ public class ImageRepository {
                 "256GB SSD",
                 "NVIDIA GeForce GTX 1650",
                 "15.6",
-                "39.62"
+                "39.62",
+                "253345"
                 ));
         images.add(new Image(
                 "3801104",
@@ -35,7 +36,8 @@ public class ImageRepository {
                 "512GB SSD",
                 "NVIDIA GeForce RTX 3060",
                 "17.3",
-                "43.94"
+                "43.94",
+                "253345"
         ));
         images.add(new Image(
                 "3801078",
@@ -47,7 +49,8 @@ public class ImageRepository {
                 "1TB HDD",
                 "Intel UHD Graphics",
                 "14.0",
-                "35.56"
+                "35.56",
+                "253345"
         ));
         images.add(new Image(
                 "3801051",
@@ -60,6 +63,7 @@ public class ImageRepository {
                 "AMD Radeon RX 560",
                 "15.6",
                 "39.62"
+                ,"253345"
         ));
         images.add(new Image(
                 "3801050",
@@ -71,7 +75,8 @@ public class ImageRepository {
                 "256GB SSD",
                 "Intel HD Graphics",
                 "13.3",
-                "33.78"
+                "33.78",
+                "253345"
         ));
         images.add(new Image(
                 "3801018",
@@ -83,7 +88,8 @@ public class ImageRepository {
                 "1TB SSD",
                 "NVIDIA GeForce RTX 3080",
                 "17.3",
-                "43.94"
+                "43.94",
+                "253345"
         ));
         images.add(new Image(
                 "3800966",
@@ -95,7 +101,8 @@ public class ImageRepository {
                 "512GB SSD",
                 "NVIDIA GeForce GTX 1660 Ti",
                 "15.6",
-                "39.62"
+                "39.62",
+                "253345"
         ));
         images.add(new Image(
                 "3800930",
@@ -107,7 +114,8 @@ public class ImageRepository {
                 "512GB SSD",
                 "AMD Radeon Vega 8",
                 "14.0",
-                "35.56"
+                "35.56",
+                "253345"
         ));
         images.add(new Image(
                 "3800924",
@@ -119,7 +127,8 @@ public class ImageRepository {
                 "256GB SSD",
                 "Intel UHD Graphics 620",
                 "13.3",
-                "33.78"
+                "33.78",
+                "253345"
         ));
         images.add(new Image(
                 "3800894",
@@ -131,7 +140,8 @@ public class ImageRepository {
                 "512GB SSD",
                 "NVIDIA GeForce GTX 1050",
                 "15.6",
-                "39.62"
+                "39.62",
+                "80730477"
         ));
     }
 

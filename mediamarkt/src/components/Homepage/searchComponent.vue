@@ -8,30 +8,30 @@
         placeholder="Zoeken..."
         @input="handleSearch"
     />
-    <div class="ml-2 flex items-center space-x-2">
-      <button @click="resetSearch" class="focus:outline-none rounded-full bg-white p-2">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-          <!-- SVG-pictogram voor de eerste knop -->
-        </svg>
-      </button>
-      <button class="focus:outline-none rounded-full bg-white p-2">
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-        >
-          <!-- SVG-pictogram voor de tweede knop -->
-        </svg>
-      </button>
-    </div>
+<!--    <div class="ml-2 flex items-center space-x-2">-->
+<!--      <button @click="resetSearch" class="focus:outline-none rounded-full bg-white p-2">-->
+<!--        <svg-->
+<!--            xmlns="http://www.w3.org/2000/svg"-->
+<!--            class="h-6 w-6"-->
+<!--            fill="none"-->
+<!--            viewBox="0 0 24 24"-->
+<!--            stroke="currentColor"-->
+<!--        >-->
+<!--          &lt;!&ndash; SVG-pictogram voor de eerste knop &ndash;&gt;-->
+<!--        </svg>-->
+<!--      </button>-->
+<!--      <button class="focus:outline-none rounded-full bg-white p-2">-->
+<!--        <svg-->
+<!--            xmlns="http://www.w3.org/2000/svg"-->
+<!--            class="h-6 w-6"-->
+<!--            fill="none"-->
+<!--            viewBox="0 0 24 24"-->
+<!--            stroke="currentColor"-->
+<!--        >-->
+<!--          &lt;!&ndash; SVG-pictogram voor de tweede knop &ndash;&gt;-->
+<!--        </svg>-->
+<!--      </button>-->
+<!--    </div>-->
   </div>
 </template>
 
