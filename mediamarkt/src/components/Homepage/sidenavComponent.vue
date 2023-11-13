@@ -23,7 +23,6 @@ export default {
   },
   methods: {
     handleSearch() {
-
         this.$emit("search", this.searchquery);
       }
     },

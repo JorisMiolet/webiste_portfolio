@@ -43,6 +43,7 @@ export default {
     this.loadUserList();
   },
   methods: {
+
     setSelectedImage(image) {
       if (image === (this.selectedImageInfo ? this.selectedImageInfo : null)) {
         this.selectedImageInfo = null;
@@ -51,19 +52,22 @@ export default {
         console.log(image)
       }
     },
+
+    //loads all laptops
     loadUserList() {
       axios.get('http://localhost:8085/api/images/all').then((response) => {
         this.laptops = response.data;
         this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
       });
     },
+
     filterLaptops(searchQuery) {
       if (searchQuery.trim() === "") {
         this.loadUserList(); // Reset to the original list if the search query is empty
       } else {
-        const pattern = new RegExp(`^${searchQuery}.*$`, 'i'); // Add the 'i' flag for case-insensitivity
+        //checks if searchQuery matches a laptop
+        const pattern = new RegExp(`^${searchQuery}.*$`, 'i');
         this.laptops = this.originalLaptops.filter((laptop) => {
-          // Check if the description/model type or brand matches the search query
           return pattern.test(laptop['Description / Model type']) || pattern.test(laptop['Brand']);
         });
 
@@ -73,10 +77,13 @@ export default {
         }
       }
     },
+
+
     filterLaptopsbyEAN(searchQuery) {
       if (searchQuery.trim() === "") {
         this.loadUserList(); // Reset to the original list if the search query is empty
       } else {
+        //check if searchQuery mathes a laptop
         const pattern = new RegExp(`^${searchQuery}.*$`);
         this.laptops = this.originalLaptops.filter((laptop) => {
           return pattern.test(laptop['EAN']);
