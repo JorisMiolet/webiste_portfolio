@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/images")
@@ -54,13 +55,23 @@ public class ImageController {
                 .body(createdImage);
     }
 
-    @PutMapping("{articleNr}")
-    public Image updateImageById(@PathVariable String articleNr, @RequestBody Image newImage){
+    @PutMapping("/edit/{articleNr}")
+    public ResponseEntity<Image> updateImageById(@PathVariable String articleNr, @RequestBody Image newImage){
         if(!articleNr.equals(newImage.articleNumber)){
             throw new PreConditionFailedException("article nummers zijn geen match");
         }
 
-        return imagesRepository.updateImage(newImage);
+        ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentRequest();
+        return ResponseEntity.created(uriBuilder.build().toUri()).body(imagesRepository.updateImage(newImage));
+    }
+
+    @DeleteMapping("{articleNr}")
+    public void deleteImage(@PathVariable String articleNr){
+        Image image = imagesRepository.deleteImage(articleNr);
+
+        if(image == null){
+            throw new ResourceNotFoundException("image with article number: "+ articleNr +" not found");
+        }
     }
 
     @GetMapping("/EAN/{EAN}")

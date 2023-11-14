@@ -73,8 +73,7 @@ export default {
 <template>
   <table class="table-auto text-left ml-3">
     <caption class="text-left">
-      <button class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded" @click="exportToExcel"
-      >
+      <button class="bg-red-800 mr-2 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded" @click="exportToExcel">
         Export data
       </button>
       <button class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">
