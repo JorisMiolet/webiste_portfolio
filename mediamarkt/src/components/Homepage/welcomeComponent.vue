@@ -8,16 +8,19 @@
 <!--      <search-component/>-->
       <image-component/>
     </div>
+    <div>
+      <BarcodeComponent />
+    </div>
   </div>
 </template>
 
 <script>
 import ImageComponent from "@/components/Homepage/imageComponent.vue";
 import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
-import barcodeComponent from "@/components/Homepage/barcodeComponent.vue";
+import BarcodeComponent from "@/components/Homepage/barcodeComponent.vue";
 export default {
   name: "welkomComponent",
-  components: {HeaderComponent, ImageComponent}
+  components: {BarcodeComponent, HeaderComponent, ImageComponent}
 }
 </script>
 

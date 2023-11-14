@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader>
-  </div>
+  <button @click="setClicked" class="bg-primary py-3 px-10 rounded-2xl text-white m-10">
+    Camera
+  </button>
+  <template v-if="buttonClicked">
+         <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader>
+  </template>
 </template>
 
 <script>
@@ -16,9 +19,13 @@ export default {
   data() {
     return {
       laptopInfo: null,
+      buttonClicked: false
     };
   },
   methods: {
+    setClicked(){
+      this.buttonClicked ? this.buttonClicked = false : this.buttonClicked = true;
+    },
     onDecode(result) {
       console.log(result);
 
@@ -35,6 +42,7 @@ export default {
           .catch(error => {
             console.error('Error fetching laptop information:', error);
           });
+      this.buttonClicked = false;
     },
     onLoaded() {
       console.log('Barcode reader loaded and camera ready');
