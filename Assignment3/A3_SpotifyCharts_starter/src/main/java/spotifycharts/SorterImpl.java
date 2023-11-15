@@ -22,7 +22,7 @@ public class SorterImpl<E> implements Sorter<E> {
             int j = i - 1;
 
 
-            while (j >= 0 && comparator.compare(key, items.get(j)) > 0) {
+            while (j >= 0 && comparator.compare(key, items.get(j)) < 0) {
                 items.set(j + 1, items.get(j));
                 j--;
             }
@@ -172,16 +172,15 @@ public class SorterImpl<E> implements Sorter<E> {
         int k = 0;
         while (2 * k + 1 < heapSize) {
             int child = 2 * k + 1;
-            if (child < heapSize - 1 && comparator.compare(items.get(child), items.get(child + 1)) < 0) {
+            if (child < heapSize - 1 && comparator.compare(items.get(child), items.get(child + 1)) > 0) {
                 child++;
             }
-            if (comparator.compare(items.get(k), items.get(child)) >= 0) {
+            if (comparator.compare(items.get(k), items.get(child)) <= 0) {
                 break;
             }
             swap(items, k, child);
             k = child;
 
-            System.out.println("Heap: " + items.subList(0, heapSize));
         }
     }
     /**
