@@ -41,6 +41,7 @@ public class Song {
         this.language = language;
 
         streamsPerCountry = new HashMap<>();
+        //for each country in the enum add the country with a corresponding stream count set to a default of 0
         for (Country country: Country.values()) {
             streamsPerCountry.put(country, 0);
         }
@@ -52,6 +53,7 @@ public class Song {
      * @param streamsCount
      */
     public void setStreamsCountOfCountry(Country country, int streamsCount) {
+        //set given stream count to the given country
         getStreamsPerCountry().put(country, streamsCount);
     }
 
@@ -68,12 +70,13 @@ public class Song {
      * @return
      */
     public int getStreamsCountTotal() {
-        int totalStreams = 0;
+        int totalStreams = 0;//set totalStreams at 0 for default
+        //then loop through all countries in the map and add the streams count of the country to totalStreams
         for (Country country: getStreamsPerCountry().keySet()) {
             totalStreams += getStreamsCountOfCountry(country);
         }
 
-        return totalStreams;
+        return totalStreams;//return total streams
     }
 
 
@@ -84,7 +87,8 @@ public class Song {
      * @return  negative number, zero or positive number according to Comparator convention
      */
     public int compareByHighestStreamsCountTotal(Song other) {
-        return Integer.compare(other.getStreamsCountTotal(), this.getStreamsCountTotal());// replace by proper result
+        //returns -1 if this is lower than other, 1 if it is higher and 0 if it is equal
+        return Integer.compare(other.getStreamsCountTotal(), this.getStreamsCountTotal());
     }
 
     /**
@@ -94,14 +98,21 @@ public class Song {
      * @return  negative number, zero or positive number according to Comparator conventions
      */
     public int compareForDutchNationalChart(Song other) {
+        // Check if the language of the current song is Dutch and the other song's language is not Dutch
         if (this.getLanguage() == Language.NL && other.getLanguage() != Language.NL) {
-            return -1;
+            return -1; // Current song should be placed before the other song in the Dutch national chart
         } else if (this.getLanguage() != Language.NL && other.getLanguage() == Language.NL) {
-            return 1;
+            return 1; // Other song should be placed before the current song in the Dutch national chart
         }
 
+        // If both songs have the same language or both are non-Dutch, compare their total streams count
         return Integer.compare(other.getStreamsCountTotal(), this.getStreamsCountTotal());
+        // Returns:
+        // -1 if other song has more total streams count (higher priority)
+        //  0 if both songs have the same total streams count
+        //  1 if the current song has more total streams count (higher priority)
     }
+
 
 
     public String getArtist() {
