@@ -57,6 +57,10 @@ export default {
         this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
       });
     },
+    updateLaptops(laptops) {
+      console.log('Updating laptops:', laptops);
+      return this.laptops = laptops;
+    },
 
     filterLaptops(searchQuery) {
       if (searchQuery.trim() === "") {
