@@ -1,6 +1,6 @@
 <template>
   <search-component @search="filterLaptops" />
-  <div class="w-3/4 p-4 mt-24 pb-28 grid grid-cols-2 h-screen ml-auto mr-9 gap-4 overflow-y-scroll">
+  <div class="form w-3/4 p-4 mt-24 pb-28 grid grid-cols-2 ml-auto mr-9 gap-4 overflow-y-scroll">
     <div  v-for="(laptop, index) in laptops"
          :key="index"
          class="border border-gray-300 p-4 rounded-lg shadow-md hover:shadow-lg h-50 w-auto"
@@ -86,6 +86,8 @@ export default {
 body, html{
   overflow-y: hidden;
 }
-
+.form{
+  max-height: calc(90vh);
+}
 </style>
 
