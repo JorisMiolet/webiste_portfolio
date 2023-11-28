@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      laptopInfo: null,
+      laptopInfo: [],
       buttonClicked: false
     };
   },
@@ -37,7 +37,11 @@ export default {
           .then(response => {
             // Update the component's data with the fetched laptop information
             this.laptopInfo = response.data;
-            console.log(this.laptopInfo)
+
+            // Emit the laptop information to the parent component (imageComponent)
+            this.$emit("updateLaptops", [this.laptopInfo]); // Send the laptop information as an array
+
+
           })
           .catch(error => {
             console.error('Error fetching laptop information:', error);

@@ -190,4 +190,14 @@ public class ImageRepository {
         }
         return null;
     }
+
+    public Image deleteImage(String articleNr) {
+        for(Image image: images){
+            if(image.articleNumber.equals(articleNr)){
+                images.remove(image);
+                return image;
+            }
+        }
+        return null;
+    }
 }

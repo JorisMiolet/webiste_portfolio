@@ -1,6 +1,6 @@
 <template>
 
-  <div class="relative w-2/5 mx-auto mt-4 p-4 rounded-full bg-red-500 border border-gray-300 flex items-center ml-auto">
+  <div class="flex w-2/5 left-[50%] translate-x-[-50%] mx-auto mt-4 p-4 rounded-full bg-red-500 border border-gray-300 fixed items-center ml-auto">
     <input
         v-model="searchQuery"
         type="text"

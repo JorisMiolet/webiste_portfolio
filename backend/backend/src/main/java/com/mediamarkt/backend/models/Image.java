@@ -45,4 +45,6 @@ public class Image {
         this.screenSizeCm = screenSizeCm;
         this.barcode = barcode;
     }
+
+    public Image(){}
 }
