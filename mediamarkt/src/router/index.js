@@ -8,6 +8,8 @@ import userOverview from "@/components/admin/pages/userOverview.vue";
 import editUser from "@/components/admin/pages/editUser.vue";
 import createUser from "@/components/admin/pages/createUser.vue";
 import createImage from "@/components/admin/pages/createImage.vue";
+import laptopOverview from "@/components/admin/pages/laptopOverview.vue";
+import createLaptop from "@/components/admin/pages/createLaptop.vue";
 
 const routes = [
     {path: "/", redirect: "/home",},
@@ -42,6 +44,16 @@ const routes = [
                 path:"create-image",
                 name:"createImage",
                 component: createImage
+            },
+            {
+                path: "laptop-overview",
+                name:"laptopOverview",
+                component: laptopOverview
+            },
+            {
+                path: "create-laptop",
+                name:"createLaptop",
+                component: createLaptop
             }
         ]
     },
