@@ -4,13 +4,13 @@ import com.mediamarkt.backend.exceptions.PreConditionFailedException;
 import com.mediamarkt.backend.exceptions.ResourceNotFoundException;
 import com.mediamarkt.backend.models.Image;
 import com.mediamarkt.backend.repositories.ImageRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/images")
@@ -38,7 +38,7 @@ public class ImageController {
 
     @GetMapping("{articleNr}")
     public Image getImageById(@PathVariable String articleNr){
-        Image image = imagesRepository.findById(articleNr);
+        Image image = imagesRepository.findByArticleNr(articleNr);
         if(image == null){
             throw new ResourceNotFoundException("Er is geen image met articleNr: " + articleNr + " gevonden");
         }
@@ -46,6 +46,7 @@ public class ImageController {
     }
 
     @PostMapping("/create-image")
+    @Transactional
     public ResponseEntity<Image> createImage(@RequestBody Image newImage){
         Image createdImage = imagesRepository.create(newImage);
 
@@ -56,8 +57,9 @@ public class ImageController {
     }
 
     @PutMapping("/edit/{articleNr}")
+    @Transactional
     public ResponseEntity<Image> updateImageById(@PathVariable String articleNr, @RequestBody Image newImage){
-        if(!articleNr.equals(newImage.articleNumber)){
+        if(!articleNr.equals(newImage.getArticleNumber())){
             throw new PreConditionFailedException("article nummers zijn geen match");
         }
 
@@ -66,6 +68,7 @@ public class ImageController {
     }
 
     @DeleteMapping("{articleNr}")
+    @Transactional
     public void deleteImage(@PathVariable String articleNr){
         Image image = imagesRepository.deleteImage(articleNr);
 

@@ -16,7 +16,7 @@
   <header-component/>
   <div class="wrapper mt-16">
     <aside>
-      <nav class="bg-red-800 text-white w-44 h-full min-h-screen">
+      <nav class="bg-red-500 text-white w-44 h-full min-h-screen">
         <ul class="space-y-3">
           <li class="p-3">
             <router-link :to="{name: 'imageOverview'}" exact>image overview</router-link>
