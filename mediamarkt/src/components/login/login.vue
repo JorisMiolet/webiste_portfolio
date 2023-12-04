@@ -66,16 +66,29 @@ export default {
       axios.get('http://localhost:8085/api/users/all').then(response => this.userList = response.data)
     },
     async handleButton() {
-      const users = this.userList;
-        const userExists = await users.find(u => u.username === this.nameInput && u.password === this.passwordInput);
+      try {
+        await axios.post("http://localhost:8085/api/users/login", {
+          username: this.nameInput,
+          password: this.passwordInput
+        });
 
-        if(!userExists){
-          window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
-          return;
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.error("User not found");
+        }else if (error.response && error.response.status === 500){
+          window.alert("combinatie van gebruikersnaam en wachtwoord is niet goed")
+        } else {
+          console.error("An error occurred:", error);
         }
-        localStorage.setItem("user_id", userExists.uuid);
-        localStorage.setItem("isAdmin", userExists.admin);
-        this.$router.push("/")
+      }
+
+        // if(!userExists){
+        //   window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
+        //   return;
+        // }
+        // localStorage.setItem("user_id", userExists.uuid);
+        // localStorage.setItem("isAdmin", userExists.admin);
+        // this.$router.push("/")
       }
     }
 
