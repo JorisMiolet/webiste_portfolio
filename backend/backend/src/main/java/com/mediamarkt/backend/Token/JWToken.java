@@ -2,13 +2,13 @@ package com.mediamarkt.backend.Token;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
 import javax.crypto.spec.SecretKeySpec;
-
 public class JWToken {
     private static final String JWT_ADMIN_CLAIM = "sub";
     private static final String JWT_ACCOUNTID_CLAIM = "id";
@@ -30,6 +30,7 @@ public class JWToken {
     }
 
     public String encode() {
+        System.out.println(passphrase + issuer + expiration);
         Key key = getKey(passphrase);
         return Jwts.builder()
                 .claim(JWT_ADMIN_CLAIM, this.isAdmin)

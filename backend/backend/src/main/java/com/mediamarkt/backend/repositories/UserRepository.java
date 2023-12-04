@@ -4,12 +4,14 @@ import com.mediamarkt.backend.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
 @Repository
+@Transactional
 public class UserRepository {
 
 //    private final List<User> users;
@@ -36,9 +38,6 @@ public class UserRepository {
                 "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class);
         query.setParameter("username", username);
         query.setParameter("password", password);
-
-        System.out.println(query.getResultList());
-        System.out.println(username + password);
 
         List<User> users = query.getResultList();
         if (!users.isEmpty()){
