@@ -87,7 +87,7 @@ body, html{
   overflow-y: hidden;
 }
 .form{
-  max-height: calc(90vh);
+  max-height: 90vh;
 }
 </style>
 
