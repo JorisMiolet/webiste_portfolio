@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -48,6 +49,9 @@ public class ImageController {
     @PostMapping("/create-image")
     @Transactional
     public ResponseEntity<Image> createImage(@RequestBody Image newImage){
+        newImage.setDate(LocalDate.now().toString());
+
+        // Persist the newImage in the database
         Image createdImage = imagesRepository.create(newImage);
 
         ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentRequest();

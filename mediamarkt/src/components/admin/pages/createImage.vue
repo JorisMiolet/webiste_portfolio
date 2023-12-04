@@ -30,6 +30,7 @@ export default {
         "SCREENSIZE (inch)": 'this.screenSizeInch', // Check this property, it seems incorrect
         "SCREENSIZE (cm)": this.screenSizeCm,
         "BARCODE": 'this.barcode', // Check this property, it seems incorrect
+        "DATE": 'this.date'
       };
 
       console.log(newImage)

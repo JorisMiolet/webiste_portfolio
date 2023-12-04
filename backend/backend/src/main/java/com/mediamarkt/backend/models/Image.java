@@ -34,6 +34,8 @@ public class Image {
     private String screenSizeCm;
     @JsonProperty("BARCODE")
     private String barcode;
+    @JsonProperty("DATE")
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "laptop_uuid")
@@ -44,7 +46,7 @@ public class Image {
                  String description, String processor,
                  String ram, String storage,
                  String gpu, String screenSizeInch,
-                 String screenSizeCm, String barcode) {
+                 String screenSizeCm, String barcode,String date) {
         this.articleNumber = articleNumber;
         this.ean = ean;
         this.brand = brand;
@@ -56,12 +58,18 @@ public class Image {
         this.screenSizeInch = screenSizeInch;
         this.screenSizeCm = screenSizeCm;
         this.barcode = barcode;
+        this.date = date;
     }
 
     public Image(){}
 
     public void setArticleNumber(String articleNumber) {
         this.articleNumber = articleNumber;
+    }
+
+
+    public String getDate() {
+        return date;
     }
 
     public String getArticleNumber() {
@@ -132,6 +140,9 @@ public class Image {
         this.storage = storage;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public void setScreenSizeCm(String screenSizeCm) {
         this.screenSizeCm = screenSizeCm;
