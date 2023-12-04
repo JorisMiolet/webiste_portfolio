@@ -42,13 +42,13 @@ export default {
     this.loadUserList();
   },
   methods: {
-
     setSelectedImage(image) {
-      if (image === (this.selectedImageInfo ? this.selectedImageInfo : null)) {
+      if (image === this.selectedImageInfo || null) {
         this.selectedImageInfo = null;
+        console.log("Image = null")
       } else {
         this.selectedImageInfo = image;
-        console.log(image)
+        console.log("Image = gevuld")
       }
     },
 
