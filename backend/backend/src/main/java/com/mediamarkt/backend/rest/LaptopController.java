@@ -39,6 +39,7 @@ public class LaptopController {
     }
 
     @PostMapping("/importLaptops")
+    @Transactional()
     public ResponseEntity<String> importLaptops(@RequestParam("file") MultipartFile file) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
@@ -48,8 +49,8 @@ public class LaptopController {
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts.length == 4) {
+                String[] parts = line.split(",");
+                if (parts.length > 4) { // geen idee waarom dit zo bij mij moet
                     String ean = parts[0].trim();
                     String barcode = parts[1].trim();
                     String brand = parts[2].trim();
