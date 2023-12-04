@@ -8,7 +8,7 @@
         placeholder="Zoeken..."
         @input="handleSearch"
     />
-    <button @click="filterByDate" class="ml-4 px-4 py-2 rounded-full bg-blue-500 text-white">Filter by Date</button>
+    <button @click="filterByDate" class="ml-4 px-4 py-2 rounded-full bg-blue-500 text-white">OUT DATED</button>
   </div>
 </template>
 

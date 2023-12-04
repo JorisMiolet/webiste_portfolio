@@ -14,6 +14,7 @@
       <p class="text-gray-600">{{ laptop.RAM }}</p>
       <p class="text-gray-600">{{ laptop.STORAGE }}</p>
       <p class="text-gray-600">{{ laptop.DATE }}</p>
+      <p class="text-gray-600">{{ laptop.STATUS }}</p>
     </div>
   </div>
   <detail-image v-if="selectedImageInfo !== null"
@@ -68,7 +69,7 @@ export default {
 
       this.laptops = this.originalLaptops.filter((laptop) => {
         const laptopDate = new Date(laptop['DATE']);
-        return laptopDate <= threeMonthsAgo;
+        return laptopDate < threeMonthsAgo;
       });
 
       if (this.laptops.length === 0) {

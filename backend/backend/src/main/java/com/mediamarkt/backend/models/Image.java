@@ -36,6 +36,8 @@ public class Image {
     private String barcode;
     @JsonProperty("DATE")
     private String date;
+    @JsonProperty("STATUS")
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "laptop_uuid")
@@ -46,7 +48,7 @@ public class Image {
                  String description, String processor,
                  String ram, String storage,
                  String gpu, String screenSizeInch,
-                 String screenSizeCm, String barcode,String date) {
+                 String screenSizeCm, String barcode,String date,String status) {
         this.articleNumber = articleNumber;
         this.ean = ean;
         this.brand = brand;
@@ -59,6 +61,7 @@ public class Image {
         this.screenSizeCm = screenSizeCm;
         this.barcode = barcode;
         this.date = date;
+        this.status = status;
     }
 
     public Image(){}
@@ -67,6 +70,9 @@ public class Image {
         this.articleNumber = articleNumber;
     }
 
+    public String getStatus() {
+        return status;
+    }
 
     public String getDate() {
         return date;
@@ -138,6 +144,10 @@ public class Image {
 
     public void setStorage(String storage) {
         this.storage = storage;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setDate(String date) {

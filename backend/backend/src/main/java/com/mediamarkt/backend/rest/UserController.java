@@ -29,16 +29,16 @@ public class UserController {
         return users;
     }
 
-    @PostMapping("/login")
-    public User getUserWithLogin(@RequestBody User credentials){
-       String username = credentials.getUsername();
-       String password = credentials.getPassword();
-        User user = usersRepository.getWithLogin(username, password);
-        if(user == null){
-            throw new ResourceNotFoundException("Er zijn geen users gevonden");
-        }
-        return user;
-    }
+//    @PostMapping("/login")
+//    public User getUserWithLogin(@RequestBody User credentials){
+//       String username = credentials.getUsername();
+//       String password = credentials.getPassword();
+//        User user = usersRepository.getWithLogin(username, password);
+//        if(user == null){
+//            throw new ResourceNotFoundException("Er zijn geen users gevonden");
+//        }
+//        return user;
+//    }
 
     @GetMapping("{uuid}")
     public User getUserByUUID(@PathVariable UUID uuid){

@@ -37,6 +37,9 @@ public class UserRepository {
         query.setParameter("username", username);
         query.setParameter("password", password);
 
+        System.out.println(query.getResultList());
+        System.out.println(username + password);
+
         List<User> users = query.getResultList();
         if (!users.isEmpty()){
             return users.get(0);
