@@ -23,6 +23,9 @@ public class JWToken {
     @Value("${jwt.expiration-seconds}")
     private int expiration;
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
     public JWToken(boolean isAdmin, UUID accountId) {
         this.accountId = accountId;
@@ -30,7 +33,7 @@ public class JWToken {
     }
 
     public String encode() {
-        System.out.println(passphrase + issuer + expiration);
+        System.out.println(expiration + issuer + passphrase);
         Key key = getKey(passphrase);
         return Jwts.builder()
                 .claim(JWT_ADMIN_CLAIM, this.isAdmin)

@@ -29,11 +29,12 @@ public class AuthenticationController {
             throw new ResourceNotFoundException("Er zijn geen users gevonden");
         }
 
-        JWToken jwToken = new JWToken(user.isAdmin(), user.getId());
-        String tokenString = jwToken.encode();
+
+//        JWToken jwToken = new JWToken(user.isAdmin(), user.getId());
+//        String tokenString = jwToken.encode();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString)
+//                .header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString)
                 .body(user);
     }
 }

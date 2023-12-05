@@ -81,7 +81,7 @@ export default {
           console.error("An error occurred:", error);
         }
       }
-
+      this.$router.push("/")
       // if(!userExists){
       //   window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
       //   return;
