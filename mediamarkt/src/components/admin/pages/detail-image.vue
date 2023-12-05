@@ -33,6 +33,7 @@
 export default {
   name: 'detail-image',
   props: ['selectedImage'],
+  emits: ['resetImage'],
   data() {
     return {
       popupVisible: true,
@@ -56,6 +57,7 @@ export default {
     closePopup() {
       this.popupVisible = false;
       this.proxyImage = null;
+      this.$emit('resetImage');
 
     },
   },

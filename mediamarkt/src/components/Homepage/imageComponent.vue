@@ -18,7 +18,8 @@
     </div>
   </div>
   <detail-image v-if="selectedImageInfo !== null"
-                v-bind:selectedImage="selectedImageInfo"/>
+                v-bind:selectedImage="selectedImageInfo"
+                v-on:resetImage="resetImage()"/>
 </template>
 
 <script>
@@ -41,15 +42,14 @@ export default {
   mounted() {
     this.loadUserList();
   },
+
   methods: {
     setSelectedImage(image) {
-      if (image === this.selectedImageInfo || null) {
-        this.selectedImageInfo = null;
-        console.log("Image = null")
-      } else {
-        this.selectedImageInfo = image;
-        console.log("Image = gevuld")
-      }
+      this.selectedImageInfo = image;
+    },
+
+    resetImage(){
+      this.selectedImageInfo = null;
     },
 
     //loads all laptops
