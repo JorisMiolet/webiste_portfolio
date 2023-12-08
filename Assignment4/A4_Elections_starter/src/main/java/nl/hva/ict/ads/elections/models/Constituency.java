@@ -5,6 +5,8 @@ import nl.hva.ict.ads.utils.xml.XMLParser;
 import javax.xml.stream.XMLStreamException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -40,8 +42,11 @@ public class Constituency {
 
         // TODO initialise this.rankedCandidatesByParty with an appropriate Map implementation
         //  and this.pollingStations with an appropriate Set implementation organised by zipCode and Id
-
-
+        this.rankedCandidatesByParty = new HashMap<>();
+        // If zipCodes are equal, compare by id
+        this.pollingStations = new TreeSet<>(Comparator.
+                comparing(PollingStation::getZipCode).
+                thenComparing(PollingStation::getId));
     }
 
     /**
@@ -54,11 +59,30 @@ public class Constituency {
      * @return whether the registration has succeeded
      */
     public boolean register(int rank, Candidate candidate) {
-        // TODO  register the candidate in this constituency for his/her party at the given rank (ballot position)
-        //  hint1: first check if a map of registered candidates already exist for the party of the given candidate
-        //        then add the candidate to that map, if the candidate has not been registered before.
+        Party candidateParty = candidate.getParty();
 
-        return false;    // replace by a proper outcome
+        // Check if the party exists in the registered candidates map
+        if (!getRankedCandidatesByParty().containsKey(candidateParty)) {
+            getRankedCandidatesByParty().put(candidateParty, new TreeMap<>());
+        }
+
+        NavigableMap<Integer, Candidate> candidatesByRank = getRankedCandidatesByParty().get(candidateParty);
+
+        // Check if the rank is already taken by another candidate for the same party
+        if (candidatesByRank.containsKey(rank)) {
+            return false; // Rank is already taken, registration failed
+        }
+
+        // Check if the candidate has been registered already at another rank
+        for (NavigableMap<Integer, Candidate> map : getRankedCandidatesByParty().values()) {
+            if (map.containsValue(candidate)) {
+                return false; // Candidate already registered at another rank, registration failed
+            }
+        }
+
+        // Register the candidate at the given rank for the party in this constituency
+        candidatesByRank.put(rank, candidate);
+        return true; // Registration succeeded
     }
 
     /**
@@ -66,12 +90,7 @@ public class Constituency {
      * @return
      */
     public Collection<Party> getParties() {
-        // TODO: return all parties that have been registered at this constituency
-        //  hint: there is no need to build a new collection; just return what you have got...
-
-
-
-        return null;    // replace by a proper outcome
+        return getRankedCandidatesByParty().keySet();
     }
 
     /**
@@ -81,10 +100,17 @@ public class Constituency {
      * @return
      */
     public Candidate getCandidate(Party party, int rank) {
-        // TODO: return the candidate at the given rank in the given party
+        // Get the map of candidates for the provided party
+        NavigableMap<Integer, Candidate> candidatesByRank = getRankedCandidatesByParty().get(party);
 
+        // Check if the map exists for the provided party
+        if (candidatesByRank != null) {
+            // Retrieve the candidate at the given rank from the map
+            return candidatesByRank.get(rank);
+        }
 
-        return null;    // replace by a proper outcome
+        // Return null if the party or rank is not found
+        return null;
     }
 
     /**
@@ -93,12 +119,7 @@ public class Constituency {
      * @return
      */
     public final List<Candidate> getCandidates(Party party) {
-        // TODO: return a list with all registered candidates of a given party in order of their rank
-        //  hint: if the implementation classes of rankedCandidatesByParty are well chosen, this only takes one line of code
-        //  hint: the resulting list may be immutable at your choice of implementation.
-
-
-        return null; // replace by a proper outcome
+        return new ArrayList<>(getRankedCandidatesByParty().get(party).values());
     }
 
     /**
@@ -107,11 +128,9 @@ public class Constituency {
      * @return the set of all candidates in this Constituency.
      */
     public Set<Candidate> getAllCandidates() {
-        // TODO collect all candidates of all parties of this Constituency into a Set.
-        //  hint: flatMap may help...
-
-
-        return null;    // replace by a proper outcome
+        return getRankedCandidatesByParty().values().stream()
+                .flatMap(candidateMap -> candidateMap.values().stream())
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -123,11 +142,31 @@ public class Constituency {
      * @return      the sub set of polling stations within the specified zipCode range
      */
     public NavigableSet<PollingStation> getPollingStationsByZipCodeRange(String firstZipCode, String lastZipCode) {
-        // TODO: return all polling stations that have been registered at this constituency
-        //  hint: there is no need to build a new collection; just return what you have got...
+        String regex = "^[1-9]\\d{3}[A-Za-z]{2}$";
+        Pattern pattern = Pattern.compile(regex);
 
+        if(!pattern.matcher(firstZipCode).matches() || !pattern.matcher(lastZipCode).matches()){
+            System.out.println("Invalid zipcode given");
+            return null;
+        }
 
-        return null; // replace by a proper outcome
+        return getPollingStations().stream()
+                .filter(pollingStation -> isInPostCodeRange(firstZipCode, lastZipCode, pollingStation.getZipCode()))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.
+                        comparing(PollingStation::getZipCode).
+                        thenComparing(PollingStation::getId))));
+    }
+    public boolean isInPostCodeRange(String firstZipCode, String lastZipCode, String currentZipCode){
+        int firstZipNumber = Integer.parseInt(firstZipCode.substring(0, 4));
+        int lastZipNumber = Integer.parseInt(lastZipCode.substring(0, 4));
+        int currentZipNumber = Integer.parseInt(currentZipCode.substring(0,4));
+
+        String firstZipChars = firstZipCode.substring(4);
+        String lastZipChars = lastZipCode.substring(4);
+        String currentZipChars = currentZipCode.substring(4);
+
+        return (currentZipNumber >=firstZipNumber && currentZipNumber <= lastZipNumber)
+                && (currentZipChars.compareTo(firstZipChars) >= 0 && currentZipChars.compareTo(lastZipChars) <= 0);
     }
 
     /**
@@ -135,11 +174,14 @@ public class Constituency {
      * accumulated across all polling stations and all candidates
      * @return
      */
-    public Map<Party,Integer> getVotesByParty() {
-        // TODO prepare a map of total number of votes per party
-
-
-        return null; // replace by a proper outcome
+    public Map<Party, Integer> getVotesByParty() {
+        return getPollingStations().stream()
+                .flatMap(pollingStation -> pollingStation.getVotesByParty().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,  // Party from entry
+                        Map.Entry::getValue, // Votes from entry
+                        Integer::sum         // Merge function for votes if parties have duplicate entries
+                ));
     }
 
     /**

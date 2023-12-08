@@ -29,10 +29,8 @@ public class Election {
     public Election(String name) {
         this.name = name;
 
-        // TODO initialise this.parties and this.constituencies with an appropriate Map implementations
-
-
-
+        this.parties = new TreeMap<>(Comparator.naturalOrder());
+        this.constituencies = new HashSet<>();
     }
 
     /**
@@ -40,10 +38,6 @@ public class Election {
      * @return all parties participating in at least one constituency, without duplicates
      */
     public Collection<Party> getParties() {
-        // TODO: return all parties that have been registered for the election
-        //  hint: there is no need to build a new collection; just return what you have got...
-
-
         return null; // replace by a proper outcome
     }
 

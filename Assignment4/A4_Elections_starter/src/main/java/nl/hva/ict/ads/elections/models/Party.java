@@ -30,7 +30,6 @@ public class Party {
         this.id = id;
         this.name = name;
 
-        // TODO initialise this.candidates with an appropriate Set implementation
         candidates= new HashSet<>();
 
     }
