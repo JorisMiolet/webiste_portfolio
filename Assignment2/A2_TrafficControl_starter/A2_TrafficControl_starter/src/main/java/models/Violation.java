@@ -85,7 +85,10 @@ public class Violation {
 
     @Override
     public String toString() {
-        return car.getLicensePlate() + "/" + city + "/" + offencesCount;
+        String licensePlate = (car != null && car.getLicensePlate() != null) ? car.getLicensePlate() : null;
+
+        return licensePlate + "/" + city + "/" + offencesCount;
     }
+
 
 }

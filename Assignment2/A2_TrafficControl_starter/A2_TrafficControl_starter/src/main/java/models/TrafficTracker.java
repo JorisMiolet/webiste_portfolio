@@ -143,6 +143,7 @@ public class TrafficTracker {
                 return existing;
             });
         }
+        System.out.println(aggregatedViolations + "hallo ");
 
         return aggregatedViolations;
     }

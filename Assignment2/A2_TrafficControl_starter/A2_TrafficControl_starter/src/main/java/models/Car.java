@@ -107,6 +107,17 @@ public class Car implements Comparable<Car> {
         this.fuelType = fuelType;
     }
 
+    public LocalDate getDateOfAdmission() {
+        return dateOfAdmission;
+    }
+
+    public void setCarType(CarType carType) {
+        this.carType = carType;
+    }
+
+    public void setDateOfAdmission(LocalDate dateOfAdmission) {
+        this.dateOfAdmission = dateOfAdmission;
+    }
 
     @Override
     public int compareTo(Car other) {
