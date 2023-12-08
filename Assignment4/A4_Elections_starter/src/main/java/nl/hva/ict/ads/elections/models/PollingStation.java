@@ -44,7 +44,8 @@ public class PollingStation {
     }
 
     public int getVotes(Candidate candidate) {
-        return this.votesByCandidate.get(candidate);
+        Integer votes = this.votesByCandidate.get(candidate);
+        return (votes != null) ? votes : 0; // Return votes or 0 if candidate not found
     }
 
     /**
