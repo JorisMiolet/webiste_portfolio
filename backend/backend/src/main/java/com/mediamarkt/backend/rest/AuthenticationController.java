@@ -30,11 +30,10 @@ public class AuthenticationController {
         }
 
 
-//        JWToken jwToken = new JWToken(user.isAdmin(), user.getId());
-//        String tokenString = jwToken.encode();
-
+        JWToken jwToken = new JWToken();
+        String tokenString = jwToken.encode(user.isAdmin(), user.getId());
         return ResponseEntity.ok()
-//                .header(HttpHeaders.AUTHORIZATION, "Bearer" + tokenString)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenString)
                 .body(user);
     }
 }
