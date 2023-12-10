@@ -21,7 +21,6 @@ public class ExtraTest {
     @Test
     void registrationShouldFailIfRankIsTaken() {
         Constituency constituency = new Constituency(1, "Flevoland");
-        Party party = new Party(1, "PiratenPartij");
         Candidate candidate1 = new Candidate("John", null, "Doe");
         Candidate candidate2 = new Candidate("Jane", null, "Doe");
 

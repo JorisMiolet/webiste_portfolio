@@ -126,9 +126,9 @@ public class Constituency {
      * @return the set of all candidates in this Constituency.
      */
     public Set<Candidate> getAllCandidates() {
-        return getRankedCandidatesByParty().values().stream()
-                .flatMap(candidateMap -> candidateMap.values().stream())
-                .collect(Collectors.toSet());
+        return getRankedCandidatesByParty().values().stream()//turns rankedCandidatesByParty into a stream
+                .flatMap(candidateMap -> candidateMap.values().stream())// uses flatmap to get the elements out of the smaller arrays
+                .collect(Collectors.toSet());//uses collectors to set to make sure there are no duplicates
     }
 
     /**
@@ -140,29 +140,33 @@ public class Constituency {
      * @return      the sub set of polling stations within the specified zipCode range
      */
     public NavigableSet<PollingStation> getPollingStationsByZipCodeRange(String firstZipCode, String lastZipCode) {
-        String regex = "^[1-9]\\d{3}[A-Za-z]{2}$";
+        String regex = "^[1-9]\\d{3}[A-Za-z]{2}$";//the regex pattern
         Pattern pattern = Pattern.compile(regex);
 
         if(!pattern.matcher(firstZipCode).matches() || !pattern.matcher(lastZipCode).matches()){
             System.out.println("Invalid zipcode given");
-            return null;
+            return null;//return null if zipcode is not valid
         }
 
         return getPollingStations().stream()
-                .filter(pollingStation -> isInPostCodeRange(firstZipCode, lastZipCode, pollingStation.getZipCode()))
+                .filter(pollingStation -> isInPostCodeRange(firstZipCode, lastZipCode, pollingStation.getZipCode()))//filter if pollingStation is not in range
                 .collect(Collectors.toCollection(() -> new TreeSet<>(Comparator.
                         comparing(PollingStation::getZipCode).
-                        thenComparing(PollingStation::getId))));
+                        thenComparing(PollingStation::getId))));//create a TreeSet to sort the results
     }
     public boolean isInPostCodeRange(String firstZipCode, String lastZipCode, String currentZipCode){
+        if(currentZipCode == null || firstZipCode == null || lastZipCode == null || currentZipCode.equals("")){
+            return false;//return false if zipcode is null or empty string(needed because full data set contains empty string zipcodes)
+        }
+        //get numbers from zipcode
         int firstZipNumber = Integer.parseInt(firstZipCode.substring(0, 4));
         int lastZipNumber = Integer.parseInt(lastZipCode.substring(0, 4));
         int currentZipNumber = Integer.parseInt(currentZipCode.substring(0,4));
-
+        //get chars from zipcode
         String firstZipChars = firstZipCode.substring(4);
         String lastZipChars = lastZipCode.substring(4);
         String currentZipChars = currentZipCode.substring(4);
-
+        //check if zipcode is in range
         return (currentZipNumber >=firstZipNumber && currentZipNumber <= lastZipNumber)
                 && (currentZipChars.compareTo(firstZipChars) >= 0 && currentZipChars.compareTo(lastZipChars) <= 0);
     }

@@ -53,19 +53,22 @@ public class PollingStation {
      * @return the total number of votes in this polling station per party.
      */
     public Map<Party, Integer> getVotesByParty() {
+        // Initialize a HashMap to store votes aggregated by party
         HashMap<Party, Integer> votesByParty = new HashMap<>();
 
+        // Iterate through the entries of votes by candidate
         for (Map.Entry<Candidate, Integer> entry : getVotesByCandidate().entrySet()) {
             Candidate candidate = entry.getKey();
             int votes = entry.getValue();
             Party party = candidate.getParty();
 
+            // Aggregate votes for each party
             votesByParty.put(party, votesByParty.getOrDefault(party, 0) + votes);
         }
 
+        // Return the map containing aggregated votes by party
         return votesByParty;
     }
-
     /**
      * migrate votes from one polling station into another
      * this method is used for data cleansing when duplicate entries of polling stations are found in the data file.
