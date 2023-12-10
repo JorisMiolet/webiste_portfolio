@@ -28,7 +28,7 @@ public class Election {
 
     public Election(String name) {
         this.name = name;
-
+        //compares parties by ID
         this.parties = new TreeMap<>(Comparator.naturalOrder());
         this.constituencies = new HashSet<>();
     }
@@ -38,7 +38,7 @@ public class Election {
      * @return all parties participating in at least one constituency, without duplicates
      */
     public Collection<Party> getParties() {
-
+        //getsparties by mapping over all the constituencies
         return getConstituencies()
                 .stream()
                 .flatMap(constituency -> constituency.getParties().stream())
@@ -71,9 +71,9 @@ public class Election {
      */
     public List<Candidate> getAllCandidates() {
         return getParties().stream()
-                .flatMap(party -> party.getCandidates().stream())
-                .distinct()
-                .sorted(Comparator.comparingInt(candidate -> candidate.getParty().getId()))
+                .flatMap(party -> party.getCandidates().stream())//for each party get all candidates
+                .distinct()//removes duplicate parties
+                .sorted(Comparator.comparingInt(candidate -> candidate.getParty().getId()))//sort by party id
                 .collect(Collectors.toList());
     }
 
@@ -83,11 +83,13 @@ public class Election {
      * @return
      */
     public Map<Constituency, Integer> numberOfRegistrationsByConstituency(Party party) {
+        // Use stream operations to collect the number of registered candidates per constituency for the given party
         return getConstituencies().stream()
                 .collect(Collectors.toMap(
-                        constituency -> constituency,
-                        constituency -> constituency.getCandidates(party).stream()
-                                .filter(candidate -> candidate.getParty().equals(party)).toList()
+                        constituency -> constituency,// Use each Constituency as a key in the resulting map
+                        constituency -> constituency.getCandidates(party).stream() // Calculate the number of registered candidates for the given party within each Constituency
+                                .filter(candidate -> candidate.getParty().equals(party))// Filter candidates belonging to the specified party
+                                .toList()
                                 .size()
                 ));
     }
@@ -100,11 +102,11 @@ public class Election {
     public Set<Candidate> getCandidatesWithDuplicateNames() {
         Map<String, Long> nameOccurrences = getParties().stream()
                 .flatMap(party -> party.getCandidates().stream())
-                .collect(Collectors.groupingBy(Candidate::getFullName, Collectors.counting()));
+                .collect(Collectors.groupingBy(Candidate::getFullName, Collectors.counting()));//create a map with a key of fullName and a value of number of times the name occurs
 
         return getParties().stream()
                 .flatMap(party -> party.getCandidates().stream())
-                .filter(candidate -> nameOccurrences.get(candidate.getFullName()) > 1)
+                .filter(candidate -> nameOccurrences.get(candidate.getFullName()) > 1)//filter on names that occur more than once
                 .collect(Collectors.toSet());
     }
 
@@ -134,10 +136,10 @@ public class Election {
     public Map<Party, Integer> getVotesByParty() {
         return getConstituencies().stream()
                 .flatMap(constituency -> constituency.getPollingStations().stream())
-                .flatMap(pollingStation -> pollingStation.getVotesByParty().entrySet().stream())
+                .flatMap(pollingStation -> pollingStation.getVotesByParty().entrySet().stream())//for each polling station get votes by party
                 .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
+                        Map.Entry::getKey,//copy all the maps keys into one map
+                        Map.Entry::getValue,//cope all the maps values into one map
                         Integer::sum
                 ));
     }
@@ -168,12 +170,17 @@ public class Election {
      * @return  the sorted list of (party,votesPercentage) pairs with the highest percentage upfront
      */
     public static List<Map.Entry<Party, Double>> sortedElectionResultsByPartyPercentage(int tops, Map<Party, Integer> votesCounts) {
+        // Calculate the total number of votes from the provided vote counts
         int totalVotes = votesCounts.values().stream().mapToInt(Integer::intValue).sum();
 
         return votesCounts.entrySet().stream()
+                // Sort the entries by their vote counts in descending order
                 .sorted(Map.Entry.<Party, Integer>comparingByValue().reversed())
+                // Limit the sorted entries to the specified number of top parties
                 .limit(tops)
+                // Map each entry to a Map.Entry with party and its percentage of total votes
                 .map(entry -> Map.entry(entry.getKey(), 100.0 * entry.getValue() / totalVotes))
+                // Collect the mapped entries into a list
                 .collect(Collectors.toList());
     }
 
@@ -191,17 +198,29 @@ public class Election {
      * @return the most representative polling station.
      */
     public PollingStation findMostRepresentativePollingStation() {
+        // Calculate the overall votes distribution among parties
         Map<Party, Integer> overallDistribution = calculateOverallVotesDistribution();
 
+        // Find the polling station with the minimum deviation from the overall distribution
         return getConstituencies().stream()
                 .flatMap(constituency -> constituency.getPollingStations().stream())
                 .min(Comparator.comparingDouble(pollingStation ->
-                        euclidianVotesDistributionDeviation(overallDistribution, calculateVotesDistribution(pollingStation))))
+                        euclidianVotesDistributionDeviation(
+                                overallDistribution,
+                                calculateVotesDistribution(pollingStation)
+                        )
+                ))
                 .orElse(null);
     }
 
+    /**
+     * Calculates the overall votes distribution among parties based on total votes.
+     *
+     * @return A map representing the percentage distribution of votes for each party.
+     */
     private Map<Party, Integer> calculateOverallVotesDistribution() {
         int totalVotes = getVotesByParty().values().stream().mapToInt(Integer::intValue).sum();
+
         return getVotesByParty().entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
@@ -209,6 +228,12 @@ public class Election {
                 ));
     }
 
+    /**
+     * Calculates the votes distribution among parties for a specific polling station.
+     *
+     * @param pollingStation The polling station for which the votes distribution is calculated.
+     * @return A map representing the percentage distribution of votes for each party in the polling station.
+     */
     private Map<Party, Integer> calculateVotesDistribution(PollingStation pollingStation) {
         Map<Party, Integer> votesByParty = pollingStation.<Party, Integer>getVotesByParty();
         int totalVotes = integersSum(votesByParty.values());
