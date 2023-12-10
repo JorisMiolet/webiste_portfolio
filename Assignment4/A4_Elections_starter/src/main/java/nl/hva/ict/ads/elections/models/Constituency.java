@@ -40,8 +40,6 @@ public class Constituency {
         this.id = id;
         this.name = name;
 
-        // TODO initialise this.rankedCandidatesByParty with an appropriate Map implementation
-        //  and this.pollingStations with an appropriate Set implementation organised by zipCode and Id
         this.rankedCandidatesByParty = new HashMap<>();
         // If zipCodes are equal, compare by id
         this.pollingStations = new TreeSet<>(Comparator.

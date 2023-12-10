@@ -49,16 +49,13 @@ public class Party {
         // associate the new Candidate with this party
         newCandidate.setParty(this);
 
-        if(!getCandidates().add(newCandidate)){
+        if(!getCandidates().add(newCandidate)) {
             for (Candidate candidate : candidates) {
                 if (candidate.equals(newCandidate)) {
                     return candidate; // Found duplicate
                 }
             }
         }
-
-
-
         return newCandidate;
     }
 

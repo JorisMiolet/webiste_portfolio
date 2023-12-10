@@ -40,7 +40,7 @@ public class PollingStation {
      * @param numberOfVotes
      */
     public void addVotes(Candidate candidate, int numberOfVotes) {
-        getVotesByCandidate().put(candidate, numberOfVotes);
+        getVotesByCandidate().merge(candidate, numberOfVotes, Integer::sum);
     }
 
     public int getVotes(Candidate candidate) {
