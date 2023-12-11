@@ -2,19 +2,17 @@ package com.mediamarkt.backend.rest;
 
 import com.mediamarkt.backend.exceptions.ResourceNotFoundException;
 import com.mediamarkt.backend.models.Laptop;
-import com.mediamarkt.backend.models.User;
 import com.mediamarkt.backend.repositories.LaptopRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,23 @@ public class LaptopController {
     @Autowired
     private LaptopRepository laptopRepository;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<Laptop>> getAllLaptops() {
+        List<Laptop> laptops = laptopRepository.getAll();
+        return new ResponseEntity<>(laptops, HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Laptop> getLaptopById(@PathVariable Long id) {
+        Laptop laptop = laptopRepository.findById(id);
+        if (laptop != null) {
+            return new ResponseEntity<>(laptop, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/importLaptops")
+    @Transactional()
     public ResponseEntity<String> importLaptops(@RequestParam("file") MultipartFile file) {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
@@ -35,13 +49,13 @@ public class LaptopController {
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts.length == 4) {
+                String[] parts = line.split(",");
+                if (parts.length > 4) { // geen idee waarom dit zo bij mij moet
                     String ean = parts[0].trim();
                     String barcode = parts[1].trim();
                     String brand = parts[2].trim();
                     String description = parts[3].trim();
-                    Laptop laptop = new Laptop(ean, barcode, brand, description);
+                    Laptop laptop = new Laptop(null, ean, barcode, brand, description);
                     laptops.add(laptop);
                 }
             }
@@ -52,20 +66,32 @@ public class LaptopController {
             return new ResponseEntity<>("Error importing laptops: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/getAll")
-    public List<Laptop> getLaptops(){
-        List<Laptop> laptops = laptopRepository.getAllLaptops();
-        if(laptops == null){
-            throw new ResourceNotFoundException("Er zijn geen laptops gevonden");
+
+     @PostMapping("/create-laptop")
+     @Transactional()
+     public ResponseEntity<Laptop> createLaptop(@RequestBody Laptop newLaptop) {
+        Laptop createdLaptop = laptopRepository.create(newLaptop);
+        return new ResponseEntity<>(createdLaptop, HttpStatus.CREATED);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Laptop> updateLaptop(@PathVariable Long id, @RequestBody Laptop updatedLaptop) {
+        Laptop existingLaptop = laptopRepository.findById(id);
+        if (existingLaptop != null) {
+            updatedLaptop.setId(id);
+            Laptop mergedLaptop = laptopRepository.updateLaptop(updatedLaptop);
+            return new ResponseEntity<>(mergedLaptop, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        return laptops;
-    }
-    @PostMapping
-    public ResponseEntity<Laptop> addLaptop(@RequestBody Laptop laptop){
-        Laptop createdLaptop = laptopRepository.saveLaptop(laptop);
-
-        return ResponseEntity.ok(createdLaptop);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Laptop> deleteLaptop(@PathVariable Long id) {
+        Laptop deletedLaptop = laptopRepository.deleteLaptop(id);
+        if (deletedLaptop != null) {
+            return new ResponseEntity<>(deletedLaptop, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }

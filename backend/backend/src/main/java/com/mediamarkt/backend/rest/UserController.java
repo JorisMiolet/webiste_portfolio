@@ -4,6 +4,7 @@ import com.mediamarkt.backend.exceptions.PreConditionFailedException;
 import com.mediamarkt.backend.exceptions.ResourceNotFoundException;
 import com.mediamarkt.backend.models.User;
 import com.mediamarkt.backend.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,17 @@ public class UserController {
         return users;
     }
 
+//    @PostMapping("/login")
+//    public User getUserWithLogin(@RequestBody User credentials){
+//       String username = credentials.getUsername();
+//       String password = credentials.getPassword();
+//        User user = usersRepository.getWithLogin(username, password);
+//        if(user == null){
+//            throw new ResourceNotFoundException("Er zijn geen users gevonden");
+//        }
+//        return user;
+//    }
+
     @GetMapping("{uuid}")
     public User getUserByUUID(@PathVariable UUID uuid){
         User user = usersRepository.getUserByUUID(uuid);
@@ -38,6 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/create-user")
+    @Transactional
     public ResponseEntity<User> createUser(@RequestBody User newUser){
         User createdUser = usersRepository.create(newUser);
 
@@ -48,10 +61,18 @@ public class UserController {
     }
 
     @PutMapping("{uuid}")
-    public User updateImageById(@PathVariable UUID uuid, @RequestBody User newUser){
-        if(!uuid.equals(newUser.uuid)){
+    public User updateUserByUUID(@PathVariable UUID uuid, @RequestBody User newUser){
+        if(!uuid.equals(newUser.getUuid())){
             throw new PreConditionFailedException("uuid's zijn geen match");
         }
-        return usersRepository.updateUser(newUser, uuid);
+        return usersRepository.updateUser(newUser);
+    }
+
+    @DeleteMapping("{uuid}")
+    public void deleteUserByUUID(@PathVariable UUID uuid){
+        if(usersRepository.getUserByUUID(uuid) == null){
+            throw new ResourceNotFoundException("er is geen user met dit UUID");
+        }
+        usersRepository.deleteUser(uuid);
     }
 }

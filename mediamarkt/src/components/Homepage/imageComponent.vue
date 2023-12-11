@@ -1,5 +1,5 @@
 <template>
-  <search-component @search="filterLaptops" />
+  <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate" />
   <div class="form w-3/4 p-4 mt-24 pb-28 grid grid-cols-2 ml-auto mr-9 gap-4 overflow-y-scroll">
     <div  v-for="(laptop, index) in laptops"
          :key="index"
@@ -13,10 +13,13 @@
       <p class="text-gray-600">{{ laptop.EAN}}</p>
       <p class="text-gray-600">{{ laptop.RAM }}</p>
       <p class="text-gray-600">{{ laptop.STORAGE }}</p>
+      <p class="text-gray-600">{{ laptop.DATE }}</p>
+      <p class="text-gray-600">{{ laptop.STATUS }}</p>
     </div>
   </div>
   <detail-image v-if="selectedImageInfo !== null"
-                v-bind:selectedImage="selectedImageInfo"/>
+                v-bind:selectedImage="selectedImageInfo"
+                v-on:resetImage="resetImage()"/>
 </template>
 
 <script>
@@ -39,15 +42,14 @@ export default {
   mounted() {
     this.loadUserList();
   },
-  methods: {
 
+  methods: {
     setSelectedImage(image) {
-      if (image === (this.selectedImageInfo ? this.selectedImageInfo : null)) {
-        this.selectedImageInfo = null;
-      } else {
-        this.selectedImageInfo = image;
-        console.log(image)
-      }
+      this.selectedImageInfo = image;
+    },
+
+    resetImage(){
+      this.selectedImageInfo = null;
     },
 
     //loads all laptops
@@ -60,6 +62,19 @@ export default {
     updateLaptops(laptops) {
       console.log('Updating laptops:', laptops);
       return this.laptops = laptops;
+    },
+    filterLaptopsByDate() {
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+      this.laptops = this.originalLaptops.filter((laptop) => {
+        const laptopDate = new Date(laptop['DATE']);
+        return laptopDate < threeMonthsAgo;
+      });
+
+      if (this.laptops.length === 0) {
+        this.laptops = [];
+      }
     },
 
     filterLaptops(searchQuery) {
@@ -87,7 +102,7 @@ body, html{
   overflow-y: hidden;
 }
 .form{
-  max-height: calc(90vh);
+  max-height: 90vh;
 }
 </style>
 

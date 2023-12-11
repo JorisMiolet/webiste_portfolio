@@ -2,18 +2,28 @@ package com.mediamarkt.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Laptop {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @JsonProperty("EAN")
-    public String ean;
+    private String ean;
     @JsonProperty("Barcode")
-    public String barcode;
+    private String barcode;
     @JsonProperty("Brand")
-    public String brand;
+    private String brand;
     @JsonProperty("Description")
-    public String description;
+    private String description;
 
-    public Laptop(String ean, String barcode, String brand, String description) {
+    public Laptop(Long id, String ean, String barcode, String brand, String description) {
+        this.id = id;
         this.ean = ean;
         this.barcode = barcode;
         this.brand = brand;
@@ -23,35 +33,43 @@ public class Laptop {
 
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEan() {
+        return ean;
+    }
+
     public void setEan(String ean) {
         this.ean = ean;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getBarcode() {
         return barcode;
     }
 
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
+    }
+
     public String getBrand() {
         return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getEan() {
-        return ean;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,38 +1,38 @@
 <template>
-  <HeaderComponent />
-<div class="h-[100vh] w-full flex items-center justify-center">
-  <img :src="backgroundImage" alt="background_img" class="h-[100vh] z-[-1] absolute top-0 left-0">
-  <div class="login-small w-[500px] h-[500px] shadow-2xl bg-secondary flex flex-col ml-[200px]">
-    <div class="text-center pt-10">
-      <h1 class="text-6xl">Login</h1>
-    </div>
-    <div class="w-80 mx-auto my-10 flex flex-col justify-between flex-1 relative">
-      <input type="text"
-             class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 bg-input"
-             placeholder="Naam"
-             v-model="nameInput"
-      />
-      <input :type="[showPassword ? 'text' : 'password']"
-             class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 pr-12 sm:pr-16 bg-input"
-             placeholder="Wachtwoord"
-             v-model="passwordInput"
-      />
-      <img :src="[showPassword ? showEye : hiddenEye]"
-           @click="handleClickEye"
-           alt="eye"
-           class="w-[40px] absolute right-10 bottom-3 sm:right-5 cursor-pointer"
-      />
-    </div>
-    <div class="pb-10 w-full flex items-center justify-center">
+  <HeaderComponent/>
+  <div class="h-[100vh] w-full flex items-center justify-center">
+    <img :src="backgroundImage" alt="background_img" class="h-[100vh] z-[-1] absolute top-0 left-0">
+    <div class="login-small w-[500px] h-[500px] shadow-2xl bg-secondary flex flex-col ml-[200px]">
+      <div class="text-center pt-10">
+        <h1 class="text-6xl">Login</h1>
+      </div>
+      <div class="w-80 mx-auto my-10 flex flex-col justify-between flex-1 relative">
+        <input type="text"
+               class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 bg-input"
+               placeholder="Naam"
+               v-model="nameInput"
+        />
+        <input :type="[showPassword ? 'text' : 'password']"
+               class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 pr-12 sm:pr-16 bg-input"
+               placeholder="Wachtwoord"
+               v-model="passwordInput"
+        />
+        <img :src="[showPassword ? showEye : hiddenEye]"
+             @click="handleClickEye"
+             alt="eye"
+             class="w-[40px] absolute right-10 bottom-3 sm:right-5 cursor-pointer"
+        />
+      </div>
+      <div class="pb-10 w-full flex items-center justify-center">
 
         <button class="text-3xl text-white rounded bg-primary px-[23%] py-5 hover:drop-shadow-lg hover:bg-[#F36261FF]"
                 @click="handleButton"
         >
           Log In
         </button>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -41,6 +41,7 @@ import show from "../../assets/images/view.png";
 import hide from "../../assets/images/hide.png";
 import axios from "axios"
 import HeaderComponent from "@/components/Homepage/heeaderComponent";
+
 export default {
   name: "log-in",
   components: {HeaderComponent},
@@ -66,18 +67,30 @@ export default {
       axios.get('http://localhost:8085/api/users/all').then(response => this.userList = response.data)
     },
     async handleButton() {
-      const users = this.userList;
-        const userExists = await users.find(u => u.username === this.nameInput && u.password === this.passwordInput);
-
-        if(!userExists){
-          window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
-          return;
+      try {
+        await axios.post("http://localhost:8085/authentication/login", {
+          username: this.nameInput,
+          password: this.passwordInput
+        })
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          console.error("User not found");
+        } else if (error.response && error.response.status === 500) {
+          window.alert("combinatie van gebruikersnaam en wachtwoord is niet goed")
+        } else {
+          console.error("An error occurred:", error);
         }
-        localStorage.setItem("user_id", userExists.uuid);
-        localStorage.setItem("isAdmin", userExists.admin);
-        this.$router.push("/")
       }
+      this.$router.push("/")
+      // if(!userExists){
+      //   window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
+      //   return;
+      // }
+      // localStorage.setItem("user_id", userExists.uuid);
+      // localStorage.setItem("isAdmin", userExists.admin);
+      // this.$router.push("/")
     }
+  }
 
 }
 </script>
@@ -92,8 +105,8 @@ export default {
   background-color: transparent;
 }
 
-@media (max-width: 768px){
-  .login-small{
+@media (max-width: 768px) {
+  .login-small {
     width: 300px;
     margin: 0
   }

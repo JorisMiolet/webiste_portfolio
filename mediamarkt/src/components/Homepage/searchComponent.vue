@@ -8,30 +8,7 @@
         placeholder="Zoeken..."
         @input="handleSearch"
     />
-<!--    <div class="ml-2 flex items-center space-x-2">-->
-<!--      <button @click="resetSearch" class="focus:outline-none rounded-full bg-white p-2">-->
-<!--        <svg-->
-<!--            xmlns="http://www.w3.org/2000/svg"-->
-<!--            class="h-6 w-6"-->
-<!--            fill="none"-->
-<!--            viewBox="0 0 24 24"-->
-<!--            stroke="currentColor"-->
-<!--        >-->
-<!--          &lt;!&ndash; SVG-pictogram voor de eerste knop &ndash;&gt;-->
-<!--        </svg>-->
-<!--      </button>-->
-<!--      <button class="focus:outline-none rounded-full bg-white p-2">-->
-<!--        <svg-->
-<!--            xmlns="http://www.w3.org/2000/svg"-->
-<!--            class="h-6 w-6"-->
-<!--            fill="none"-->
-<!--            viewBox="0 0 24 24"-->
-<!--            stroke="currentColor"-->
-<!--        >-->
-<!--          &lt;!&ndash; SVG-pictogram voor de tweede knop &ndash;&gt;-->
-<!--        </svg>-->
-<!--      </button>-->
-<!--    </div>-->
+    <button @click="filterByDate" class="ml-4 px-4 py-2 rounded-full bg-blue-500 text-white">OUT DATED</button>
   </div>
 </template>
 
@@ -49,6 +26,9 @@ export default {
     },
     handleSearch() {
       this.$emit("search", this.searchQuery);
+    },
+    filterByDate() {
+      this.$emit("filterByDate");
     },
   },
 };
