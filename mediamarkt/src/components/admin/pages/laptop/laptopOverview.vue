@@ -65,11 +65,12 @@ export default {
       laptops: [],
       currentPage: 1,
       rowsPerPage: 10,
+      url: process.env.VUE_APP_API_URL,
     }
   },
   async created() {
     // axios.get("http://localhost:8085/api/laptops/all")
-    const laptopsResponse = await fetch('http://localhost:8085/api/laptops/all', {method: 'GET'});
+    const laptopsResponse = await fetch(this.url + '/api/laptops/all', {method: 'GET'});
     console.log(laptopsResponse);
     this.laptops = await laptopsResponse.json();
   },

@@ -7,6 +7,7 @@
         user: null,
         dataLoaded: false,
         selectedRole: '',
+        url: process.env.VUE_APP_API_URL,
       }
     },
     created() {
@@ -16,7 +17,7 @@
       deleteUser() {
         const confirmDelete = confirm(`are you sure you want to delete user ${this.user.username}`);
         if (confirmDelete) {
-          axios.delete(`http://localhost:8085/api/users/${this.$route.params.uuid}`)
+          axios.delete(this.url + `/api/users/${this.$route.params.uuid}`)
               .then(this.$router.go(-1));
         }
       },
@@ -27,7 +28,7 @@
         }
       },
       save() {
-        axios.put(`http://localhost:8085/api/users/${this.$route.params.id}`, this.user)
+        axios.put(this.url + `/api/users/${this.$route.params.id}`, this.user)
             .then(() => {
               alert("User saved");
               this.$router.go(-1);
@@ -38,7 +39,7 @@
             });
       },
       getUser() {
-        axios.get(`http://127.0.0.1:8085/api/users/${this.$route.params.id}`)
+        axios.get(this.url + `/api/users/${this.$route.params.id}`)
             .then(response => {
               this.user = response.data;
               this.dataLoaded = true;

@@ -56,13 +56,14 @@ export default {
         Barcode: null,
         Brand: null,
         Description: null,
+        url: process.env.VUE_APP_API_URL,
       },
     }
   },
   methods: {
     saveLaptop() {
       console.log(this.newLaptop)
-      axios.post('http://localhost:8085/api/laptops/create-laptop', {
+      axios.post(this.url + '/api/laptops/create-laptop', {
         EAN:this.EAN,
         Barcode:this.Barcode,
         Brand:this.Brand,
@@ -70,7 +71,7 @@ export default {
       })
           .then(() => {
             alert('Laptop created!');
-            this.$router.go(-1);
+            this.$router.go   (-1);
           });
     }
   }

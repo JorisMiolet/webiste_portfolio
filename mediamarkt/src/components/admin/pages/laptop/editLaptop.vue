@@ -13,7 +13,7 @@ export default {
     deleteImage(){
       const confirmDelete = confirm(`are you sure that you want to delete laptop ${this.laptop.EAN}?`);
       if(confirmDelete){
-        axios.delete(`http://localhost:8085/api/laptops/${this.laptop.EAN}`)
+        axios.delete(this.url + `/api/laptops/${this.laptop.EAN}`)
             .then(this.$router.go(-1));
       }
     },
@@ -24,7 +24,7 @@ export default {
       }
     },
     save(){
-      axios.put(`http://localhost:8085/api/laptops/${this.$route.params.EAN}`, this.laptop)
+      axios.put(this.url + `/api/laptops/${this.$route.params.EAN}`, this.laptop)
           .then(() => {
             alert("Laptop saved");
             this.$router.go(-1);
@@ -34,7 +34,7 @@ export default {
           });
     },
     loadLaptop(){
-      axios.get(`http://localhost:8085/api/laptops/${this.$route.params.EAN}`)
+      axios.get(this.url + `/api/laptops/${this.$route.params.EAN}`)
           .then(response => {
             this.laptop = response.data;
             this.dataLoaded = true;

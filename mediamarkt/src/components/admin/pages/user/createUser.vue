@@ -14,7 +14,7 @@ export default {
   },
   methods:{
     saveUser(){
-      axios.post('http://localhost:8085/api/users/create-user', {
+      axios.post(this.url  +'/api/users/create-user', {
         username: this.name,
         email: this.email,
         password: this.password,

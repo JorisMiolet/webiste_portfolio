@@ -6,6 +6,7 @@
       return {
         users:[],
         selectedUser:null,
+        url: process.env.VUE_APP_API_URL,
       }
     },
     created() {
@@ -13,14 +14,14 @@
     },
     methods:{
       loadAllUsers(){
-        axios.get("http://localhost:8085/api/users/all")
+        axios.get(this.url + "/api/users/all")
             .then(response => this.users = response.data)
             .then(console.log(this.users));
       },
       deleteUser(user){
         const confirmDelete = confirm(`are you sure you want to delete user ${user.username}`);
         if(confirmDelete){
-          axios.delete(`http://localhost:8085/api/users/${user.uuid}`)
+          axios.delete(this.url + `/api/users/${user.uuid}`)
               .then(this.loadAllUsers);
         }
       },
