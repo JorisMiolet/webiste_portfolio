@@ -8,10 +8,9 @@ import com.mediamarkt.backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.naming.AuthenticationException;
 
 
 @RestController
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     @Autowired
     UserRepository usersRepository;
+    JWToken jwToken = new JWToken();
 
     @PostMapping("/login")
     public ResponseEntity<User> authenticateAccount(@RequestBody ObjectNode signInInfo) {
@@ -29,8 +29,6 @@ public class AuthenticationController {
             throw new ResourceNotFoundException("Er zijn geen users gevonden");
         }
 
-
-        JWToken jwToken = new JWToken();
         String tokenString = jwToken.encode(user.isAdmin(), user.getId());
         return ResponseEntity.ok()
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + tokenString)

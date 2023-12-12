@@ -40,7 +40,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         encodedToken = encodedToken.replace("Bearer ", "");
         JWToken tokenInfo = new JWToken();
         try {
-            tokenInfo = tokenInfo.decode(encodedToken, false);
+            tokenInfo = tokenInfo.decode(encodedToken);
         } catch (RuntimeException | AuthenticationException e) {
             System.out.println("Authentication error: " + e.getMessage());
             res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication error");

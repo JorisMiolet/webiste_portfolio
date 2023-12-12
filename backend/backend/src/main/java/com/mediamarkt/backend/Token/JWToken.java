@@ -12,7 +12,7 @@ import javax.naming.AuthenticationException;
 
 @Component
 public class JWToken {
-    private static final String JWT_ADMIN_CLAIM = "sub";
+    private static final String JWT_ADMIN_CLAIM = "admin";
     private static final String JWT_ACCOUNTID_CLAIM = "id";
 
     private final String issuer = "hva";
@@ -26,13 +26,14 @@ public class JWToken {
     public String encode(boolean isAdmin, UUID accountId) {
         Key key = getKey(passphrase);
         return Jwts.builder()
-                .claim(JWT_ADMIN_CLAIM, isAdmin)
+                .claim(JWT_ADMIN_CLAIM, Boolean.toString(isAdmin))
                 .claim(JWT_ACCOUNTID_CLAIM, accountId)
                 .setIssuer(issuer)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000L))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
+
     }
 
 
@@ -41,7 +42,7 @@ public class JWToken {
         return new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
     }
 
-    public JWToken decode(String encodedToken, boolean expirationLenient) throws AuthenticationException {
+    public JWToken decode(String encodedToken) throws AuthenticationException {
         JWToken jwt = new JWToken();
         try {
             // Validate the token
@@ -53,18 +54,16 @@ public class JWToken {
                     parseClaimsJws(encodedToken);
 
             Claims claims = jws.getBody();
+            System.out.println(claims);
             jwt.setClaims(claims);
+            System.out.println(jwt.claims);
             return jwt;
         } catch (MalformedJwtException |
                  UnsupportedJwtException | IllegalArgumentException | SignatureException e) {
             throw new AuthenticationException(e.getMessage());
         } catch (ExpiredJwtException e) {
-            if (!expirationLenient) {
-                throw new AuthenticationException(e.getMessage());
-            } else {
-                jwt.setClaims(e.getClaims());
-                return jwt;
-            }
+            jwt.setClaims(e.getClaims());
+            return jwt;
         }
     }
 
@@ -72,7 +71,11 @@ public class JWToken {
         this.claims = claims;
     }
 
-    public String getPassPhrase(){
+    public Claims getClaims() {
+        return claims;
+    }
+
+    public String getPassPhrase() {
         return this.passphrase;
     }
 

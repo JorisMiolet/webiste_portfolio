@@ -41,6 +41,7 @@ import show from "../../assets/images/view.png";
 import hide from "../../assets/images/hide.png";
 import axios from "axios"
 import HeaderComponent from "@/components/Homepage/heeaderComponent";
+import VueJwtDecode from 'vue-jwt-decode';
 
 export default {
   name: "log-in",
@@ -53,7 +54,8 @@ export default {
       showPassword: false,
       userList: [],
       nameInput: "",
-      passwordInput: ""
+      passwordInput: "",
+      currentUser: null
     }
   },
   mounted() {
@@ -73,12 +75,10 @@ export default {
               method: "POST",
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({username: this.nameInput, password: this.passwordInput})
-              //credentials: 'include'
             })
 
         if (response.ok) {
           let token = response.headers.get("Authorization")
-          console.log(token)
           if (token == null) {
             throw new Error('token niet gevonden');
           }
@@ -86,6 +86,8 @@ export default {
           token = token.replace('Bearer ', '');
           sessionStorage.setItem('token', token);
 
+          this.$router.push("/")
+          await this.updateUserInformation()
         }
 
       } catch (error) {
@@ -97,10 +99,28 @@ export default {
           console.error("An error occurred:", error);
         }
       }
+    },
+    async updateUserInformation() {
+      let token = sessionStorage.getItem("token")
 
+     let decodedToken = VueJwtDecode.decode(token)
+      console.log(decodedToken)
+        //     this.currentUser = await fetch((`http://localhost:8085/api/users/${decodedToken.id}`),
+        //         {
+        //           method: "GET",
+        //           headers: {'Content-Type': 'application/json'}
+        //         })
+        //     this.currentUser.id = decodedToken.id;
+        //     this.currentUser.admin = decodedToken.admin.toLowerCase() === 'true';
+        //     this.currentUser.exp = decodedToken.exp;
+        //     console.log(decodedToken)
+        //     console.log(this.currentUser)
+        //   } else {
+        //     this.currentUser = null;
+        //   }
+        // }
+      }
     }
-  }
-
 }
 </script>
 
