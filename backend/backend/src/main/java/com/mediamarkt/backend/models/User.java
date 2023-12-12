@@ -17,11 +17,37 @@ public class User {
     @JsonProperty("username")
     private String username;
 
+    @JsonProperty("email")
+    private String email;
+
     @JsonProperty("password")
     private String password;
 
+    @JsonProperty("locatie")
+    private String locatie;
+
     @JsonProperty("admin")
     private boolean admin;
+
+    public User(String username, String password, boolean isAdmin, String locatie, String email) {
+        // create user
+        this.uuid = UUID.randomUUID();
+        this.username = username;
+        this.password = password;
+        this.admin = isAdmin;
+        this.locatie = locatie;
+        this.email = email;
+    }
+
+    public User(){}
+
+    public void setId(UUID id) {
+        this.uuid = id;
+    }
+
+    public UUID getId() {
+        return uuid;
+    }
 
     public UUID getUuid() {
         return uuid;
@@ -55,21 +81,19 @@ public class User {
         this.admin = admin;
     }
 
-    public User(String username, String password, boolean isAdmin) {
-        // create user
-        this.uuid = UUID.randomUUID();
-        this.username = username;
-        this.password = password;
-        this.admin = isAdmin;
+    public String getEmail() {
+        return email;
     }
 
-    public User(){}
-
-    public void setId(UUID id) {
-        this.uuid = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public UUID getId() {
-        return uuid;
+    public String getLocatie() {
+        return locatie;
+    }
+
+    public void setLocatie(String locatie) {
+        this.locatie = locatie;
     }
 }

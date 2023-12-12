@@ -1,5 +1,5 @@
 <script>
-import imageData from './dummyData.json';
+import imageData from '../dummyData.json';
 import {PCImage} from "@/image.js";
 import axios from "axios";
 import * as XLSX from "xlsx";

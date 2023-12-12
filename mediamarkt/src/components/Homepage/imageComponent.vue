@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import detailImage from "@/components/admin/pages/detail-image";
+import detailImage from "@/components/admin/pages/image/detail-image.vue";
 import axios from "axios";
 import searchComponent from "@/components/Homepage/searchComponent.vue";
 export default {
@@ -104,5 +104,6 @@ body, html{
 .form{
   max-height: 90vh;
 }
+html, body {margin: 0; height: 100%; overflow: hidden}
 </style>
 

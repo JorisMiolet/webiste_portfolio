@@ -25,6 +25,7 @@
             <router-link :to="{name: 'userOverview'}" exact>user overview</router-link>
           </li>
           <li class="p-3">
+            <router-link :to="{name: 'laptopOverview'}" exact>laptop overview</router-link>
           </li>
         </ul>
       </nav>

@@ -18,8 +18,6 @@ import axios from "axios";
         if(confirmDelete){
           axios.delete(`http://localhost:8085/api/images/${this.$route.params.ArticleNR}`)
               .then(this.$router.go(-1));
-        } else {
-          alert("no")
         }
       },
       resetImage(){

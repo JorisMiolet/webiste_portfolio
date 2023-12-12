@@ -47,26 +47,4 @@ public class LaptopRepository{
         newLaptops.forEach(this.entityManager::persist);
 
     }
-
-//    public Laptop saveLaptop(Laptop laptop){
-//        if(Integer.parseInt(laptop.getEan()) == 0){
-//            int EAN = ((int) (Math.random() * 199999)) + 1600000;
-//            while(findByEAN(Integer.toString(EAN)) != null){
-//                EAN++;
-//            }
-//            laptop.setEan(Integer.toString(EAN));
-//            long barcode = (long) (Math.random() * 8999999) + 1000000;
-//            laptop.setBarcode(barcode + "000000000000");
-//            laptops.add(laptop);
-//            return laptop;
-//        }else{
-//            for (int i = 0; i < laptops.size(); i++) {
-//                if(laptops.get(i).getEan().equals(laptop.getEan())){
-//                    laptops.set(i, laptop);
-//                    return laptop;
-//                }
-//            }
-//        }
-//        return laptop;
-//    }
 }
