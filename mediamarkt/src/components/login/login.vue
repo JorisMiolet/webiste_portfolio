@@ -68,10 +68,26 @@ export default {
     },
     async handleButton() {
       try {
-        await axios.post("http://localhost:8085/authentication/login", {
-          username: this.nameInput,
-          password: this.passwordInput
-        })
+        let response = await fetch("http://localhost:8085/authentication/login",
+            {
+              method: "POST",
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({username: this.nameInput, password: this.passwordInput})
+              //credentials: 'include'
+            })
+
+        if (response.ok) {
+          let token = response.headers.get("Authorization")
+          console.log(token)
+          if (token == null) {
+            throw new Error('token niet gevonden');
+          }
+
+          token = token.replace('Bearer ', '');
+          sessionStorage.setItem('token', token);
+
+        }
+
       } catch (error) {
         if (error.response && error.response.status === 404) {
           console.error("User not found");
@@ -81,14 +97,7 @@ export default {
           console.error("An error occurred:", error);
         }
       }
-      this.$router.push("/")
-      // if(!userExists){
-      //   window.alert("dit is geen geldige combinatie van gebruikersnaam en wachtwoord.")
-      //   return;
-      // }
-      // localStorage.setItem("user_id", userExists.uuid);
-      // localStorage.setItem("isAdmin", userExists.admin);
-      // this.$router.push("/")
+
     }
   }
 
