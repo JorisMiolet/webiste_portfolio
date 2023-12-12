@@ -26,7 +26,8 @@ export default {
   data() {
     return {
       laptopInfo: [],
-      buttonClicked: false
+      buttonClicked: false,
+      url: process.env.VUE_APP_API_URL,
     };
   },
   methods: {
@@ -40,7 +41,7 @@ export default {
       const barcode = result;
 
       // Make an API call to fetch laptop information based on the scanned barcode
-      axios.get(`http://localhost:8085/api/images/barcode/${barcode}`)
+      axios.get(this.url + `/api/images/barcode/${barcode}`)
           .then(response => {
             // Update the component's data with the fetched laptop information
             this.laptopInfo = response.data;

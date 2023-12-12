@@ -41,6 +41,7 @@ import show from "../../assets/images/view.png";
 import hide from "../../assets/images/hide.png";
 import axios from "axios"
 import HeaderComponent from "@/components/Homepage/heeaderComponent";
+import VueJwtDecode from 'vue-jwt-decode';
 
 export default {
   name: "log-in",
@@ -53,7 +54,9 @@ export default {
       showPassword: false,
       userList: [],
       nameInput: "",
-      passwordInput: ""
+      passwordInput: "",
+      currentUser: null,
+      url: process.env.VUE_APP_API_URL,
     }
   },
   mounted() {
@@ -64,11 +67,11 @@ export default {
       this.showPassword ? this.showPassword = false : this.showPassword = true;
     },
     loadUserList() {
-      axios.get('http://localhost:8085/api/users/all').then(response => this.userList = response.data)
+      axios.get(this.url + '/api/users/all').then(response => this.userList = response.data)
     },
     async handleButton() {
       try {
-        let response = await fetch("http://localhost:8085/authentication/login",
+        let response = await fetch(this.url + "/authentication/login",
             {
               method: "POST",
               headers: {'Content-Type': 'application/json'},
@@ -86,6 +89,8 @@ export default {
           token = token.replace('Bearer ', '');
           sessionStorage.setItem('token', token);
 
+          this.$router.push("/")
+          await this.updateUserInformation()
         }
 
       } catch (error) {
@@ -97,10 +102,28 @@ export default {
           console.error("An error occurred:", error);
         }
       }
+    },
+    async updateUserInformation() {
+      let token = sessionStorage.getItem("token")
 
+     let decodedToken = VueJwtDecode.decode(token)
+      console.log(decodedToken)
+        //     this.currentUser = await fetch((`http://localhost:8085/api/users/${decodedToken.id}`),
+        //         {
+        //           method: "GET",
+        //           headers: {'Content-Type': 'application/json'}
+        //         })
+        //     this.currentUser.id = decodedToken.id;
+        //     this.currentUser.admin = decodedToken.admin.toLowerCase() === 'true';
+        //     this.currentUser.exp = decodedToken.exp;
+        //     console.log(decodedToken)
+        //     console.log(this.currentUser)
+        //   } else {
+        //     this.currentUser = null;
+        //   }
+        // }
+      }
     }
-  }
-
 }
 </script>
 

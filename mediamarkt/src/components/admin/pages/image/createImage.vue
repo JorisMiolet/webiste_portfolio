@@ -14,6 +14,7 @@ export default {
       storage: '',
       gpu: '',
       screenSizeCm: '',
+      url: process.env.VUE_APP_API_URL,
     };
   },
   methods: {
@@ -36,7 +37,7 @@ export default {
 
       console.log(newImage)
 
-      axios.post('http://localhost:8085/api/images/create-image', newImage)
+      axios.post(this.url + '/api/images/create-image', newImage)
           .then((data) => {
             console.log(data)
             alert('Image created successfully');

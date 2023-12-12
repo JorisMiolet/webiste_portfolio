@@ -1,6 +1,7 @@
 package com.mediamarkt.backend.rest;
 
-import com.mediamarkt.backend.exceptions.ResourceNotFoundException;
+import com.mediamarkt.backend.exceptions.PreConditionFailedException;
+import com.mediamarkt.backend.models.Image;
 import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.repositories.LaptopRepository;
 import jakarta.transaction.Transactional;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -73,7 +75,9 @@ public class LaptopController {
         Laptop createdLaptop = laptopRepository.create(newLaptop);
         return new ResponseEntity<>(createdLaptop, HttpStatus.CREATED);
     }
+
     @PutMapping("/{id}")
+    @Transactional()
     public ResponseEntity<Laptop> updateLaptop(@PathVariable Long id, @RequestBody Laptop updatedLaptop) {
         Laptop existingLaptop = laptopRepository.findById(id);
         if (existingLaptop != null) {
@@ -93,5 +97,16 @@ public class LaptopController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping("/edit/{id}")
+    @Transactional
+    public ResponseEntity<Laptop> updateImageById(@PathVariable int id, @RequestBody Laptop newLaptop){
+        if(id != newLaptop.getId()){
+            throw new PreConditionFailedException("article nummers zijn geen match");
+        }
+
+        ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentRequest();
+        return ResponseEntity.created(uriBuilder.build().toUri()).body(laptopRepository.updateLaptop(newLaptop));
     }
 }

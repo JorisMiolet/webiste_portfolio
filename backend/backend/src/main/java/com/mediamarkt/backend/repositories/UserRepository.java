@@ -14,17 +14,6 @@ import java.util.UUID;
 @Transactional
 public class UserRepository {
 
-//    private final List<User> users;
-//
-//    public UserRepository(){
-//        users = new ArrayList<>();
-//
-//        users.add(new User("John", "test123", true));
-//        users.add(new User("Tessa", "test456", false));
-//        users.add(new User("Tim", "nogEenTest", false));
-//        users.add(new User("Jeffry", "enNogEenTest", true));
-//        users.add(new User("Pieter", "laatsteTest", false));
-//    }
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -36,6 +25,7 @@ public class UserRepository {
     public User getWithLogin(String username, String password) {
         TypedQuery<User> query = this.entityManager.createQuery(
                 "SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class);
+
         query.setParameter("username", username);
         query.setParameter("password", password);
 
@@ -43,6 +33,7 @@ public class UserRepository {
         if (!users.isEmpty()){
             return users.get(0);
         }
+
         return null;
     }
 

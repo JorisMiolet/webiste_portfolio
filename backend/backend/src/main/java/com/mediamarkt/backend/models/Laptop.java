@@ -16,18 +16,18 @@ public class Laptop {
     @JsonProperty("EAN")
     private String ean;
     @JsonProperty("Barcode")
-    private String barcode;
+    private String laptopBarcode;
     @JsonProperty("Brand")
-    private String brand;
+    private String laptopBrand;
     @JsonProperty("Description")
-    private String description;
+    private String laptopDescription;
 
     public Laptop(Long id, String ean, String barcode, String brand, String description) {
         this.id = id;
         this.ean = ean;
-        this.barcode = barcode;
-        this.brand = brand;
-        this.description = description;
+        this.laptopBarcode = barcode;
+        this.laptopBrand = brand;
+        this.laptopDescription = description;
     }
     public Laptop(){
 
@@ -50,26 +50,26 @@ public class Laptop {
     }
 
     public String getBarcode() {
-        return barcode;
+        return laptopBarcode;
     }
 
     public void setBarcode(String barcode) {
-        this.barcode = barcode;
+        this.laptopBarcode = barcode;
     }
 
     public String getBrand() {
-        return brand;
+        return laptopBrand;
     }
 
     public void setBrand(String brand) {
-        this.brand = brand;
+        this.laptopBrand = brand;
     }
 
     public String getDescription() {
-        return description;
+        return laptopDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.laptopDescription = description;
     }
 }

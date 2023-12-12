@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import detailImage from "@/components/admin/pages/detail-image";
+import detailImage from "@/components/admin/pages/image/detail-image.vue";
 import axios from "axios";
 import searchComponent from "@/components/Homepage/searchComponent.vue";
 export default {
@@ -37,6 +37,7 @@ export default {
       laptops: [],
       originalLaptops: [], // Voeg een array toe om de oorspronkelijke lijst met laptops op te slaan
       selectedImageInfo: null,
+      url: process.env.VUE_APP_API_URL,
     };
   },
   mounted() {
@@ -54,7 +55,7 @@ export default {
 
     //loads all laptops
     loadUserList() {
-      axios.get('http://localhost:8085/api/images/all').then((response) => {
+      axios.get(this.url+'/api/images/all').then((response) => {
         this.laptops = response.data;
         this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
       });
@@ -104,5 +105,6 @@ body, html{
 .form{
   max-height: 90vh;
 }
+html, body {margin: 0; height: 100%; overflow: hidden}
 </style>
 
