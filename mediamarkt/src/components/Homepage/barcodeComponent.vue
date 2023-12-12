@@ -1,10 +1,17 @@
 <template>
-  <button @click="setClicked" class="bg-primary py-3 px-10 rounded-2xl text-white m-10">
-    Camera
-  </button>
-  <template v-if="buttonClicked">
-         <StreamBarcodeReader @decode="onDecode" @loaded="onLoaded"></StreamBarcodeReader>
-  </template>
+  <div class="absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center flex-col">
+    <template v-if="buttonClicked">
+      <StreamBarcodeReader class="w-[500px] border-[50px]  border-primary rounded-2xl"
+                           @decode="onDecode"
+                           @loaded="onLoaded"></StreamBarcodeReader>
+    </template>
+    <button @click="setClicked"
+            class="bg-primary py-3 px-10 rounded-2xl text-white m-10 slide"
+    >
+      Scan barcode
+    </button>
+
+  </div>
 </template>
 
 <script>
@@ -58,6 +65,15 @@ export default {
 };
 </script>
 
-<style scoped>
-/* Add your custom styles here */
+<style>
+.slide{
+  border: 3px solid #ce3938;
+}
+.slide:hover{
+  box-shadow: 2px 2px 5px #000000;
+}
+.slide:active{
+  box-shadow: none;
+}
+
 </style>

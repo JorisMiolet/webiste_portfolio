@@ -1,15 +1,12 @@
 <template>
   <header-component/>
   <div class="container flex flex-row mt-16">
-    <div>
-      <sidenav-component/>
+    <div class="z-[999]">
+      <BarcodeComponent />
     </div>
     <div class="flex-col content mr-auto">
 <!--      <search-component/>-->
       <image-component/>
-    </div>
-    <div>
-      <BarcodeComponent />
     </div>
   </div>
 </template>
