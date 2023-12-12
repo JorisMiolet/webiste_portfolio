@@ -1,15 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import adminOverview from "@/components/admin/adminOverview.vue";
-import exportData from "@/components/admin/pages/exportData.vue";
+import exportData from "@/components/admin/pages/image/exportData.vue";
 import welcomeComponent from "@/components/Homepage/welcomeComponent.vue";
 import Login from "@/components/login/login";
-import editImage from "@/components/admin/pages/editImage.vue";
-import userOverview from "@/components/admin/pages/userOverview.vue";
-import editUser from "@/components/admin/pages/editUser.vue";
-import createUser from "@/components/admin/pages/createUser.vue";
-import createImage from "@/components/admin/pages/createImage.vue";
-import laptopOverview from "@/components/admin/pages/laptopOverview.vue";
-import createLaptop from "@/components/admin/pages/createLaptop.vue";
+import editImage from "@/components/admin/pages/image/editImage.vue";
+import userOverview from "@/components/admin/pages/user/userOverview.vue";
+import editUser from "@/components/admin/pages/user/editUser.vue";
+import createUser from "@/components/admin/pages/user/createUser.vue";
+import createImage from "@/components/admin/pages/image/createImage.vue";
+import laptopOverview from "@/components/admin/pages/laptop/laptopOverview.vue";
+import editLaptop from "@/components/admin/pages/laptop/editLaptop.vue";
+import createLaptop from "@/components/admin/pages/laptop/createLaptop.vue";
 
 const routes = [
     {path: "/", redirect: "/home",},
@@ -49,6 +50,11 @@ const routes = [
                 path: "laptop-overview",
                 name:"laptopOverview",
                 component: laptopOverview
+            },
+            {
+                path: "edit-laptop/:EAN",
+                name:"editLaptop",
+                component: editLaptop
             },
             {
                 path: "create-laptop",

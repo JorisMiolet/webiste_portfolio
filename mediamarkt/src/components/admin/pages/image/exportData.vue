@@ -1,5 +1,5 @@
 <script>
-import imageData from './dummyData.json';
+import imageData from '../dummyData.json';
 import {PCImage} from "@/image.js";
 import axios from "axios";
 import * as XLSX from "xlsx";
@@ -11,6 +11,7 @@ export default {
       images: [],
       dummyData: imageData,
       selectedImage: null,
+      url: process.env.VUE_APP_API_URL,
     }
   },
   created() {
@@ -45,7 +46,7 @@ export default {
       this.selectedImage = image;
     },
     loadAllImages() {
-      axios.get('http://localhost:8085/api/images/all')
+      axios.get(this.url + '/api/images/all')
           .then(response => this.images = response.data)
           .then(response => console.log(response));
     },

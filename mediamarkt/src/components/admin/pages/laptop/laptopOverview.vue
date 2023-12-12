@@ -1,15 +1,9 @@
 <template>
   <table class="table-auto text-left mt-12 ml-3">
     <caption class="text-left">
-        User Overview
         <button>
           <router-link :to="{name: 'createLaptop'}" class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">create Laptop</router-link>
         </button>
-
-      <button class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded" @click="exportToExcel"
-      >
-        Export data
-      </button>
       <div>
         <input type="file" class="hidden" @change="handleFileUpload" accept=".csv">
         <button @click="handleImportCSV" class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">Import CSV</button>
@@ -17,7 +11,8 @@
 
     </caption>
     <thead class="border-b font-medium dark:border-neutral-500">
-    <tr>
+    <tr class="background-color">
+      <th scope="col" class="px-6 py-4">ID</th>
       <th scope="col" class="px-6 py-4">EAN</th>
       <th scope="col" class="px-6 py-4">Barcode</th>
       <th scope="col" class="px-6 py-4">Brand</th>
@@ -33,25 +28,29 @@
     >
       <td v-for="(value, index) in laptop"
       :key="index">
+        <router-link :to="{name:'editLaptop', params: {EAN: laptop['id']}}" @click="onSelect(laptop)">
         {{value}}
+        </router-link>
       </td>
+
     </tr>
+    <div class="flex justify-center mt-4">
+      <button @click="prevPage" :disabled="currentPage === 1"
+              :class="{'disabled': currentPage === 1}"
+              class="bg-primary text-white font-bold p-2 rounded-2xl">
+        Previous
+      </button>
+      <div class="mx-4">
+        Page {{ currentPage }} of {{ totalPages }}
+      </div>
+      <button @click="nextPage" :disabled="currentPage === totalPages"
+              :class="{'disabled': currentPage === totalPages}"
+              class="bg-primary text-white font-bold p-2 rounded-2xl">
+        Next</button>
+    </div>
     </tbody>
   </table>
-  <div class="flex justify-center mt-4">
-    <button @click="prevPage" :disabled="currentPage === 1"
-            :class="{'disabled': currentPage === 1}"
-            class="bg-primary text-white font-bold p-2 rounded-2xl">
-      Previous
-    </button>
-    <div class="mx-4">
-      Page {{ currentPage }} of {{ totalPages }}
-    </div>
-    <button @click="nextPage" :disabled="currentPage === totalPages"
-            :class="{'disabled': currentPage === totalPages}"
-            class="bg-primary text-white font-bold p-2 rounded-2xl">
-      Next</button>
-  </div>
+
   <router-view :key="$route.fullPath"/>
 </template>
 
@@ -59,24 +58,26 @@
 
 
 export default {
-  name: "imageOverview",
+  name: "laptopOverview",
   data() {
     return {
       selectedLaptop: null,
       laptops: [],
       currentPage: 1,
       rowsPerPage: 10,
+      url: process.env.VUE_APP_API_URL,
     }
   },
   async created() {
-    const laptopsResponse = await fetch('http://localhost:8085/api/laptops/getAll', {method: 'GET'});
+    // axios.get("http://localhost:8085/api/laptops/all")
+    const laptopsResponse = await fetch(this.url + '/api/laptops/all', {method: 'GET'});
+    console.log(laptopsResponse);
     this.laptops = await laptopsResponse.json();
   },
   computed: {
     totalPages(){
       return Math.ceil(this.laptops.length / this.rowsPerPage)
     },
-
     paginatedlaptops() {
       const startIndex = (this.currentPage - 1) * this.rowsPerPage;
       const endIndex = startIndex + this.rowsPerPage;
@@ -116,7 +117,6 @@ export default {
       }
     },
     handleImportCSV() {
-
       const fileInput = document.querySelector('input[type="file"]');
       if (fileInput) {
         fileInput.click();
@@ -133,19 +133,24 @@ export default {
       }
     },
     async onSelect(laptop) {
-
-      if (this.selectedLaptop === laptop) {
-        this.selectedLaptop = null;
-        this.$router.push(this.$route.matched[1].path);
-      } else {
-        this.selectedLaptop = laptop;
-        this.$router.push(this.$route.matched[1].path +  "/" + laptop.EAN);
-      }
+      console.log(laptop)
+      // if (this.selectedLaptop === laptop) {
+      //   this.selectedLaptop = null;
+      //   this.$router.push(this.$route.matched[1].path);
+      // } else {
+      //   this.selectedLaptop = laptop;
+      //   this.$router.push(this.$route.matched[1].path +  "/" + laptop.EAN);
+      // }
     },
   }
 }
 </script>
 
 <style scoped>
-
+ tr:nth-child(odd){
+    background-color: #e3e3e3;
+  }
+ .background-color{
+   background-color: white !important;
+ }
 </style>

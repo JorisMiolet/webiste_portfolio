@@ -7,6 +7,7 @@ import axios from "axios";
       return {
         image: null,
         dataLoaded: false,
+        url: process.env.VUE_APP_API_URL,
       }
     },
     created() {
@@ -16,10 +17,8 @@ import axios from "axios";
       deleteImage(){
         const confirmDelete = confirm(`are you sure you want to delete image ${this.$route.params.ArticleNR}`);
         if(confirmDelete){
-          axios.delete(`http://localhost:8085/api/images/${this.$route.params.ArticleNR}`)
+          axios.delete(this.url + `/api/images/${this.$route.params.ArticleNR}`)
               .then(this.$router.go(-1));
-        } else {
-          alert("no")
         }
       },
       resetImage(){
@@ -30,7 +29,7 @@ import axios from "axios";
       },
       save(){
         console.log(this.image);
-        axios.put(`http://localhost:8085/api/images/edit/${this.$route.params.ArticleNR}`, this.image)
+        axios.put(this.url + `/api/images/edit/${this.$route.params.ArticleNR}`, this.image)
             .then(() => {
               alert("Image saved");
               this.$router.go(-1);
@@ -41,7 +40,7 @@ import axios from "axios";
             });
       },
       loadImage(){
-        axios.get(`http://localhost:8085/api/images/${this.$route.params.ArticleNR}`)
+        axios.get(this.url + `/api/images/${this.$route.params.ArticleNR}`)
             .then(response => {
               this.image = response.data;
               this.dataLoaded = true;

@@ -55,7 +55,8 @@ export default {
       userList: [],
       nameInput: "",
       passwordInput: "",
-      currentUser: null
+      currentUser: null,
+      url: process.env.VUE_APP_API_URL,
     }
   },
   mounted() {
@@ -66,19 +67,21 @@ export default {
       this.showPassword ? this.showPassword = false : this.showPassword = true;
     },
     loadUserList() {
-      axios.get('http://localhost:8085/api/users/all').then(response => this.userList = response.data)
+      axios.get(this.url + '/api/users/all').then(response => this.userList = response.data)
     },
     async handleButton() {
       try {
-        let response = await fetch("http://localhost:8085/authentication/login",
+        let response = await fetch(this.url + "/authentication/login",
             {
               method: "POST",
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({username: this.nameInput, password: this.passwordInput})
+              //credentials: 'include'
             })
 
         if (response.ok) {
           let token = response.headers.get("Authorization")
+          console.log(token)
           if (token == null) {
             throw new Error('token niet gevonden');
           }
