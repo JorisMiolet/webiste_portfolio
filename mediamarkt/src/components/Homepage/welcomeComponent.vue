@@ -1,8 +1,8 @@
 <template>
-  <header-component/>
-  <div class="container flex flex-row mt-16">
+  <header-component @scan-clicked="setClicked"/>
+  <div class="container flex flex-row mt-20">
     <div class="z-[999]">
-      <BarcodeComponent />
+      <BarcodeComponent :button-is-clicked="buttonClicked"/>
     </div>
     <div class="flex-col content mr-auto">
 <!--      <search-component/>-->
@@ -17,7 +17,20 @@ import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
 import BarcodeComponent from "@/components/Homepage/barcodeComponent.vue";
 export default {
   name: "welkomComponent",
-  components: {BarcodeComponent, HeaderComponent, ImageComponent}
+  components: {BarcodeComponent, HeaderComponent, ImageComponent},
+  data() {
+    return{
+      buttonClicked: false
+    }
+  },
+  methods: {
+    setClicked(){
+      this.buttonClicked = !this.buttonClicked;
+      console.log(this.buttonClicked)
+    }
+  },
+  created() {
+  }
 }
 </script>
 

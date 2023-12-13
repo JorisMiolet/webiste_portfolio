@@ -5,11 +5,7 @@
                            @decode="onDecode"
                            @loaded="onLoaded"></StreamBarcodeReader>
     </template>
-    <button @click="setClicked"
-            class="bg-primary py-3 px-10 rounded-2xl text-white m-10 slide"
-    >
-      Scan barcode
-    </button>
+
 
   </div>
 </template>
@@ -20,20 +16,46 @@ import axios from "axios";
 
 export default {
   name: "barcodeComponent",
+  props: ['buttonIsClicked'],
   components: {
     StreamBarcodeReader,
   },
   data() {
     return {
       laptopInfo: [],
-      buttonClicked: false,
+      buttonClicked: this.buttonIsClicked,
       url: process.env.VUE_APP_API_URL,
     };
   },
-  methods: {
-    setClicked(){
-      this.buttonClicked ? this.buttonClicked = false : this.buttonClicked = true;
+  computed: {
+    updateButtonClicked: {
+      get() {
+        return this.buttonIsClicked;
+      },
+      set(value) {
+        if (value !== this.buttonIsClicked) {
+          this.$emit("update:buttonIsClicked", value);
+        }
+      },
     },
+  },
+  watch: {
+    buttonIsClicked: {
+      immediate: true,
+      handler(newVal) {
+        this.buttonClicked = newVal;
+      },
+    },
+    buttonClicked: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal) {
+          // Perform any actions needed when buttonClicked becomes true
+        }
+      },
+    },
+  },
+  methods: {
     onDecode(result) {
       console.log(result);
 

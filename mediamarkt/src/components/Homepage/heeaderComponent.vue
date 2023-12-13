@@ -6,6 +6,11 @@
         <router-link to="/" class="text-white hover:underline">Home</router-link>
         <router-link v-if="this.currentUser.admin" to="/admin/image-overview" class="text-white hover:underline">Admin</router-link>
         <router-link to="/Login" class="text-white hover:underline">Log in</router-link>
+        <button @click="emitClicked"
+                class="bg-primary py-3 px-10 rounded-2xl text-white slide"
+        >
+          Scan barcode
+        </button>
       </nav>
     </div>
   </header>
@@ -45,9 +50,11 @@ export default {
         this.currentUser = null;
       }
     },
+    emitClicked(){
+      this.$emit("scan-clicked")
+    }
   }
 };
-
 </script>
 
 <style scoped>

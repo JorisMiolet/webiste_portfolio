@@ -40,7 +40,7 @@ public class Image {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "laptop_id")
+    @JoinColumn(name = "LAPTOP_UUID")
     private Laptop laptop;
 
     public Image(String articleNumber,
