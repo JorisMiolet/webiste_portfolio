@@ -1,7 +1,6 @@
 package com.mediamarkt.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +28,8 @@ public class Laptop {
         this.laptopBrand = brand;
         this.laptopDescription = description;
     }
-    public Laptop(){
+
+    public Laptop() {
 
     }
 

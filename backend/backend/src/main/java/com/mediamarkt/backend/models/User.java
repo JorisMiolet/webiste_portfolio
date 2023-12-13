@@ -39,14 +39,15 @@ public class User {
         this.email = email;
     }
 
-    public User(){}
-
-    public void setId(UUID id) {
-        this.uuid = id;
+    public User() {
     }
 
     public UUID getId() {
         return uuid;
+    }
+
+    public void setId(UUID id) {
+        this.uuid = id;
     }
 
     public UUID getUuid() {

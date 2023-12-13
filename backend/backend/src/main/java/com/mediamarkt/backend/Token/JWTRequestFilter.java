@@ -12,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.naming.AuthenticationException;
 import java.io.IOException;
 import java.util.Set;
+
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
     private static final Set<String> SECURED_PATHS =
@@ -48,7 +49,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         }
 
         // Future chain members might use token info (see the example that tries to delete a user)
-        req.setAttribute(tokenInfo.getPassPhrase(),tokenInfo);
+        req.setAttribute(tokenInfo.getPassPhrase(), tokenInfo);
 
         // proceed with the chain
         chain.doFilter(req, res);

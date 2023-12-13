@@ -1,7 +1,6 @@
 package com.mediamarkt.backend.rest;
 
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
-import com.mediamarkt.backend.models.Image;
 import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.repositories.LaptopRepository;
 import jakarta.transaction.Transactional;
@@ -30,6 +29,7 @@ public class LaptopController {
         List<Laptop> laptops = laptopRepository.getAll();
         return new ResponseEntity<>(laptops, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Laptop> getLaptopById(@PathVariable Long id) {
         Laptop laptop = laptopRepository.findById(id);
@@ -69,9 +69,9 @@ public class LaptopController {
         }
     }
 
-     @PostMapping("/create-laptop")
-     @Transactional()
-     public ResponseEntity<Laptop> createLaptop(@RequestBody Laptop newLaptop) {
+    @PostMapping("/create-laptop")
+    @Transactional()
+    public ResponseEntity<Laptop> createLaptop(@RequestBody Laptop newLaptop) {
         Laptop createdLaptop = laptopRepository.create(newLaptop);
         return new ResponseEntity<>(createdLaptop, HttpStatus.CREATED);
     }
@@ -101,8 +101,8 @@ public class LaptopController {
 
     @PutMapping("/edit/{id}")
     @Transactional
-    public ResponseEntity<Laptop> updateImageById(@PathVariable int id, @RequestBody Laptop newLaptop){
-        if(id != newLaptop.getId()){
+    public ResponseEntity<Laptop> updateImageById(@PathVariable int id, @RequestBody Laptop newLaptop) {
+        if (id != newLaptop.getId()) {
             throw new PreConditionFailedException("article nummers zijn geen match");
         }
 
