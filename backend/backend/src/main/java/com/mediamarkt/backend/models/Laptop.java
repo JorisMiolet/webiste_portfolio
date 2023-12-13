@@ -2,10 +2,9 @@ package com.mediamarkt.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Laptop {
@@ -14,13 +13,20 @@ public class Laptop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @JsonProperty("EAN")
+    @Column(name = "EAN")
     private String ean;
     @JsonProperty("Barcode")
+    @Column(name = "BARCODE", length = 13)
     private String laptopBarcode;
     @JsonProperty("Brand")
+    @Column(name = "BRAND")
     private String laptopBrand;
     @JsonProperty("Description")
+@Column(name = "DESCRIPTION")
     private String laptopDescription;
+
+    @OneToMany(mappedBy = "laptop")
+    private List<Image> images;
 
     public Laptop(Long id, String ean, String barcode, String brand, String description) {
         this.id = id;

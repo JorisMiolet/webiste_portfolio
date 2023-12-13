@@ -1,22 +1,28 @@
 <template>
   <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate" />
-  <div class="form w-3/4 p-4 mt-24 pb-28 grid grid-cols-2 ml-auto mr-9 gap-4 overflow-y-scroll">
-    <div  v-for="(laptop, index) in laptops"
-         :key="index"
-         class="border border-gray-300 p-4 rounded-lg shadow-md hover:shadow-lg h-50 w-auto"
-         @click="setSelectedImage(laptop)"
-         :class="{ 'selected': laptop === selectedImageInfo }">
-
-      <h2 class="text-lg font-semibold">{{ laptop['Description / Model type'] }}</h2>
-      <p class="text-gray-600">{{ laptop.Brand }}</p>
-      <p class="text-gray-600">{{ laptop.PROCESSOR }}</p>
-      <p class="text-gray-600">{{ laptop.EAN}}</p>
-      <p class="text-gray-600">{{ laptop.RAM }}</p>
-      <p class="text-gray-600">{{ laptop.STORAGE }}</p>
-      <p class="text-gray-600">{{ laptop.DATE }}</p>
-      <p class="text-gray-600">{{ laptop.STATUS }}</p>
-    </div>
-  </div>
+    <table class="table-auto text-left mx-auto mt-20 h-[300px] overflow-y-scroll">
+      <thead class="border-b font-medium dark:border-neutral-500">
+      <tr>
+        <th scope="col" class="px-6 py-4">#</th>
+        <th scope="col" class="px-6 py-4">Article NR</th>
+        <th scope="col" class="px-6 py-4">EAN</th>
+        <th scope="col" class="px-6 py-4">Brand</th>
+        <th scope="col" class="px-6 py-4">Description</th>
+        <th scope="col" class="px-6 py-4">Processor</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
+      @click="setSelectedImage(pcimage)">
+        <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
+        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
+      </tr>
+      </tbody>
+    </table>
   <detail-image v-if="selectedImageInfo !== null"
                 v-bind:selectedImage="selectedImageInfo"
                 v-on:resetImage="resetImage()"/>
@@ -55,7 +61,7 @@ export default {
 
     //loads all laptops
     loadUserList() {
-      axios.get(this.url+'/api/images/all').then((response) => {
+      axios.get('http://localhost:8085/api/images/all').then((response) => {
         this.laptops = response.data;
         this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
       });
