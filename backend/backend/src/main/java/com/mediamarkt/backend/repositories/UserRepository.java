@@ -30,7 +30,7 @@ public class UserRepository {
         query.setParameter("password", password);
 
         List<User> users = query.getResultList();
-        if (!users.isEmpty()){
+        if (!users.isEmpty()) {
             return users.get(0);
         }
 
@@ -50,9 +50,9 @@ public class UserRepository {
         return this.entityManager.merge(newUser);
     }
 
-    public User deleteUser(UUID uuid){
+    public User deleteUser(UUID uuid) {
         User user = this.entityManager.find(User.class, uuid);
-        if (user != null){
+        if (user != null) {
             this.entityManager.remove(user);
             this.entityManager.flush();
             this.entityManager.detach(user);

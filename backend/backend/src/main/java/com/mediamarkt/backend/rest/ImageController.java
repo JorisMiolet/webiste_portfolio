@@ -21,26 +21,27 @@ public class ImageController {
     private ImageRepository imagesRepository;
 
     @GetMapping("/all")
-    public List<Image> getAllImages(){
+    public List<Image> getAllImages() {
         List<Image> images = imagesRepository.getAll();
-        if(images == null){
+        if (images == null) {
             throw new ResourceNotFoundException("Er zijn geen images gevonden");
         }
         return images;
     }
+
     @GetMapping("/barcode/{barcode}")
-    public Image getByBarcode(@PathVariable String barcode){
+    public Image getByBarcode(@PathVariable String barcode) {
         Image image = imagesRepository.findByBarcode(barcode);
-        if(image == null){
+        if (image == null) {
             throw new ResourceNotFoundException("Er is geen image gelinkt aan deze barcode: " + barcode);
         }
         return image;
     }
 
     @GetMapping("{articleNr}")
-    public Image getImageById(@PathVariable String articleNr){
+    public Image getImageById(@PathVariable String articleNr) {
         Image image = imagesRepository.findByArticleNr(articleNr);
-        if(image == null){
+        if (image == null) {
             throw new ResourceNotFoundException("Er is geen image met articleNr: " + articleNr + " gevonden");
         }
         return image;
@@ -48,7 +49,7 @@ public class ImageController {
 
     @PostMapping("/create-image")
     @Transactional
-    public ResponseEntity<Image> createImage(@RequestBody Image newImage){
+    public ResponseEntity<Image> createImage(@RequestBody Image newImage) {
         newImage.setDate(LocalDate.now().toString());
 
         // Persist the newImage in the database
@@ -62,8 +63,8 @@ public class ImageController {
 
     @PutMapping("/edit/{articleNr}")
     @Transactional
-    public ResponseEntity<Image> updateImageById(@PathVariable String articleNr, @RequestBody Image newImage){
-        if(!articleNr.equals(newImage.getArticleNumber())){
+    public ResponseEntity<Image> updateImageById(@PathVariable String articleNr, @RequestBody Image newImage) {
+        if (!articleNr.equals(newImage.getArticleNumber())) {
             throw new PreConditionFailedException("article nummers zijn geen match");
         }
 
@@ -73,18 +74,18 @@ public class ImageController {
 
     @DeleteMapping("{articleNr}")
     @Transactional
-    public void deleteImage(@PathVariable String articleNr){
+    public void deleteImage(@PathVariable String articleNr) {
         Image image = imagesRepository.deleteImage(articleNr);
 
-        if(image == null){
-            throw new ResourceNotFoundException("image with article number: "+ articleNr +" not found");
+        if (image == null) {
+            throw new ResourceNotFoundException("image with article number: " + articleNr + " not found");
         }
     }
 
     @GetMapping("/EAN/{EAN}")
-    public Image GetImageByEAN(@PathVariable String EAN){
+    public Image GetImageByEAN(@PathVariable String EAN) {
         Image image = imagesRepository.findByEAN(EAN);
-        if(image == null){
+        if (image == null) {
             throw new ResourceNotFoundException("Er is geen image met EANnr: " + EAN + " gevonden");
         }
         return image;

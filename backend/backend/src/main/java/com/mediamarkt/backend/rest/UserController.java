@@ -21,9 +21,9 @@ public class UserController {
     private UserRepository usersRepository;
 
     @GetMapping("/all")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         List<User> users = usersRepository.getAll();
-        if(users == null){
+        if (users == null) {
             throw new ResourceNotFoundException("Er zijn geen users gevonden");
         }
         return users;
@@ -41,9 +41,9 @@ public class UserController {
 //    }
 
     @GetMapping("{uuid}")
-    public User getUserByUUID(@PathVariable UUID uuid){
+    public User getUserByUUID(@PathVariable UUID uuid) {
         User user = usersRepository.getUserByUUID(uuid);
-        if(user == null){
+        if (user == null) {
             throw new ResourceNotFoundException("Er is geen user met uuid: " + uuid + " gevonden");
         }
         return user;
@@ -51,7 +51,7 @@ public class UserController {
 
     @PostMapping("/create-user")
     @Transactional
-    public ResponseEntity<User> createUser(@RequestBody User newUser){
+    public ResponseEntity<User> createUser(@RequestBody User newUser) {
         User createdUser = usersRepository.create(newUser);
 
         ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentRequest();
@@ -61,16 +61,16 @@ public class UserController {
     }
 
     @PutMapping("{uuid}")
-    public User updateUserByUUID(@PathVariable UUID uuid, @RequestBody User newUser){
-        if(!uuid.equals(newUser.getUuid())){
+    public User updateUserByUUID(@PathVariable UUID uuid, @RequestBody User newUser) {
+        if (!uuid.equals(newUser.getUuid())) {
             throw new PreConditionFailedException("uuid's zijn geen match");
         }
         return usersRepository.updateUser(newUser);
     }
 
     @DeleteMapping("{uuid}")
-    public void deleteUserByUUID(@PathVariable UUID uuid){
-        if(usersRepository.getUserByUUID(uuid) == null){
+    public void deleteUserByUUID(@PathVariable UUID uuid) {
+        if (usersRepository.getUserByUUID(uuid) == null) {
             throw new ResourceNotFoundException("er is geen user met dit UUID");
         }
         usersRepository.deleteUser(uuid);

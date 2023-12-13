@@ -22,6 +22,7 @@ public class ImageRepository {
         );
         return query.getResultList();
     }
+
     public Image findByBarcode(String barcode) {
         TypedQuery<Image> query = this.entityManager.createQuery(
                 "SELECT i FROM Image i WHERE i.barcode = :barcode",
@@ -36,6 +37,7 @@ public class ImageRepository {
         query.setParameter("articleNr", articleNr);
         return query.getSingleResult();
     }
+
     public Image findByEAN(String EAN) {
         TypedQuery<Image> query = this.entityManager.createQuery("select i from Image i where i.ean = :ean", Image.class);
         query.setParameter("ean", EAN);

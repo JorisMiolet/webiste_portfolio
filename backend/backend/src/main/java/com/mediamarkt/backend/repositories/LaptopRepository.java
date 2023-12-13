@@ -9,17 +9,17 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class LaptopRepository{
+public class LaptopRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Laptop> getAll(){
+    public List<Laptop> getAll() {
         TypedQuery<Laptop> query = this.entityManager.createQuery("SELECT l FROM Laptop l", Laptop.class);
         return query.getResultList();
     }
 
-    public Laptop findById(Long id){
+    public Laptop findById(Long id) {
         return this.entityManager.find(Laptop.class, id);
     }
 

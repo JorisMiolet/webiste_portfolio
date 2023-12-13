@@ -3,12 +3,12 @@ package com.mediamarkt.backend.Token;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.spec.SecretKeySpec;
+import javax.naming.AuthenticationException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.UUID;
-import javax.crypto.spec.SecretKeySpec;
-import javax.naming.AuthenticationException;
 
 @Component
 public class JWToken {
@@ -23,6 +23,11 @@ public class JWToken {
     private final int expiration = 3600;
     private Claims claims;
 
+    private static Key getKey(String passphrase) {
+        byte[] hmacKey = passphrase.getBytes(StandardCharsets.UTF_8);
+        return new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
+    }
+
     public String encode(boolean isAdmin, UUID accountId) {
         Key key = getKey(passphrase);
         return Jwts.builder()
@@ -34,12 +39,6 @@ public class JWToken {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-    }
-
-
-    private static Key getKey(String passphrase) {
-        byte[] hmacKey = passphrase.getBytes(StandardCharsets.UTF_8);
-        return new SecretKeySpec(hmacKey, SignatureAlgorithm.HS512.getJcaName());
     }
 
     public JWToken decode(String encodedToken) throws AuthenticationException {
@@ -67,12 +66,12 @@ public class JWToken {
         }
     }
 
-    public void setClaims(Claims claims) {
-        this.claims = claims;
-    }
-
     public Claims getClaims() {
         return claims;
+    }
+
+    public void setClaims(Claims claims) {
+        this.claims = claims;
     }
 
     public String getPassPhrase() {

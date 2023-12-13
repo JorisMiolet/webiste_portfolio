@@ -48,7 +48,7 @@ public class Image {
                  String description, String processor,
                  String ram, String storage,
                  String gpu, String screenSizeInch,
-                 String screenSizeCm, String barcode,String date,String status) {
+                 String screenSizeCm, String barcode, String date, String status) {
         this.articleNumber = articleNumber;
         this.ean = ean;
         this.brand = brand;
@@ -64,78 +64,87 @@ public class Image {
         this.status = status;
     }
 
-    public Image(){}
-
-    public void setArticleNumber(String articleNumber) {
-        this.articleNumber = articleNumber;
+    public Image() {
     }
 
     public String getStatus() {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getDate() {
         return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getArticleNumber() {
         return articleNumber;
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
+    public void setArticleNumber(String articleNumber) {
+        this.articleNumber = articleNumber;
     }
 
     public String getBarcode() {
         return barcode;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public String getBrand() {
         return brand;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setEan(String ean) {
-        this.ean = ean;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getEan() {
         return ean;
     }
 
-    public void setGpu(String gpu) {
-        this.gpu = gpu;
+    public void setEan(String ean) {
+        this.ean = ean;
     }
 
     public String getGpu() {
         return gpu;
     }
 
-    public void setProcessor(String processor) {
-        this.processor = processor;
+    public void setGpu(String gpu) {
+        this.gpu = gpu;
     }
 
     public String getProcessor() {
         return processor;
     }
 
-    public void setRam(String ram) {
-        this.ram = ram;
+    public void setProcessor(String processor) {
+        this.processor = processor;
     }
 
     public String getRam() {
         return ram;
+    }
+
+    public void setRam(String ram) {
+        this.ram = ram;
     }
 
     public String getStorage() {
@@ -146,32 +155,28 @@ public class Image {
         this.storage = storage;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public String getScreenSizeCm() {
+        return screenSizeCm;
     }
 
     public void setScreenSizeCm(String screenSizeCm) {
         this.screenSizeCm = screenSizeCm;
     }
 
-    public String getScreenSizeCm() {
-        return screenSizeCm;
+    public String getScreenSizeInch() {
+        return screenSizeInch;
     }
 
     public void setScreenSizeInch(String screenSizeInch) {
         this.screenSizeInch = screenSizeInch;
     }
 
-    public String getScreenSizeInch() {
-        return screenSizeInch;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Laptop getLaptop() {
@@ -180,9 +185,5 @@ public class Image {
 
     public void setLaptop(Laptop laptop) {
         this.laptop = laptop;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

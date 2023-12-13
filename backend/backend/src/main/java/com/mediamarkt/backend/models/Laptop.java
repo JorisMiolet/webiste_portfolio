@@ -35,7 +35,8 @@ public class Laptop {
         this.laptopBrand = brand;
         this.laptopDescription = description;
     }
-    public Laptop(){
+
+    public Laptop() {
 
     }
 
