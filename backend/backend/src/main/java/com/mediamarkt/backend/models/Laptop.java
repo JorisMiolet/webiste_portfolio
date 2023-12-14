@@ -16,7 +16,7 @@ public class Laptop {
     @Column(name = "EAN")
     private String ean;
     @JsonProperty("Barcode")
-    @Column(name = "BARCODE", length = 13)
+    @Column(name = "BARCODE")
     private String laptopBarcode;
     @JsonProperty("Brand")
     @Column(name = "BRAND")
