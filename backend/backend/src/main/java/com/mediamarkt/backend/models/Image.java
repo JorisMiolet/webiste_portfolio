@@ -1,5 +1,7 @@
 package com.mediamarkt.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -7,7 +9,7 @@ import jakarta.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
     private Long id;
 
@@ -40,7 +42,8 @@ public class Image {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "LAPTOP_UUID")
+    @JsonManagedReference
+    @JsonIgnore
     private Laptop laptop;
 
     public Image(String articleNumber,

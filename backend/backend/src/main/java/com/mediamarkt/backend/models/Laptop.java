@@ -22,10 +22,10 @@ public class Laptop {
     @Column(name = "BRAND")
     private String laptopBrand;
     @JsonProperty("Description")
-@Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String laptopDescription;
 
-    @OneToMany(mappedBy = "laptop")
+    @OneToMany(mappedBy = "laptop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Image> images;
 
     public Laptop(Long id, String ean, String barcode, String brand, String description) {
@@ -78,5 +78,9 @@ public class Laptop {
 
     public void setDescription(String description) {
         this.laptopDescription = description;
+    }
+
+    public void associateImage(Image image) {
+        this.images.add(image);
     }
 }

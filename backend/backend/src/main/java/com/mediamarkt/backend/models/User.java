@@ -10,8 +10,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID uuid;
 
     @JsonProperty("username")

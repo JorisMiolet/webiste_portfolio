@@ -47,4 +47,6 @@ public class LaptopRepository {
         newLaptops.forEach(this.entityManager::persist);
 
     }
+
+
 }
