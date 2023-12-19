@@ -4,7 +4,7 @@
       <router-link to="/"><h1 class="text-white text-2xl font-semibold">Mediamarkt</h1></router-link>
       <nav class="space-x-4">
         <router-link to="/" class="text-white hover:underline">Home</router-link>
-        <router-link v-if="this.currentUser.admin" to="/admin/image-overview" class="text-white hover:underline">Admin</router-link>
+        <router-link v-if="this.isAdmin" to="/admin/image-overview" class="text-white hover:underline">Admin</router-link>
         <router-link to="/Login" class="text-white hover:underline">Log in</router-link>
         <button @click="emitClicked"
                 class="bg-primary py-3 px-10 rounded-2xl text-white slide"
@@ -24,6 +24,7 @@ export default {
   data() {
     return {
       currentUser: null,
+      isAdmin: false,
     }
   },
   created() {
@@ -33,20 +34,28 @@ export default {
     async updateUserInformation() {
       let token = sessionStorage.getItem("token")
 
-      let decodedToken = VueJwtDecode.decode(token)
-      console.log(decodedToken)
-      this.currentUser = await fetch((`http://localhost:8085/api/users/${decodedToken.id}`),
-          {
-            method: "GET",
-            headers: {'Content-Type': 'application/json'}
-          })
-      if (this.currentUser.ok) {
-        this.currentUser.id = decodedToken.id;
-        this.currentUser.admin = decodedToken.admin.toLowerCase() === 'true';
-        this.currentUser.exp = decodedToken.exp;
-        console.log(decodedToken)
-        console.log(this.currentUser)
-      } else {
+      if(!token){
+        return; // Token not available
+      }
+
+      try {
+        let decodedToken = VueJwtDecode.decode(token)
+        this.currentUser = await fetch((`http://localhost:8085/api/users/${decodedToken.id}`),
+            {
+              method: "GET",
+              headers: {'Content-Type': 'application/json'}
+            })
+        if (this.currentUser.ok) {
+          this.currentUser.id = decodedToken.id;
+          this.currentUser.admin = decodedToken.admin.toLowerCase() === 'true';
+          this.currentUser.exp = decodedToken.exp;
+
+          if(this.currentUser.admin){
+            this.isAdmin = true;
+          }
+        }
+      } catch (error) {
+        console.error("Error decoding token or fetching user information:", error);
         this.currentUser = null;
       }
     },
