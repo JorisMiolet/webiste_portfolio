@@ -20,6 +20,7 @@ public class ImageRepository {
                 "SELECT i FROM Image i",
                 Image.class
         );
+        System.out.println(query);
         return query.getResultList();
     }
 

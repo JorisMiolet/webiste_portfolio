@@ -23,6 +23,8 @@ public class ImageController {
     @GetMapping("/all")
     public List<Image> getAllImages() {
         List<Image> images = imagesRepository.getAll();
+        System.out.println(images);
+        System.out.println("^^ images queried ^");
         if (images == null) {
             throw new ResourceNotFoundException("Er zijn geen images gevonden");
         }
