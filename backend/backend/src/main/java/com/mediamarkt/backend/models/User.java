@@ -11,7 +11,6 @@ public class User {
 
     @Id
     @JsonProperty("uuid")
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID uuid;
 
     @JsonProperty("username")

@@ -16,7 +16,7 @@ import java.util.Set;
 @Component
 public class JWTRequestFilter extends OncePerRequestFilter {
     private static final Set<String> SECURED_PATHS =
-            Set.of("/users", "/posts");
+            Set.of("/users");
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {

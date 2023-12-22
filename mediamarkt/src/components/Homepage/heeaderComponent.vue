@@ -40,6 +40,8 @@ export default {
 
       try {
         let decodedToken = VueJwtDecode.decode(token)
+        console.log(decodedToken)
+        console.log(decodedToken.id)
         this.currentUser = await fetch((`http://localhost:8085/api/users/${decodedToken.id}`),
             {
               method: "GET",
