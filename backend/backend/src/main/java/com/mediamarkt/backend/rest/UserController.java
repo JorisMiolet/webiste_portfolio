@@ -23,6 +23,7 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers() {
         List<User> users = usersRepository.getAll();
+        System.out.println(users);
         if (users == null) {
             throw new ResourceNotFoundException("Er zijn geen users gevonden");
         }

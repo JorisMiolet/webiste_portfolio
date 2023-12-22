@@ -11,7 +11,8 @@ export default {
       images: [],
       dummyData: imageData,
       selectedImage: null,
-      url: process.env.VUE_APP_API_URL,
+      url: "https://ewa-back-end-r7ie.onrender.com",
+      // url: process.env.VUE_APP_API_URL,
     }
   },
   created() {
@@ -46,6 +47,7 @@ export default {
       this.selectedImage = image;
     },
     loadAllImages() {
+      console.log(this.url + '/api/images/all')
       axios.get(this.url + '/api/images/all')
           .then(response => this.images = response.data)
           .then(response => console.log(response));

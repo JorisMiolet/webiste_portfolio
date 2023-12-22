@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --host localhost",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve --host localhost --mode .env.production",
+    "build": "vue-cli-service build --mode .env.production",
     "lint": "vue-cli-service lint",
     "start": "npx http-server -p 8081 ./dist"
   },

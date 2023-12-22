@@ -65,7 +65,8 @@ export default {
       laptops: [],
       currentPage: 1,
       rowsPerPage: 10,
-      url: process.env.VUE_APP_API_URL,
+      // url: process.env.VUE_APP_API_URL,
+      url: "https://ewa-back-end-r7ie.onrender.com",
     }
   },
   async created() {
@@ -90,14 +91,14 @@ export default {
       formData.append('file', file);
 
       try {
-        const response = await fetch('http://localhost:8085/api/laptops/importLaptops', {
+        const response = await fetch(`${this.url}/api/laptops/importLaptops`, {
           method: 'POST',
           body: formData,
         });
 
         if (response.ok) {
           alert('Laptops imported successfully');
-          const laptopsResponse = await fetch('http://localhost:8085/api/laptops/getAll');
+          const laptopsResponse = await fetch(`${this.url}/api/laptops/getAll`);
           const laptopsData = await laptopsResponse.json(); // Parse the JSON data
           this.laptops = laptopsData; // Set the updated list to the component's data
           // Optionally update your frontend display after successful import

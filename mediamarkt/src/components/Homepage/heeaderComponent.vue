@@ -25,9 +25,12 @@ export default {
     return {
       currentUser: null,
       isAdmin: false,
+      url: "https://ewa-back-end-r7ie.onrender.com",
+      // url: process.env.VUE_APP_API_URL,
     }
   },
   created() {
+    console.log("Header created");
     this.updateUserInformation()
   },
   methods:{
@@ -40,9 +43,7 @@ export default {
 
       try {
         let decodedToken = VueJwtDecode.decode(token)
-        console.log(decodedToken)
-        console.log(decodedToken.id)
-        this.currentUser = await fetch((`http://localhost:8085/api/users/${decodedToken.id}`),
+        this.currentUser = await fetch((`${this.url}/api/users/${decodedToken.id}`),
             {
               method: "GET",
               headers: {'Content-Type': 'application/json'}

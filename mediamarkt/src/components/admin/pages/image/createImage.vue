@@ -14,7 +14,8 @@ export default {
       storage: '',
       gpu: '',
       screenSizeCm: '',
-      url: process.env.VUE_APP_API_URL,
+      // url: process.env.VUE_APP_API_URL,
+      url: "https://ewa-back-end-r7ie.onrender.com",
     };
   },
   methods: {
