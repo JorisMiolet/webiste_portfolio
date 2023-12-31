@@ -1,5 +1,6 @@
 package com.mediamarkt.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -19,6 +20,7 @@ public class User {
     @JsonProperty("email")
     private String email;
 
+    @JsonIgnore
     @JsonProperty("password")
     private String password;
 
@@ -69,9 +71,6 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public boolean isAdmin() {
         return admin;

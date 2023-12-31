@@ -17,6 +17,7 @@ public class UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
+
     public List<User> getAll() {
         TypedQuery<User> query = this.entityManager.createQuery("SELECT u FROM User u", User.class);
         return query.getResultList();
@@ -42,6 +43,9 @@ public class UserRepository {
     }
 
     public User create(User newUser) {
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        String encodedPassword = encoder.encode(newUser.getPassword());
+//        newUser.setPassword(encodedPassword);
         this.entityManager.persist(newUser);
         return newUser;
     }
