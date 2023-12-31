@@ -66,6 +66,32 @@ export default {
 </script>
 
 <template>
+  <div class="p-6 flex h-screen">
+    <div class="mb-6 mx-auto">
+      <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
+        <div class="flex justify-between mb-4 items-start">
+          <div class="font-medium">Create image</div>
+        </div>
+        <form action="" class="flex items-center flex-col">
+          <div class="relative w-full mb-2">
+            <input type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Naam...">
+          </div>
+          <button class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            <button @click="saveUser">Save user</button>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <form class="w-full max-w-lg">
     <div class="flex flex-wrap mb-6 mt-10 ml-1">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
