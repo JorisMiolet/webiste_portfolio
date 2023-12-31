@@ -8,7 +8,12 @@
       return {
 
       }
-    }
+    }, watch: {
+      $route() {
+        // Scroll to the top when the route changes
+        window.scrollTo(0, 0);
+      },
+    },
   }
 </script>
 
