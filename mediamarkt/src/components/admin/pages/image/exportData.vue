@@ -13,10 +13,12 @@ export default {
       dummyData: imageData,
       selectedImage: null,
       searchFilter: null,
+      summary: []
     }
   },
   created() {
     this.loadAllImages();
+    this.loadImageSummary();
     console.log(this.images)
   }, methods: {
     createOffer(image) {
@@ -70,6 +72,11 @@ export default {
           .then(response => this.images = response.data)
           .then(console.log(this.images))
     },
+    loadImageSummary(){
+      const urlWithQuery = `${this.url}/api/images/summary`;
+      axios.get(urlWithQuery)
+          .then(response => this.summary = response.data)
+    },
     loadOutdatedImages(){
       const urlWithQuery = `${this.url}/api/images/outdated`;
       axios.get(urlWithQuery)
@@ -108,7 +115,7 @@ export default {
       <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
         <div class="flex justify-between mb-6">
           <div>
-            <div class="text-2xl font-semibold mb-1">10</div>
+            <div v-if="this.summary.completed" class="text-2xl font-semibold mb-1">{{ this.summary.completed }}</div>
             <div class="text-sm font-medium text-gray-600">Completed</div>
           </div>
         </div>
@@ -116,7 +123,7 @@ export default {
       <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
         <div class="flex justify-between mb-6">
           <div>
-            <div class="text-2xl font-semibold mb-1">10</div>
+            <div v-if="this.summary.in_progress" class="text-2xl font-semibold mb-1">{{ this.summary.in_progress }}</div>
             <div class="text-sm font-medium text-gray-600">In progress</div>
           </div>
         </div>
@@ -124,7 +131,7 @@ export default {
       <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
         <div class="flex justify-between mb-6">
           <div>
-            <div class="text-2xl font-semibold mb-1">10</div>
+            <div v-if="this.summary.outdated" class="text-2xl font-semibold mb-1">{{ this.summary.outdated }}</div>
             <div class="text-sm font-medium text-gray-600">Outdated</div>
           </div>
         </div>

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/images")
@@ -116,6 +117,12 @@ public class ImageController {
     @GetMapping("/outdated")
     public List<Image> getOutdatedImages() {
         List<Image> images = imagesRepository.getOutdatedImages();
+        return images;
+    }
+
+    @GetMapping("/summary")
+    public Map<String, Long> getSummary() {
+        Map<String, Long> images = imagesRepository.getSummaryStatistics();
         return images;
     }
 

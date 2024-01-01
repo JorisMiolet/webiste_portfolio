@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ImageRepository {
@@ -119,6 +121,58 @@ public class ImageRepository {
                 Image.class
         );
         return query.getResultList();
+    }
+
+    public Map<String, Long> getSummaryStatistics() {
+        Map<String, Long> summaryStatistics = new HashMap<>();
+
+        // Count completed images
+        Long completedCount = getCompleted("completed");
+        summaryStatistics.put("completed", completedCount);
+
+        // Count in-progress images
+        Long inProgressCount = getCountByStatus("completed"); // Assuming "in_progress" is the status for in-progress images
+        summaryStatistics.put("in_progress", inProgressCount);
+
+        // Count outdated images
+        Long outdatedCount = getCountOfOutdatedImages();
+        summaryStatistics.put("outdated", outdatedCount);
+
+        return summaryStatistics;
+    }
+
+    private Long getCountByStatus(String status) {
+        TypedQuery<Long> query = this.entityManager.createQuery(
+                "SELECT COUNT(i) FROM Image i WHERE i.status != :status",
+                Long.class
+        );
+        query.setParameter("status", status);
+        return query.getSingleResult();
+    }
+    private Long getCompleted(String status) {
+        TypedQuery<Long> query = this.entityManager.createQuery(
+                "SELECT COUNT(i) FROM Image i WHERE i.status = :status",
+                Long.class
+        );
+        query.setParameter("status", status);
+        return query.getSingleResult();
+    }
+
+    private Long getCountOfOutdatedImages() {
+        TypedQuery<Long> query = this.entityManager.createQuery(
+                "SELECT COUNT(i) FROM Image i WHERE i.date < :threeMonthsAgo AND i.status != 'completed'",
+                Long.class
+        );
+        LocalDate threeMonthsAgo = LocalDate.now().minusMonths(3);
+
+        // Define a DateTimeFormatter for the SQL date format
+        DateTimeFormatter sqlDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the LocalDate to a string in SQL-compatible format
+        String sqlDateString = threeMonthsAgo.format(sqlDateFormat);
+
+        query.setParameter("threeMonthsAgo", sqlDateString);
+        return query.getSingleResult();
     }
 
 }
