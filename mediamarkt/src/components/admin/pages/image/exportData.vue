@@ -58,6 +58,24 @@ export default {
           .then(response => this.images = response.data)
           .then(console.log(this.images))
     },
+    loadCompletedImages(){
+      const urlWithQuery = `${this.url}/api/images/completed`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+    loadInCompletedImages(){
+      const urlWithQuery = `${this.url}/api/images/incomplete`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+    loadOutdatedImages(){
+      const urlWithQuery = `${this.url}/api/images/outdated`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
     exportToExcel() {
       const worksheet = XLSX.utils.json_to_sheet(this.images);
       const workbook = XLSX.utils.book_new();
@@ -118,9 +136,10 @@ export default {
           <div class="font-medium">Manage images</div>
         </div>
         <div class="flex items-center mb-4 order-tab">
-          <button type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">Completed</button>
-          <button type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">In progress</button>
-          <button type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">Outdated</button>
+          <button @click="loadAllImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">All</button>
+          <button @click="loadCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">Completed</button>
+          <button @click="loadInCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">In progress</button>
+          <button @click="loadOutdatedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">Outdated</button>
           <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createImage'}">Create image</router-link></button>
         </div>
         <div class="flex items-center mb-4">

@@ -101,4 +101,22 @@ public class ImageController {
         return images;
     }
 
+    @GetMapping("/completed")
+    public List<Image> getCompletedImages() {
+        List<Image> images = imagesRepository.getCompletedImages();
+        return images;
+    }
+
+    @GetMapping("/incomplete")
+    public List<Image> getInCompleteImages() {
+        List<Image> images = imagesRepository.getIncompletedImages();
+        return images;
+    }
+
+    @GetMapping("/outdated")
+    public List<Image> getOutdatedImages() {
+        List<Image> images = imagesRepository.getOutdatedImages();
+        return images;
+    }
+
 }

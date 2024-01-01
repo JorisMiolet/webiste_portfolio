@@ -6,6 +6,8 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -83,6 +85,39 @@ public class ImageRepository {
 
         }
 
+        return query.getResultList();
+    }
+
+    public List<Image> getCompletedImages() {
+        TypedQuery<Image> query = this.entityManager.createQuery(
+                "SELECT i FROM Image i WHERE i.status = 'completed'",
+                Image.class
+        );
+        return query.getResultList();
+    }
+
+    public List<Image> getOutdatedImages(){
+        TypedQuery<Image> query = this.entityManager.createQuery(
+                "SELECT i FROM Image i WHERE i.date < :threeMonthsAgo",
+                Image.class
+        );
+        LocalDate threeMonthsAgo = LocalDate.now().minusMonths(3);
+
+        // Define a DateTimeFormatter for the SQL date format
+        DateTimeFormatter sqlDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the LocalDate to a string in SQL-compatible format
+        String sqlDateString = threeMonthsAgo.format(sqlDateFormat);
+
+        query.setParameter("threeMonthsAgo", sqlDateString);
+        return query.getResultList();
+    }
+
+    public List<Image> getIncompletedImages(){
+        TypedQuery<Image> query = this.entityManager.createQuery(
+                "SELECT i FROM Image i WHERE i.status != 'completed'",
+                Image.class
+        );
         return query.getResultList();
     }
 
