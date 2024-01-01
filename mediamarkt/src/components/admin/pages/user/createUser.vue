@@ -2,6 +2,7 @@
 import axios from "axios";
 
 export default {
+  inject: ['url'],
   name: "createUser",
   data(){
     return{

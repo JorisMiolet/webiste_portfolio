@@ -11,6 +11,7 @@ import java.util.UUID;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("uuid")
     private UUID uuid;
 
@@ -20,7 +21,6 @@ public class User {
     @JsonProperty("email")
     private String email;
 
-    @JsonIgnore
     @JsonProperty("password")
     private String password;
 
@@ -94,5 +94,9 @@ public class User {
 
     public void setLocatie(String locatie) {
         this.locatie = locatie;
+    }
+
+    public void setPassword(String encodedPassword) {
+        this.password = encodedPassword;
     }
 }

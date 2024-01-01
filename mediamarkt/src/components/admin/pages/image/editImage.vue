@@ -3,12 +3,11 @@ import axios from "axios";
 
   export default {
     name: 'editImage',
+    inject: ['url'],
     data() {
       return {
         image: null,
         dataLoaded: false,
-        // url: process.env.VUE_APP_API_URL,
-        url: "https://ewa-back-end-r7ie.onrender.com",
       }
     },
     created() {

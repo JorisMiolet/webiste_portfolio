@@ -24,6 +24,7 @@
 <script>
 export default {
   name: "SearchComponent",
+  inject: ['url'],
   data() {
     return {
       searchQuery: "",

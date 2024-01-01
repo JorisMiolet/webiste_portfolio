@@ -6,14 +6,12 @@ import * as XLSX from "xlsx";
 export default {
   name: 'exportData',
   components: {},
+  inject: ['url'],
   data() {
     return {
       images: [],
       dummyData: imageData,
       selectedImage: null,
-      url: 'http://127.0.0.1:8085',
-      // url: "https://ewa-back-end-r7ie.onrender.com",
-      // url: process.env.VUE_APP_API_URL,
     }
   },
   created() {

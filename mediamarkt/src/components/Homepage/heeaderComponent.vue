@@ -21,12 +21,11 @@ import VueJwtDecode from "vue-jwt-decode";
 
 export default {
   name: "headerComponent",
+  inject: ['url'],
   data() {
     return {
       currentUser: null,
       isAdmin: false,
-      url: "https://ewa-back-end-r7ie.onrender.com",
-      // url: process.env.VUE_APP_API_URL,
     }
   },
   created() {

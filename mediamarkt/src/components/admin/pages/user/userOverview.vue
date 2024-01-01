@@ -2,13 +2,11 @@
   import axios from "axios";
 
   export default {
+    inject: ['url'],
     data(){
       return {
         users:[],
         selectedUser:null,
-        // url: process.env.VUE_APP_API_URL,
-        // url: "https://ewa-back-end-r7ie.onrender.com",
-        url: 'http://127.0.0.1:8085',
       }
     },
     created() {

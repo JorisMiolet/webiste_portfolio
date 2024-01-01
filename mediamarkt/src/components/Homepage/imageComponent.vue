@@ -34,6 +34,7 @@ import axios from "axios";
 import searchComponent from "@/components/Homepage/searchComponent.vue";
 export default {
   name: "imageComponent",
+  inject: ['url'],
   components: {
     detailImage,
     searchComponent,
@@ -43,8 +44,6 @@ export default {
       laptops: [],
       originalLaptops: [], // Voeg een array toe om de oorspronkelijke lijst met laptops op te slaan
       selectedImageInfo: null,
-      // url: process.env.VUE_APP_API_URL,
-      url: 'https://ewa-back-end-r7ie.onrender.com',
     };
   },
   mounted() {

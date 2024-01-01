@@ -120,6 +120,7 @@
 
 
 export default {
+  inject: ['url'],
   name: "laptopOverview",
   data() {
     return {
@@ -127,9 +128,6 @@ export default {
       laptops: [],
       currentPage: 1,
       rowsPerPage: 10,
-      // url: process.env.VUE_APP_API_URL,
-      // url: "https://ewa-back-end-r7ie.onrender.com",
-      url: "http://localhost:8085",
     }
   },
   async created() {

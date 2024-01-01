@@ -45,6 +45,7 @@ import HeaderComponent from "@/components/Homepage/heeaderComponent";
 export default {
   name: "log-in",
   components: {HeaderComponent},
+  inject: ['url'],
   data() {
     return {
       backgroundImage: bgImage,
@@ -55,7 +56,6 @@ export default {
       nameInput: "",
       passwordInput: "",
       currentUser: null,
-      url: "https://ewa-back-end-r7ie.onrender.com",
     }
   },
   mounted() {
