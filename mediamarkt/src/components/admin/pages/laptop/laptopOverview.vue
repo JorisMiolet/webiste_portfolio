@@ -6,8 +6,7 @@
         <div class="font-medium">Manage laptops</div>
       </div>
       <div class="flex items-center mb-4 order-tab">
-        <input type="file" class="hidden" @change="handleFileUpload" accept=".csv">
-        <button type="button" @click="handleFileUpload" class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded active">import laptops</button>
+        <input type="file" @change="handleFileUpload" class="bg-red-500 text-sm font-medium text-white py-2 pl-4 rounded active" accept=".csv">
         <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600"><router-link :to="{name: 'createLaptop'}">Create Laptop</router-link></button>
       </div>
 
@@ -28,7 +27,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(laptop, index) in this.laptops" :key="index" @click="onSelect(laptop)">
+          <tr v-for="(laptop, index) in paginatedlaptops" :key="index" @click="onSelect(laptop)">
             <td class="py-2 px-4 border-b border-b-gray-50">
               <div class="flex items-center">
                 <span class="text-[13px] font-medium text-gray-800">{{laptop.EAN}}</span>
@@ -55,32 +54,24 @@
           </tr>
           </tbody>
         </table>
+        <div class="flex justify-center mt-4">
+          <button @click="prevPage" :disabled="currentPage === 1" :class="{'disabled': currentPage === 1}" class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600">
+            Previous
+          </button>
+          <div class="mx-4">
+            Page {{ currentPage }} of {{ totalPages }}
+          </div>
+          <button @click="nextPage" :disabled="currentPage === totalPages" :class="{'disabled': currentPage === totalPages}" class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600">
+            Next
+          </button>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
-
-<!--    </tr>-->
-<!--    <div class="flex justify-center mt-4">-->
-<!--      <button @click="prevPage" :disabled="currentPage === 1"-->
-<!--              :class="{'disabled': currentPage === 1}"-->
-<!--              class="bg-primary text-white font-bold p-2 rounded-2xl">-->
-<!--        Previous-->
-<!--      </button>-->
-<!--      <div class="mx-4">-->
-<!--        Page {{ currentPage }} of {{ totalPages }}-->
-<!--      </div>-->
-<!--      <button @click="nextPage" :disabled="currentPage === totalPages"-->
-<!--              :class="{'disabled': currentPage === totalPages}"-->
-<!--              class="bg-primary text-white font-bold p-2 rounded-2xl">-->
-<!--        Next</button>-->
-<!--    </div>-->
-<!--    </tbody>-->
-<!--  </table>-->
-
   <router-view :key="$route.fullPath"/>
 </template>
-
 <script>
 
 
@@ -96,7 +87,6 @@ export default {
       currentPage: 1,
       rowsPerPage: 10,
       searchFilter: null,
-
     }
   },
   async created() {
@@ -104,14 +94,14 @@ export default {
     this.laptops = await laptopsResponse.json();
   },
   computed: {
-    // totalPages(){
-    //   return Math.ceil(this.laptops.length / this.rowsPerPage)
-    // },
-    // paginatedlaptops() {
-    //   const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-    //   const endIndex = startIndex + this.rowsPerPage;
-    //   return this.laptops.slice(startIndex, endIndex);
-    // },
+    totalPages(){
+      return Math.ceil(this.laptops.length / this.rowsPerPage)
+    },
+    paginatedlaptops() {
+      const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+      const endIndex = startIndex + this.rowsPerPage;
+      return this.laptops.slice(startIndex, endIndex);
+    },
   },
   methods: {
     async filterLaptops() {
@@ -133,13 +123,15 @@ export default {
           method: 'POST',
           body: formData,
         });
-
+        console.log(3)
         if (response.ok) {
           alert('Laptops imported successfully');
-          const laptopsResponse = await fetch(`${this.url}/api/laptops/getAll`);
+          const laptopsResponse = await fetch(`${this.url}/api/laptops/all`);
           const laptopsData = await laptopsResponse.json(); // Parse the JSON data
-          this.laptops = laptopsData; // Set the updated list to the component's data
-          // Optionally update your frontend display after successful import
+          // Update laptops only if it's not empty
+          if (Array.isArray(laptopsData) && laptopsData.length > 0) {
+            this.laptops = laptopsData;
+          }
         } else {
           const errorMessage = await response.text();
           alert(`Error: ${errorMessage}`);
@@ -150,6 +142,7 @@ export default {
       }
     },
     handleFileUpload(event) {
+      console.log(event)
       const file = event.target.files[0];
       if (file) {
         this.importFromCSV(file);
@@ -183,6 +176,16 @@ export default {
     },
   },
   watch: {
+    laptops: {
+      handler: function () {
+        this.currentPage = 1; // Reset to the first page when laptops change
+        this.$nextTick(() => {
+          // Using $nextTick to ensure the DOM has been updated before recalculating totalPages
+          this.$forceUpdate(); // Force update to trigger recomputation of computed properties
+        });
+      },
+      deep: true, // Watch nested changes in the laptops array
+    },
     searchFilter() {
       this.filterLaptops();
     },
