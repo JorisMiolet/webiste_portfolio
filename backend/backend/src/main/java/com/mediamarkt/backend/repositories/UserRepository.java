@@ -25,6 +25,16 @@ public class UserRepository {
         return query.getResultList();
     }
 
+    public List<User> getActiveUsers(){
+        TypedQuery<User> query = this.entityManager.createQuery("SELECT u FROM User u WHERE u.active = true", User.class);
+        return query.getResultList();
+    }
+
+    public List<User> getDisabledUsers(){
+        TypedQuery<User> query = this.entityManager.createQuery("SELECT u FROM User u WHERE u.active = false", User.class);
+        return query.getResultList();
+    }
+
     public User getWithLogin(String username, String password) {
         TypedQuery<User> query = this.entityManager.createQuery(
                 "SELECT u FROM User u WHERE u.username = :username", User.class);

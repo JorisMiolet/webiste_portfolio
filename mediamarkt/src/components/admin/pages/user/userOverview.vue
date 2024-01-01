@@ -31,6 +31,14 @@
               .then(this.loadAllUsers);
         }
       },
+      activeUsers(){
+        axios.get(this.url + "/api/users/active")
+            .then(response => this.users = response.data)
+      },
+      disabledUsers(){
+        axios.get(this.url + "/api/users/disabled")
+            .then(response => this.users = response.data)
+      },
     },
     watch: {
       searchFilter() {
@@ -48,9 +56,9 @@
           <div class="font-medium">Manage users</div>
         </div>
         <div class="flex items-center mb-4 order-tab">
-          <button type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">all</button>
-          <button type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">active</button>
-          <button type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">disabled</button>
+          <button @click="loadAllUsers" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">all</button>
+          <button @click="activeUsers" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">active</button>
+          <button @click="disabledUsers" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">disabled</button>
           <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createUser'}">Create user</router-link></button>
         </div>
 
@@ -61,7 +69,7 @@
           </div>
         </div>
         <div class="overflow-x-auto">
-          <table class="w-full min-w-[540px]" data-tab-for="order" data-page="active">
+          <table class="w-full min-w-[540px]">
             <thead>
             <tr>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">Name</th>
@@ -84,7 +92,7 @@
                 </div>
               </td>
               <td class="py-2 px-4 border-b border-b-gray-50">
-                <span class="text-[13px] font-medium text-gray-800">{{user.admin}}</span>
+                <span class="text-[13px] font-medium text-gray-800"><div v-if="user.admin">admin</div><div v-else>medewerker</div></span>
               </td>
               <td class="py-2 px-4 border-b border-b-gray-50">
                 <span class="text-[13px] font-medium text-gray-800">{{user.locatie}}</span>

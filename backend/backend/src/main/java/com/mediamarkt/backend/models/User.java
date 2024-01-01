@@ -30,6 +30,8 @@ public class User {
     @JsonProperty("admin")
     private boolean admin;
 
+    private boolean active;
+
     public User(String username, String password, boolean isAdmin, String locatie, String email) {
         // create user
         this.uuid = UUID.randomUUID();
@@ -38,6 +40,7 @@ public class User {
         this.admin = isAdmin;
         this.locatie = locatie;
         this.email = email;
+        this.active = true;
     }
 
     public User() {
@@ -99,4 +102,13 @@ public class User {
     public void setPassword(String encodedPassword) {
         this.password = encodedPassword;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 }

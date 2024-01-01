@@ -5,12 +5,12 @@ DELETE FROM employee;
 
 
 -- Insert employee data
-INSERT INTO employee (admin, uuid, email, locatie, password, username)
+INSERT INTO employee (admin, uuid, email, locatie, password, username, active)
 VALUES
-    (true, '1a29c9d9-98a1-4fa8-a321-8b7c3e34b5bb', 'john.doe@example.com', 'Location1', 'password123', 'John Doe'),
-    (false, '6e7d4b8e-4e3f-4c1c-a684-2fda77d21ddd', 'alice.smith@example.com', 'Location2', 'securepass321', 'Alice Smith'),
-    (false, '3cfa057e-9b3a-44b0-89e6-8c177fae5123', 'emily.johnson@example.com', 'Location3', 'pass123word', 'Emily Johnson'),
-    (false, 'ab69a6ae-76c4-4e21-89ff-1ac67b76a1d2', 'michael.brown@example.com', 'Location4', 'p@ssw0rd', 'Michael Brown');
+    (true, '1a29c9d9-98a1-4fa8-a321-8b7c3e34b5bb', 'john.doe@example.com', 'Location1', 'password123', 'John Doe', true),
+    (false, '6e7d4b8e-4e3f-4c1c-a684-2fda77d21ddd', 'alice.smith@example.com', 'Location2', 'securepass321', 'Alice Smith', false),
+    (false, '3cfa057e-9b3a-44b0-89e6-8c177fae5123', 'emily.johnson@example.com', 'Location3', 'pass123word', 'Emily Johnson', true),
+    (false, 'ab69a6ae-76c4-4e21-89ff-1ac67b76a1d2', 'michael.brown@example.com', 'Location4', 'p@ssw0rd', 'Michael Brown', false);
 
 -- Insert laptop data
 INSERT INTO laptop (id, barcode, brand, description, ean)

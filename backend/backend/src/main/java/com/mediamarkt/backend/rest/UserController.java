@@ -24,7 +24,24 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers() {
         List<User> users = usersRepository.getAll();
-        System.out.println(users);
+        if (users == null) {
+            throw new ResourceNotFoundException("Er zijn geen users gevonden");
+        }
+        return users;
+    }
+
+    @GetMapping("/active")
+    public List<User> getActiveUsers() {
+        List<User> users = usersRepository.getActiveUsers();
+        if (users == null) {
+            throw new ResourceNotFoundException("Er zijn geen users gevonden");
+        }
+        return users;
+    }
+
+    @GetMapping("/disabled")
+    public List<User> getDisabledUsers() {
+        List<User> users = usersRepository.getDisabledUsers();
         if (users == null) {
             throw new ResourceNotFoundException("Er zijn geen users gevonden");
         }
