@@ -1,6 +1,7 @@
 package com.mediamarkt.backend.rest;
 
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
+import com.mediamarkt.backend.models.Image;
 import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.repositories.LaptopRepository;
 import jakarta.transaction.Transactional;
@@ -108,5 +109,10 @@ public class LaptopController {
 
         ServletUriComponentsBuilder uriBuilder = ServletUriComponentsBuilder.fromCurrentRequest();
         return ResponseEntity.created(uriBuilder.build().toUri()).body(laptopRepository.updateLaptop(newLaptop));
+    }
+
+    @GetMapping("/search")
+    public List<Laptop> searchImage(@RequestParam(required = false) String Filter) {
+        return laptopRepository.search(Filter);
     }
 }

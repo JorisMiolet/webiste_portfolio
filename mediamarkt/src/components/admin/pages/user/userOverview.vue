@@ -7,12 +7,18 @@
       return {
         users:[],
         selectedUser:null,
+        searchFilter: null,
       }
     },
     created() {
       this.loadAllUsers()
     },
     methods:{
+      filterUsers(){
+        const urlWithQuery = `${this.url}/api/users/search?Filter=${this.searchFilter}`;
+        axios.get(urlWithQuery)
+            .then(response => this.users = response.data)
+      },
       loadAllUsers(){
         axios.get(this.url + "/api/users/all")
             .then(response => this.users = response.data)
@@ -25,7 +31,12 @@
               .then(this.loadAllUsers);
         }
       },
-    }
+    },
+    watch: {
+      searchFilter() {
+        this.filterUsers();
+      },
+    },
   }
 </script>
 
@@ -43,17 +54,18 @@
           <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createUser'}">Create user</router-link></button>
         </div>
 
-        <form action="" class="flex items-center mb-4">
+        <div class="flex items-center mb-4">
           <div class="relative w-full mr-2">
-            <input type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Search...">
+            <input v-model="searchFilter" type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Search...">
             <i class="ri-search-line absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
           </div>
-        </form>
+        </div>
         <div class="overflow-x-auto">
           <table class="w-full min-w-[540px]" data-tab-for="order" data-page="active">
             <thead>
             <tr>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">Name</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">email</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Rol</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Locatie</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">actions</th>
@@ -64,6 +76,11 @@
               <td class="py-2 px-4 border-b border-b-gray-50">
                 <div class="flex items-center">
                   <span class="text-[13px] font-medium text-gray-800">{{user.username}}</span>
+                </div>
+              </td>
+              <td class="py-2 px-4 border-b border-b-gray-50">
+                <div class="flex items-center">
+                  <span class="text-[13px] font-medium text-gray-800">{{user.email}}</span>
                 </div>
               </td>
               <td class="py-2 px-4 border-b border-b-gray-50">

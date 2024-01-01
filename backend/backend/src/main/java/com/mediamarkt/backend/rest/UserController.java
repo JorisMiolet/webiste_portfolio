@@ -2,6 +2,7 @@ package com.mediamarkt.backend.rest;
 
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
 import com.mediamarkt.backend.exceptions.ResourceNotFoundException;
+import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.models.User;
 import com.mediamarkt.backend.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -75,5 +76,10 @@ public class UserController {
             throw new ResourceNotFoundException("er is geen user met dit UUID");
         }
         usersRepository.deleteUser(uuid);
+    }
+
+    @GetMapping("/search")
+    public List<User> searchImage(@RequestParam(required = false) String Filter) {
+        return usersRepository.search(Filter);
     }
 }

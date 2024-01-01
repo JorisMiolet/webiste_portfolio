@@ -63,4 +63,27 @@ public class ImageRepository {
         }
         return image;
     }
+
+    public List<Image> search(String filter) {
+        StringBuilder jpql = new StringBuilder("SELECT i FROM Image i");
+
+        if (filter != null && !filter.isEmpty()) {
+            jpql.append(" WHERE i.articleNumber LIKE :articleNumber");
+            jpql.append(" OR i.ean LIKE :ean");
+            jpql.append(" OR i.brand LIKE :brand");
+
+        }
+
+        TypedQuery<Image> query = this.entityManager.createQuery(jpql.toString(), Image.class);
+
+        if (filter != null && !filter.isEmpty()) {
+            query.setParameter("articleNumber", filter + "%");
+            query.setParameter("ean", filter + "%");
+            query.setParameter("brand",filter + "%");
+
+        }
+
+        return query.getResultList();
+    }
+
 }

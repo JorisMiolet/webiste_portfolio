@@ -93,5 +93,12 @@ public class ImageController {
         return image;
     }
 
+    @GetMapping("/search")
+    public List<Image> searchImage(
+            @RequestParam(required = false) String Filter
+            ) {
+        List<Image> images = imagesRepository.search(Filter);
+        return images;
+    }
 
 }

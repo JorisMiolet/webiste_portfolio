@@ -1,5 +1,6 @@
 package com.mediamarkt.backend.repositories;
 
+import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -64,5 +65,25 @@ public class UserRepository {
             this.entityManager.detach(user);
         }
         return user;
+    }
+
+    public List<User> search(String filter) {
+        StringBuilder jpql = new StringBuilder("SELECT i FROM User i");
+
+        if (filter != null && !filter.isEmpty()) {
+            jpql.append(" WHERE i.username LIKE :username");
+            jpql.append(" OR i.email LIKE :email");
+
+        }
+
+        TypedQuery<User> query = this.entityManager.createQuery(jpql.toString(), User.class);
+
+        if (filter != null && !filter.isEmpty()) {
+            query.setParameter("username", filter + "%");
+            query.setParameter("email", filter + "%");
+
+        }
+
+        return query.getResultList();
     }
 }

@@ -12,6 +12,7 @@ export default {
       images: [],
       dummyData: imageData,
       selectedImage: null,
+      searchFilter: null,
     }
   },
   created() {
@@ -45,13 +46,19 @@ export default {
     onSelect(image) {
       this.selectedImage = image;
     },
-    loadAllImages() {
-      console.log(this.url + '/api/images/all')
-      axios.get(this.url + '/api/images/all')
+    filterImages(){
+      const urlWithQuery = `${this.url}/api/images/search?Filter=${this.searchFilter}`;
+      axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-          .then(response => console.log(response));
+          .then(console.log(this.images))
     },
-      exportToExcel() {
+    loadAllImages() {
+      const urlWithQuery = `${this.url}/api/images/all`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+    exportToExcel() {
       const worksheet = XLSX.utils.json_to_sheet(this.images);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
@@ -66,8 +73,13 @@ export default {
       a.click();
       URL.revokeObjectURL(url);
     },
+  },
+  watch: {
+    searchFilter() {
+      this.filterImages();
+    },
+  },
 
-  }
 }
 
 </script>
@@ -111,12 +123,12 @@ export default {
           <button type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">Outdated</button>
           <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createImage'}">Create image</router-link></button>
         </div>
-        <form action="" class="flex items-center mb-4">
+        <div class="flex items-center mb-4">
           <div class="relative w-full mr-2">
-            <input type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Search...">
+            <input v-model="searchFilter" type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Search...">
             <i class="ri-search-line absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
           </div>
-        </form>
+        </div>
         <div class="overflow-x-auto">
           <table class="w-full min-w-[540px]" data-tab-for="order" data-page="active">
             <thead>

@@ -11,12 +11,12 @@
         <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600"><router-link :to="{name: 'createLaptop'}">Create Laptop</router-link></button>
       </div>
 
-      <form action="" class="flex items-center mb-4">
+      <div class="flex items-center mb-4">
         <div class="relative w-full mr-2">
-          <input type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Search...">
+          <input v-model="searchFilter" type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Search...">
           <i class="ri-search-line absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
         </div>
-      </form>
+      </div>
       <div class="overflow-x-auto">
         <table class="w-full min-w-[540px]" data-tab-for="order" data-page="active">
           <thead>
@@ -60,41 +60,6 @@
   </div>
 </div>
 
-
-<!--  <table class="table-auto text-left mt-12 ml-3">-->
-<!--    <caption class="text-left">-->
-<!--        <button>-->
-<!--          <router-link :to="{name: 'createLaptop'}" class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">create Laptop</router-link>-->
-<!--        </button>-->
-<!--      <div>-->
-<!--        <input type="file" class="hidden" @change="handleFileUpload" accept=".csv">-->
-<!--        <button @click="handleImportCSV" class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">Import CSV</button>-->
-<!--      </div>-->
-
-<!--    </caption>-->
-<!--    <thead class="border-b font-medium dark:border-neutral-500">-->
-<!--    <tr class="background-color">-->
-<!--      <th scope="col" class="px-6 py-4">ID</th>-->
-<!--      <th scope="col" class="px-6 py-4">EAN</th>-->
-<!--      <th scope="col" class="px-6 py-4">Barcode</th>-->
-<!--      <th scope="col" class="px-6 py-4">Brand</th>-->
-<!--      <th scope="col" class="px-6 py-4">Description</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr v-for="(laptop, index) in paginatedlaptops"-->
-<!--        :key="index"-->
-<!--        class="border-b border-black text-center leading-10"-->
-<!--        :class="{'selected': laptop === selectedLaptop}"-->
-<!--        @click="onSelect(laptop)"-->
-<!--    >-->
-<!--      <td v-for="(value, index) in laptop"-->
-<!--      :key="index">-->
-<!--        <router-link :to="{name:'editLaptop', params: {EAN: laptop['id']}}" @click="onSelect(laptop)">-->
-<!--        {{value}}-->
-<!--        </router-link>-->
-<!--      </td>-->
-
 <!--    </tr>-->
 <!--    <div class="flex justify-center mt-4">-->
 <!--      <button @click="prevPage" :disabled="currentPage === 1"-->
@@ -119,6 +84,8 @@
 <script>
 
 
+import axios from "axios";
+
 export default {
   inject: ['url'],
   name: "laptopOverview",
@@ -128,10 +95,11 @@ export default {
       laptops: [],
       currentPage: 1,
       rowsPerPage: 10,
+      searchFilter: null,
+
     }
   },
   async created() {
-    // axios.get("http://localhost:8085/api/laptops/all")
     const laptopsResponse = await fetch(this.url + '/api/laptops/all', {method: 'GET'});
     this.laptops = await laptopsResponse.json();
   },
@@ -146,6 +114,16 @@ export default {
     // },
   },
   methods: {
+    async filterLaptops() {
+      if (this.searchFilter === null || this.searchFilter === "") {
+        const laptopsResponse = await fetch(this.url + '/api/laptops/all', {method: 'GET'});
+        this.laptops = await laptopsResponse.json();
+        return;
+      }
+      const urlWithQuery = `${this.url}/api/laptops/search?Filter=${this.searchFilter}`;
+      axios.get(urlWithQuery)
+          .then(response => this.laptops = response.data)
+    },
     async importFromCSV(file) {
       const formData = new FormData();
       formData.append('file', file);
@@ -203,7 +181,12 @@ export default {
       //   this.$router.push(this.$route.matched[1].path +  "/" + laptop.EAN);
       // }
     },
-  }
+  },
+  watch: {
+    searchFilter() {
+      this.filterLaptops();
+    },
+  },
 }
 </script>
 
