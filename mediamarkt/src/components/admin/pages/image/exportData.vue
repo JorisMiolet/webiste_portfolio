@@ -127,6 +127,9 @@ export default {
       axios.post(urlWithQuery, data)
           .then(this.loadAllImages())
     },
+    getUserEmail(user) {
+      return user ? user.email : 'N/A'; // Modify this based on your user object structure
+    },
   },
   computed: {
     totalPages(){
@@ -137,6 +140,7 @@ export default {
       const endIndex = startIndex + this.rowsPerPage;
       return this.images.slice(startIndex, endIndex);
     },
+
   },
   watch: {
     searchFilter() {
@@ -205,7 +209,8 @@ export default {
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">EAN</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Brand</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Status</th>
-              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">actions</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">User</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -221,6 +226,9 @@ export default {
               </td>
               <td class="py-2 px-4 border-b border-b-gray-50">
                 <span class="text-[13px] font-medium text-gray-800">{{ pcimage["STATUS"] }}</span>
+              </td>
+              <td class="py-2 px-4 border-b border-b-gray-50">
+                <span class="text-[13px] font-medium text-gray-800">{{ getUserEmail(pcimage["user"]) }}</span>
               </td>
               <td class="py-2 px-4 border-b border-b-gray-50">
                 <span v-if="isAdmin" class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
