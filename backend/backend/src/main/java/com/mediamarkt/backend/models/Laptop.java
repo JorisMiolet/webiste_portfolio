@@ -59,41 +59,25 @@ public class Laptop {
         this.ean = ean;
     }
 
-    public String getBarcode() {
+    public String getLaptopBarcode() {
         return laptopBarcode;
     }
-
-    public void setBarcode(String barcode) {
-        this.laptopBarcode = barcode;
-    }
-
-    public String getBrand() {
-        return laptopBrand;
-    }
-
-    public void setBrand(String brand) {
-        this.laptopBrand = brand;
-    }
-
-    public String getDescription() {
-        return laptopDescription;
-    }
-
-    public void setDescription(String description) {
-        this.laptopDescription = description;
-    }
-
 
     public void setLaptopBarcode(String laptopBarcode) {
         this.laptopBarcode = laptopBarcode;
     }
 
+    public String getLaptopBrand() {
+        return laptopBrand;
+    }
 
     public void setLaptopBrand(String laptopBrand) {
         this.laptopBrand = laptopBrand;
     }
 
-
+    public String getLaptopDescription() {
+        return laptopDescription;
+    }
 
     public void setLaptopDescription(String laptopDescription) {
         this.laptopDescription = laptopDescription;
@@ -105,9 +89,5 @@ public class Laptop {
 
     public void setImages(List<Image> images) {
         this.images = images;
-    }
-
-    public void addImage(Image image) {
-        this.images.add(image);
     }
 }

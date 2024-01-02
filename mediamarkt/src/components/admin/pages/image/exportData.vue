@@ -155,6 +155,7 @@ export default {
         <div class="flex justify-between mb-6">
           <div>
             <div v-if="this.summary.completed" class="text-2xl font-semibold mb-1">{{ this.summary.completed }}</div>
+            <div v-else class="text-2xl font-semibold mb-1">0</div>
             <div class="text-sm font-medium text-gray-600">Completed</div>
           </div>
         </div>
@@ -163,6 +164,7 @@ export default {
         <div class="flex justify-between mb-6">
           <div>
             <div v-if="this.summary.in_progress" class="text-2xl font-semibold mb-1">{{ this.summary.in_progress }}</div>
+            <div v-else class="text-2xl font-semibold mb-1">0</div>
             <div class="text-sm font-medium text-gray-600">In progress</div>
           </div>
         </div>
@@ -171,6 +173,7 @@ export default {
         <div class="flex justify-between mb-6">
           <div>
             <div v-if="this.summary.outdated" class="text-2xl font-semibold mb-1">{{ this.summary.outdated }}</div>
+            <div v-else class="text-2xl font-semibold mb-1">0</div>
             <div class="text-sm font-medium text-gray-600">Outdated</div>
           </div>
         </div>

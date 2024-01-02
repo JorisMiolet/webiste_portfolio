@@ -37,7 +37,12 @@ public class ImageRepository {
                 Image.class
         );
         query.setParameter("barcode", barcode);
-        return query.getSingleResult();
+        List<Image> result = query.getResultList();
+        if(result.isEmpty()){
+            return null;
+        }
+        Image image = result.get(0);
+        return image;
     }
 
     public Image findByArticleNr(String articleNr) {
@@ -47,13 +52,19 @@ public class ImageRepository {
         if(result.isEmpty()){
             return null;
         }
-        return query.getResultList().get(0);
+        Image image = result.get(0);
+        return image;
     }
 
     public Image findByEAN(String EAN) {
         TypedQuery<Image> query = this.entityManager.createQuery("select i from Image i where i.ean = :ean", Image.class);
         query.setParameter("ean", EAN);
-        return query.getSingleResult();
+        List<Image> result = query.getResultList();
+        if(result.isEmpty()){
+            return null;
+        }
+        Image image = result.get(0);
+        return image;
     }
 
     public Image create(Image newImage) {
