@@ -1,5 +1,6 @@
 <script>
   import axios from "axios";
+  import VueJwtDecode from "vue-jwt-decode";
 
   export default {
     inject: ['url'],
@@ -11,6 +12,7 @@
       }
     },
     created() {
+      this.validateAdmin()
       this.loadAllUsers()
     },
     methods:{
@@ -29,6 +31,13 @@
         if(confirmDelete){
           axios.delete(this.url + `/api/users/${user.uuid}`)
               .then(this.loadAllUsers);
+        }
+      },
+      validateAdmin(){
+        let token = sessionStorage.getItem("token")
+        let decodedToken = VueJwtDecode.decode(token)
+        if (!JSON.parse(decodedToken.admin)){
+          this.$router.push("/")
         }
       },
       activeUsers(){

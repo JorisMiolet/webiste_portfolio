@@ -76,6 +76,7 @@
 
 
 import axios from "axios";
+import VueJwtDecode from "vue-jwt-decode";
 
 export default {
   inject: ['url'],
@@ -90,6 +91,7 @@ export default {
     }
   },
   async created() {
+    this.validateAdmin()
     const laptopsResponse = await fetch(this.url + '/api/laptops/all', {method: 'GET'});
     this.laptops = await laptopsResponse.json();
   },
@@ -113,6 +115,13 @@ export default {
       const urlWithQuery = `${this.url}/api/laptops/search?Filter=${this.searchFilter}`;
       axios.get(urlWithQuery)
           .then(response => this.laptops = response.data)
+    },
+    validateAdmin(){
+     let token = sessionStorage.getItem("token")
+      let decodedToken = VueJwtDecode.decode(token)
+      if (!JSON.parse(decodedToken.admin)){
+        this.$router.push("/")
+      }
     },
     async importFromCSV(file) {
       const formData = new FormData();
