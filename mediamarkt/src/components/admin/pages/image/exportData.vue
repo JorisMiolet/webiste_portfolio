@@ -117,8 +117,7 @@ export default {
         "user_id": localStorage.getItem('user_id')
       }
       axios.post(urlWithQuery, data)
-          .then(response => this.images = response.data)
-          .then(console.log(this.images))
+          .then(this.loadAllImages())
     },
   },
 
@@ -224,9 +223,9 @@ export default {
                     <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">delete</router-link>
                   </button>
                 </span>
-                <span v-if="pcimage['STATUS'] !== 'completed'" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                <span @click="pickup(pcimage)" v-if="pcimage['STATUS'] !== 'completed' && pcimage['STATUS'] !== 'in progress'" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
                   <button>
-                    <a @click="pickup(pcimage)">pick up</a>
+                    <span>pick up</span>
                   </button>
                 </span>
               </td>

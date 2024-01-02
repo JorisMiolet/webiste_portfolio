@@ -181,6 +181,7 @@ public class ImageRepository {
     @Transactional
     public Image pickup(String articleNumber, UUID userId) {
         Image image = findByArticleNr(articleNumber);
+        image.setStatus("in progress");
         User user = this.entityManager.find(User.class, userId);
 
         if(user != null && image != null){
