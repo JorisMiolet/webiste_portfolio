@@ -7,11 +7,15 @@ import axios from "axios";
     data() {
       return {
         image: null,
+        users: [],
+        laptops: [],
         dataLoaded: false,
       }
     },
     created() {
       this.loadImage();
+      this.loadUsers();
+      this.loadLaptops();
     },
     methods: {
       deleteImage(){
@@ -44,6 +48,18 @@ import axios from "axios";
               this.image = response.data;
               this.dataLoaded = true;
             });
+      },
+      loadUsers(){
+        axios.get(this.url + `/api/users/all`)
+            .then(response => {
+              this.users = response.data;
+            });
+      },
+      loadLaptops(){
+        axios.get(this.url + `/api/laptops/all`)
+            .then(response => {
+              this.laptops = response.data;
+            });
       }
     }
   }
@@ -73,6 +89,30 @@ import axios from "axios";
             <div class="flex mt-2">
               <input v-model="image.GPU" type="text" class="flex-grow mr-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Gpu">
               <input v-model="image['SCREENSIZE (cm)']" type="text" class="flex-grow py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Screen size (CM)">
+            </div>
+            <div class="flex mt-2">
+              <div class="relative w-1/2 mr-2">
+                <label for="userDropdown" class="text-sm text-gray-600">Select User:</label>
+                <select v-model="image.user" id="userDropdown" class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
+                  <option v-for="user in users" :key="user.id" :value="user">
+                    {{ user.email }}
+                  </option>
+                </select>
+              </div>
+              <div class="relative w-1/2">
+                <label for="laptopDropdown" class="text-sm text-gray-600">Select Laptop:</label>
+                <select v-model="image.laptop" id="laptopDropdown" class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
+                  <option v-for="laptop in laptops" :key="laptop.id" :value="laptop">
+                    {{ laptop.brand }} - {{ laptop.description }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="flex mt-2">
+              <select v-model="image.STATUS"  class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
+                <option value="completed">completed</option>
+                <option value="in progress">in progress</option>
+              </select>
             </div>
           </div>
           <div class="flex justify-between">
