@@ -47,7 +47,7 @@ export default {
     deleteImage(image) {
       const confirmDelete = confirm(`are you sure you want to delete image ${image["Article NR"]}`);
       if (confirmDelete) {
-        const urlWithQuery = `${this.url}/api/images/${image["Article NR"]}`;
+        const urlWithQuery = `${this.url}/api/images/${image["id"]}`;
         axios.delete(urlWithQuery)
             .then(this.loadAllImages);
       }

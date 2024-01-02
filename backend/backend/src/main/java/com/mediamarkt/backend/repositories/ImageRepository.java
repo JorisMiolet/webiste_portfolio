@@ -1,6 +1,7 @@
 package com.mediamarkt.backend.repositories;
 
 import com.mediamarkt.backend.models.Image;
+import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -27,7 +28,6 @@ public class ImageRepository {
                 "SELECT i FROM Image i",
                 Image.class
         );
-        System.out.println(query);
         return query.getResultList();
     }
 
@@ -43,7 +43,7 @@ public class ImageRepository {
     public Image findByArticleNr(String articleNr) {
         TypedQuery<Image> query = this.entityManager.createQuery("select i from Image i where i.articleNumber = :articleNr", Image.class);
         query.setParameter("articleNr", articleNr);
-        return query.getSingleResult();
+        return query.getResultList().get(0);
     }
 
     public Image findByEAN(String EAN) {
@@ -61,15 +61,19 @@ public class ImageRepository {
         return this.entityManager.merge(updatedImage);
     }
 
-    public Image deleteImage(String articleNr) {
-        Image image = this.entityManager.find(Image.class, articleNr);
+    public Image deleteImage(Long id) {
+        Image image = this.entityManager.find(Image.class, id);
+
         if (image != null) {
             this.entityManager.remove(image);
             this.entityManager.flush();
-            this.entityManager.detach(image);
+            return image;
+        } else {
+            return null;
         }
-        return image;
     }
+
+
 
     public List<Image> search(String filter) {
         StringBuilder jpql = new StringBuilder("SELECT i FROM Image i");
@@ -178,14 +182,13 @@ public class ImageRepository {
         return query.getSingleResult();
     }
 
-    @Transactional
     public Image pickup(String articleNumber, UUID userId) {
         Image image = findByArticleNr(articleNumber);
         image.setStatus("in progress");
         User user = this.entityManager.find(User.class, userId);
+        user.assosiateOffer(image);
 
         if(user != null && image != null){
-            user.assosiateOffer(image);
             this.entityManager.merge(image);
             this.entityManager.merge(user);
             return image;

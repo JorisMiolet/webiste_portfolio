@@ -1,10 +1,10 @@
 package com.mediamarkt.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,18 +34,18 @@ public class User {
 
     private boolean active;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Image> images = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Image> images;
 
-    public User(String username, String password, boolean isAdmin, String locatie, String email) {
-        // create user
-        this.uuid = UUID.randomUUID();
+    public User(UUID uuid, String username, String email, String password, String locatie, boolean admin, boolean active) {
+        this.uuid = uuid;
         this.username = username;
-        this.password = password;
-        this.admin = isAdmin;
-        this.locatie = locatie;
         this.email = email;
-        this.active = true;
+        this.password = password;
+        this.locatie = locatie;
+        this.admin = admin;
+        this.active = active;
     }
 
     public User() {
@@ -123,7 +123,6 @@ public class User {
     public void setImages(List<Image> images) {
         this.images = images;
     }
-
     public boolean assosiateOffer(Image image) {
         this.images.add(image);
         image.setUser(this);

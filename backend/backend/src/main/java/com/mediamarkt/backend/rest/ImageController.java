@@ -78,14 +78,15 @@ public class ImageController {
         return ResponseEntity.created(uriBuilder.build().toUri()).body(imagesRepository.updateImage(newImage));
     }
 
-    @DeleteMapping("{articleNr}")
+    @DeleteMapping("{id}")
     @Transactional
-    public void deleteImage(@PathVariable String articleNr) {
-        Image image = imagesRepository.deleteImage(articleNr);
+    public Image deleteImage(@PathVariable Long id) {
+        Image image = imagesRepository.deleteImage(id);
 
         if (image == null) {
-            throw new ResourceNotFoundException("image with article number: " + articleNr + " not found");
+            throw new ResourceNotFoundException("image with article number: " + id + " not found");
         }
+        return image;
     }
 
     @GetMapping("/EAN/{EAN}")
@@ -130,6 +131,7 @@ public class ImageController {
     }
 
     @PostMapping("/pickup")
+    @Transactional
     public Image pickup(@RequestBody ObjectNode articleNumber) {
         String articleNr = articleNumber.get("article_nr").asText();
         UUID user_id = UUID.fromString(articleNumber.get("user_id").asText());
