@@ -7,10 +7,10 @@
         <h1 class="text-6xl">Login</h1>
       </div>
       <div class="w-80 mx-auto my-10 flex flex-col justify-between flex-1 relative">
-        <input type="text"
+        <input type="email"
                class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 bg-input"
-               placeholder="Naam"
-               v-model="nameInput"
+               placeholder="Email"
+               v-model="emailInput"
         />
         <input :type="[showPassword ? 'text' : 'password']"
                class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 pr-12 sm:pr-16 bg-input"
@@ -53,7 +53,7 @@ export default {
       hiddenEye: hide,
       showPassword: false,
       userList: [],
-      nameInput: "",
+      emailInput: "",
       passwordInput: "",
       currentUser: null,
     }
@@ -74,7 +74,7 @@ export default {
             {
               method: "POST",
               headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({username: this.nameInput, password: this.passwordInput})
+              body: JSON.stringify({email: this.emailInput, password: this.passwordInput})
               //credentials: 'include'
             })
 

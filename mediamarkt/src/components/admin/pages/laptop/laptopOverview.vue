@@ -123,7 +123,6 @@ export default {
           method: 'POST',
           body: formData,
         });
-        console.log(3)
         if (response.ok) {
           alert('Laptops imported successfully');
           const laptopsResponse = await fetch(`${this.url}/api/laptops/all`);
@@ -142,7 +141,6 @@ export default {
       }
     },
     handleFileUpload(event) {
-      console.log(event)
       const file = event.target.files[0];
       if (file) {
         this.importFromCSV(file);
