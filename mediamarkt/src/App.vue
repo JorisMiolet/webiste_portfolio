@@ -7,6 +7,11 @@
 import './main.css'
 export default {
   name: 'App',
+  provide(){
+    return {
+      url: 'http://localhost:8085'
+    }
+  }
 }
 
 

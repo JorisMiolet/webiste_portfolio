@@ -6,7 +6,11 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ImageRepository {
@@ -20,6 +24,7 @@ public class ImageRepository {
                 "SELECT i FROM Image i",
                 Image.class
         );
+        System.out.println(query);
         return query.getResultList();
     }
 
@@ -62,4 +67,112 @@ public class ImageRepository {
         }
         return image;
     }
+
+    public List<Image> search(String filter) {
+        StringBuilder jpql = new StringBuilder("SELECT i FROM Image i");
+
+        if (filter != null && !filter.isEmpty()) {
+            jpql.append(" WHERE i.articleNumber LIKE :articleNumber");
+            jpql.append(" OR i.ean LIKE :ean");
+            jpql.append(" OR i.brand LIKE :brand");
+
+        }
+
+        TypedQuery<Image> query = this.entityManager.createQuery(jpql.toString(), Image.class);
+
+        if (filter != null && !filter.isEmpty()) {
+            query.setParameter("articleNumber", filter + "%");
+            query.setParameter("ean", filter + "%");
+            query.setParameter("brand",filter + "%");
+
+        }
+
+        return query.getResultList();
+    }
+
+    public List<Image> getCompletedImages() {
+        TypedQuery<Image> query = this.entityManager.createQuery(
+                "SELECT i FROM Image i WHERE i.status = 'completed'",
+                Image.class
+        );
+        return query.getResultList();
+    }
+
+    public List<Image> getOutdatedImages(){
+        TypedQuery<Image> query = this.entityManager.createQuery(
+                "SELECT i FROM Image i WHERE i.date < :threeMonthsAgo",
+                Image.class
+        );
+        LocalDate threeMonthsAgo = LocalDate.now().minusMonths(3);
+
+        // Define a DateTimeFormatter for the SQL date format
+        DateTimeFormatter sqlDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the LocalDate to a string in SQL-compatible format
+        String sqlDateString = threeMonthsAgo.format(sqlDateFormat);
+
+        query.setParameter("threeMonthsAgo", sqlDateString);
+        return query.getResultList();
+    }
+
+    public List<Image> getIncompletedImages(){
+        TypedQuery<Image> query = this.entityManager.createQuery(
+                "SELECT i FROM Image i WHERE i.status != 'completed'",
+                Image.class
+        );
+        return query.getResultList();
+    }
+
+    public Map<String, Long> getSummaryStatistics() {
+        Map<String, Long> summaryStatistics = new HashMap<>();
+
+        // Count completed images
+        Long completedCount = getCompleted("completed");
+        summaryStatistics.put("completed", completedCount);
+
+        // Count in-progress images
+        Long inProgressCount = getCountByStatus("completed"); // Assuming "in_progress" is the status for in-progress images
+        summaryStatistics.put("in_progress", inProgressCount);
+
+        // Count outdated images
+        Long outdatedCount = getCountOfOutdatedImages();
+        summaryStatistics.put("outdated", outdatedCount);
+
+        return summaryStatistics;
+    }
+
+    private Long getCountByStatus(String status) {
+        TypedQuery<Long> query = this.entityManager.createQuery(
+                "SELECT COUNT(i) FROM Image i WHERE i.status != :status",
+                Long.class
+        );
+        query.setParameter("status", status);
+        return query.getSingleResult();
+    }
+    private Long getCompleted(String status) {
+        TypedQuery<Long> query = this.entityManager.createQuery(
+                "SELECT COUNT(i) FROM Image i WHERE i.status = :status",
+                Long.class
+        );
+        query.setParameter("status", status);
+        return query.getSingleResult();
+    }
+
+    private Long getCountOfOutdatedImages() {
+        TypedQuery<Long> query = this.entityManager.createQuery(
+                "SELECT COUNT(i) FROM Image i WHERE i.date < :threeMonthsAgo AND i.status != 'completed'",
+                Long.class
+        );
+        LocalDate threeMonthsAgo = LocalDate.now().minusMonths(3);
+
+        // Define a DateTimeFormatter for the SQL date format
+        DateTimeFormatter sqlDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the LocalDate to a string in SQL-compatible format
+        String sqlDateString = threeMonthsAgo.format(sqlDateFormat);
+
+        query.setParameter("threeMonthsAgo", sqlDateString);
+        return query.getSingleResult();
+    }
+
 }

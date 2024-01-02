@@ -45,6 +45,7 @@ import HeaderComponent from "@/components/Homepage/heeaderComponent";
 export default {
   name: "log-in",
   components: {HeaderComponent},
+  inject: ['url'],
   data() {
     return {
       backgroundImage: bgImage,
@@ -55,7 +56,6 @@ export default {
       nameInput: "",
       passwordInput: "",
       currentUser: null,
-      url: process.env.VUE_APP_API_URL,
     }
   },
   mounted() {
@@ -66,11 +66,11 @@ export default {
       this.showPassword ? this.showPassword = false : this.showPassword = true;
     },
     loadUserList() {
-      axios.get('http://localhost:8085/api/users/all').then(response => this.userList = response.data)
+      axios.get(`${this.url}/api/users/all`).then(response => this.userList = response.data)
     },
     async handleButton() {
       try {
-        let response = await fetch("http://localhost:8085/authentication/login",
+        let response = await fetch(`${this.url}/authentication/login`,
             {
               method: "POST",
               headers: {'Content-Type': 'application/json'},

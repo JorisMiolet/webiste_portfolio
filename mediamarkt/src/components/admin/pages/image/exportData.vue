@@ -6,16 +6,19 @@ import * as XLSX from "xlsx";
 export default {
   name: 'exportData',
   components: {},
+  inject: ['url'],
   data() {
     return {
       images: [],
       dummyData: imageData,
       selectedImage: null,
-      url: process.env.VUE_APP_API_URL,
+      searchFilter: null,
+      summary: []
     }
   },
   created() {
     this.loadAllImages();
+    this.loadImageSummary();
     console.log(this.images)
   }, methods: {
     createOffer(image) {
@@ -45,12 +48,42 @@ export default {
     onSelect(image) {
       this.selectedImage = image;
     },
-    loadAllImages() {
-      axios.get(this.url + '/api/images/all')
+    filterImages(){
+      const urlWithQuery = `${this.url}/api/images/search?Filter=${this.searchFilter}`;
+      axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-          .then(response => console.log(response));
+          .then(console.log(this.images))
     },
-      exportToExcel() {
+    loadAllImages() {
+      const urlWithQuery = `${this.url}/api/images/all`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+    loadCompletedImages(){
+      const urlWithQuery = `${this.url}/api/images/completed`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+    loadInCompletedImages(){
+      const urlWithQuery = `${this.url}/api/images/incomplete`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+    loadImageSummary(){
+      const urlWithQuery = `${this.url}/api/images/summary`;
+      axios.get(urlWithQuery)
+          .then(response => this.summary = response.data)
+    },
+    loadOutdatedImages(){
+      const urlWithQuery = `${this.url}/api/images/outdated`;
+      axios.get(urlWithQuery)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+    exportToExcel() {
       const worksheet = XLSX.utils.json_to_sheet(this.images);
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
@@ -65,49 +98,103 @@ export default {
       a.click();
       URL.revokeObjectURL(url);
     },
+  },
+  watch: {
+    searchFilter() {
+      this.filterImages();
+    },
+  },
 
-  }
 }
 
 </script>
 
 <template>
-  <table class="table-auto text-left ml-3">
-    <caption class="text-left">
-      <button class="bg-red-800 mr-2 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded" @click="exportToExcel">
-        Export data
-      </button>
-      <button class="bg-red-800 hover:bg-red-500 text-white font-medium mt-2 py-2 px-4 rounded">
-        <router-link :to="{name: 'createImage'}">Create image</router-link>
-      </button>
-    </caption>
-    <thead class="border-b font-medium dark:border-neutral-500">
-    <tr>
-      <th scope="col" class="px-6 py-4">#</th>
-      <th scope="col" class="px-6 py-4">Article NR</th>
-      <th scope="col" class="px-6 py-4">EAN</th>
-      <th scope="col" class="px-6 py-4">Brand</th>
-      <th scope="col" class="px-6 py-4">Description</th>
-      <th scope="col" class="px-6 py-4">Processor</th>
-      <th scope="col" class="px-6 py-4">Edit image</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in images" :key="pcimage.EAN">
-        <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">
-          <button>
-            <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">edit</router-link>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+      <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+        <div class="flex justify-between mb-6">
+          <div>
+            <div v-if="this.summary.completed" class="text-2xl font-semibold mb-1">{{ this.summary.completed }}</div>
+            <div class="text-sm font-medium text-gray-600">Completed</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+        <div class="flex justify-between mb-6">
+          <div>
+            <div v-if="this.summary.in_progress" class="text-2xl font-semibold mb-1">{{ this.summary.in_progress }}</div>
+            <div class="text-sm font-medium text-gray-600">In progress</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
+        <div class="flex justify-between mb-6">
+          <div>
+            <div v-if="this.summary.outdated" class="text-2xl font-semibold mb-1">{{ this.summary.outdated }}</div>
+            <div class="text-sm font-medium text-gray-600">Outdated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-6">
+      <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
+        <div class="flex justify-between mb-4 items-start">
+          <div class="font-medium">Manage images</div>
+        </div>
+        <div class="flex items-center mb-4 order-tab">
+          <button @click="loadAllImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">All</button>
+          <button @click="loadCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">Completed</button>
+          <button @click="loadInCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">In progress</button>
+          <button @click="loadOutdatedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">Outdated</button>
+          <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createImage'}">Create image</router-link></button>
+        </div>
+        <div class="flex items-center mb-4">
+          <div class="relative w-full mr-2">
+            <input v-model="searchFilter" type="text" class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Search...">
+            <i class="ri-search-line absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[540px]" data-tab-for="order" data-page="active">
+            <thead>
+            <tr>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">Article number</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">EAN</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Brand</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(pcimage) in images" :key="pcimage.EAN">
+              <td class="py-2 px-4 border-b border-b-gray-50">
+                <span class="text-[13px] font-medium text-gray-800">{{ pcimage["Article NR"] }}</span>
+              </td>
+              <td class="py-2 px-4 border-b border-b-gray-50">
+                <span class="text-[13px] font-medium text-gray-800">{{ pcimage["EAN"] }}</span>
+              </td>
+              <td class="py-2 px-4 border-b border-b-gray-50">
+                <span class="text-[13px] font-medium text-gray-800">{{ pcimage["Brand"] }}</span>
+              </td>
+              <td class="py-2 px-4 border-b border-b-gray-50">
+                <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                  <button>
+                    <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">edit</router-link>
+                  </button>
+                </span>
+                <span class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                  <button>
+                    <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">delete</router-link>
+                  </button>
+                </span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
   <router-view :key="$route.fullPath"/>
 </template>
 

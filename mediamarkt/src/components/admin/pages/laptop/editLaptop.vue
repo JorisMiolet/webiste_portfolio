@@ -3,6 +3,7 @@ import axios from "axios";
 
 export default {
   name: 'editLaptop',
+  inject: ['url'],
   data() {
     return {
       laptop: null,

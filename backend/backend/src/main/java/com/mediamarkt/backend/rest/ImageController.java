@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/images")
@@ -23,6 +24,8 @@ public class ImageController {
     @GetMapping("/all")
     public List<Image> getAllImages() {
         List<Image> images = imagesRepository.getAll();
+        System.out.println(images);
+        System.out.println("^^ images queried ^");
         if (images == null) {
             throw new ResourceNotFoundException("Er zijn geen images gevonden");
         }
@@ -91,5 +94,36 @@ public class ImageController {
         return image;
     }
 
+    @GetMapping("/search")
+    public List<Image> searchImage(
+            @RequestParam(required = false) String Filter
+            ) {
+        List<Image> images = imagesRepository.search(Filter);
+        return images;
+    }
+
+    @GetMapping("/completed")
+    public List<Image> getCompletedImages() {
+        List<Image> images = imagesRepository.getCompletedImages();
+        return images;
+    }
+
+    @GetMapping("/incomplete")
+    public List<Image> getInCompleteImages() {
+        List<Image> images = imagesRepository.getIncompletedImages();
+        return images;
+    }
+
+    @GetMapping("/outdated")
+    public List<Image> getOutdatedImages() {
+        List<Image> images = imagesRepository.getOutdatedImages();
+        return images;
+    }
+
+    @GetMapping("/summary")
+    public Map<String, Long> getSummary() {
+        Map<String, Long> images = imagesRepository.getSummaryStatistics();
+        return images;
+    }
 
 }

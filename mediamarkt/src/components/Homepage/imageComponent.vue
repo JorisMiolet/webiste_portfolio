@@ -34,6 +34,7 @@ import axios from "axios";
 import searchComponent from "@/components/Homepage/searchComponent.vue";
 export default {
   name: "imageComponent",
+  inject: ['url'],
   components: {
     detailImage,
     searchComponent,
@@ -43,7 +44,6 @@ export default {
       laptops: [],
       originalLaptops: [], // Voeg een array toe om de oorspronkelijke lijst met laptops op te slaan
       selectedImageInfo: null,
-      url: process.env.VUE_APP_API_URL,
     };
   },
   mounted() {
@@ -61,7 +61,7 @@ export default {
 
     //loads all laptops
     loadUserList() {
-      axios.get('http://localhost:8085/api/images/all').then((response) => {
+      axios.get(`${this.url}/api/images/all`).then((response) => {
         this.laptops = response.data;
         this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
       });

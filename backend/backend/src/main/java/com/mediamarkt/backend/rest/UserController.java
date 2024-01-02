@@ -2,6 +2,7 @@ package com.mediamarkt.backend.rest;
 
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
 import com.mediamarkt.backend.exceptions.ResourceNotFoundException;
+import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.models.User;
 import com.mediamarkt.backend.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -23,6 +24,24 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers() {
         List<User> users = usersRepository.getAll();
+        if (users == null) {
+            throw new ResourceNotFoundException("Er zijn geen users gevonden");
+        }
+        return users;
+    }
+
+    @GetMapping("/active")
+    public List<User> getActiveUsers() {
+        List<User> users = usersRepository.getActiveUsers();
+        if (users == null) {
+            throw new ResourceNotFoundException("Er zijn geen users gevonden");
+        }
+        return users;
+    }
+
+    @GetMapping("/disabled")
+    public List<User> getDisabledUsers() {
+        List<User> users = usersRepository.getDisabledUsers();
         if (users == null) {
             throw new ResourceNotFoundException("Er zijn geen users gevonden");
         }
@@ -74,5 +93,10 @@ public class UserController {
             throw new ResourceNotFoundException("er is geen user met dit UUID");
         }
         usersRepository.deleteUser(uuid);
+    }
+
+    @GetMapping("/search")
+    public List<User> searchImage(@RequestParam(required = false) String Filter) {
+        return usersRepository.search(Filter);
     }
 }

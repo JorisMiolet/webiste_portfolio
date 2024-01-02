@@ -15,13 +15,13 @@ public class Laptop {
     @JsonProperty("EAN")
     @Column(name = "EAN")
     private String ean;
-    @JsonProperty("Barcode")
+    @JsonProperty("barcode")
     @Column(name = "BARCODE")
     private String laptopBarcode;
-    @JsonProperty("Brand")
+    @JsonProperty("brand")
     @Column(name = "BRAND")
     private String laptopBrand;
-    @JsonProperty("Description")
+    @JsonProperty("description")
     @Column(name = "DESCRIPTION")
     private String laptopDescription;
 

@@ -3,11 +3,11 @@ import axios from "axios";
 
   export default {
     name: 'editImage',
+    inject: ['url'],
     data() {
       return {
         image: null,
         dataLoaded: false,
-        url: process.env.VUE_APP_API_URL,
       }
     },
     created() {
@@ -52,6 +52,43 @@ import axios from "axios";
 </script>
 
 <template>
+  <div class="p-6 flex h-screen">
+    <div class="mb-6 mx-auto">
+      <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
+        <div class="flex justify-between mb-4 items-start">
+          <div class="font-medium">Create image</div>
+        </div>
+        <form action="" class="flex items-center flex-col">
+          <div class="relative w-full mb-2">
+            <div class="flex mt-2">
+              <input type="text" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 mr-2" placeholder="Article Nr">
+              <input type="text" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500" placeholder="Ean">
+            </div>
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Brand">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Description">
+            <input type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Processor">
+            <div class="flex mt-2">
+              <input type="text" class="flex-grow mr-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Ram">
+              <input type="text" class="flex-grow py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Storage">
+            </div>
+            <div class="flex mt-2">
+              <input type="text" class="flex-grow mr-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Gpu">
+              <input type="text" class="flex-grow py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Screen size (CM)">
+            </div>
+          </div>
+          <div class="flex justify-between">
+            <button @click="save" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              Save
+            </button>
+            <button @click="deleteImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">delete</button>
+            <button @click="resetImage" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
   <div>
     <template v-if="dataLoaded">
       <form class="w-full max-w-lg">

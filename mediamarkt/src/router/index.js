@@ -13,13 +13,14 @@ import editLaptop from "@/components/admin/pages/laptop/editLaptop.vue";
 import createLaptop from "@/components/admin/pages/laptop/createLaptop.vue";
 
 const routes = [
-    {path: "/", redirect: "/home",},
+    {path: "/", redirect: "/home", name: 'home'},
     {path: "/home", name: "welcome", component: welcomeComponent},
     {path: "/Login", name: "login", component: Login},
     {
         path: "/admin",
         component: adminOverview,
         name: "admin",
+        meta: { requiresAuth: true },
         children: [
             {
                 path:"image-overview",

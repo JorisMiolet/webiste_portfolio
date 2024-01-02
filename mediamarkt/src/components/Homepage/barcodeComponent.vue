@@ -17,6 +17,7 @@ import axios from "axios";
 export default {
   name: "barcodeComponent",
   props: ['buttonIsClicked'],
+  inject: ['url'],
   components: {
     StreamBarcodeReader,
   },
@@ -24,7 +25,6 @@ export default {
     return {
       laptopInfo: [],
       buttonClicked: this.buttonIsClicked,
-      url: process.env.VUE_APP_API_URL,
     };
   },
   computed: {

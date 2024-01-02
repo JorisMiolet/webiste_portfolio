@@ -47,6 +47,7 @@
 import axios from "axios";
 
 export default {
+  inject: ['url'],
   name: "createLaptop",
   data(){
     return {
@@ -56,7 +57,6 @@ export default {
         Barcode: null,
         Brand: null,
         Description: null,
-        url: process.env.VUE_APP_API_URL,
       },
     }
   },

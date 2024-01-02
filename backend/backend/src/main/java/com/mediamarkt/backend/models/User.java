@@ -1,5 +1,6 @@
 package com.mediamarkt.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -10,8 +11,8 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @JsonProperty("uuid")
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("uuid")
     private UUID uuid;
 
     @JsonProperty("username")
@@ -29,6 +30,8 @@ public class User {
     @JsonProperty("admin")
     private boolean admin;
 
+    private boolean active;
+
     public User(String username, String password, boolean isAdmin, String locatie, String email) {
         // create user
         this.uuid = UUID.randomUUID();
@@ -37,6 +40,7 @@ public class User {
         this.admin = isAdmin;
         this.locatie = locatie;
         this.email = email;
+        this.active = true;
     }
 
     public User() {
@@ -70,9 +74,6 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public boolean isAdmin() {
         return admin;
@@ -97,4 +98,17 @@ public class User {
     public void setLocatie(String locatie) {
         this.locatie = locatie;
     }
+
+    public void setPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
 }
