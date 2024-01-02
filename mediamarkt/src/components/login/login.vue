@@ -84,9 +84,11 @@ export default {
             throw new Error('token niet gevonden');
           }
 
+          let responsedata = await response.json();
           token = token.replace('Bearer ', '');
           sessionStorage.setItem('token', token);
-
+          sessionStorage.setItem('user_id', responsedata.uuid)
+          sessionStorage.setItem('isAdmin', responsedata.admin)
           this.$router.push("/")
         }
 

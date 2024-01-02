@@ -7,6 +7,9 @@ export default {
   name: 'exportData',
   components: {},
   inject: ['url'],
+  props: {
+    isAdmin: Boolean,
+  },
   data() {
     return {
       images: [],
@@ -22,7 +25,8 @@ export default {
     this.loadAllImages();
     this.loadImageSummary();
     console.log(this.images)
-  }, methods: {
+  },
+  methods: {
     createOffer(image) {
       image = PCImage.createSampleImage(
           image.ArticleNR,
@@ -114,13 +118,12 @@ export default {
       const urlWithQuery = `${this.url}/api/images/pickup`;
       const data = {
         "article_nr": image["Article NR"],
-        "user_id": localStorage.getItem('user_id')
+        "user_id": sessionStorage.getItem('user_id')
       }
       axios.post(urlWithQuery, data)
           .then(this.loadAllImages())
     },
   },
-
   computed: {
     // totalPages(){
     //   return Math.ceil(this.laptops.length / this.rowsPerPage)

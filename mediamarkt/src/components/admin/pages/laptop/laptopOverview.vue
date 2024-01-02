@@ -81,6 +81,9 @@ import VueJwtDecode from "vue-jwt-decode";
 export default {
   inject: ['url'],
   name: "laptopOverview",
+  props: {
+    isAdmin: Boolean,
+  },
   data() {
     return {
       selectedLaptop: null,

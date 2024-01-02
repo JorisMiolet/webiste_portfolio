@@ -41,6 +41,8 @@ export default {
   methods:{
     logout() {
       sessionStorage.removeItem("token");
+      sessionStorage.removeItem('user_id');
+      sessionStorage.removeItem('isAdmin');
       this.currentUser = null;
       this.isAdmin = false;
     },

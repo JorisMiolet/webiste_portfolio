@@ -4,6 +4,9 @@
 
   export default {
     inject: ['url'],
+    props: {
+      isAdmin: Boolean,
+    },
     data(){
       return {
         users:[],

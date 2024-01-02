@@ -13,9 +13,11 @@ import VueJwtDecode from "vue-jwt-decode";
       $route() {
         // Scroll to the top when the route changes
         window.scrollTo(0, 0);
-        if(localStorage.getItem("isAdmin") === "true"){
+        console.log(sessionStorage.getItem("isAdmin"))
+        if(sessionStorage.getItem("isAdmin")){
           this.isAdmin = true;
         }
+        console.log(this.isAdmin)
       },
     },
     created() {
@@ -68,7 +70,7 @@ import VueJwtDecode from "vue-jwt-decode";
   <!-- end: Sidebar -->
 
   <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main mt-20">
-    <router-view/>
+    <router-view :isAdmin="isAdmin"/>
   </main>
 </template>
 
