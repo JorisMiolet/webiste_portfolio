@@ -37,9 +37,9 @@ public class UserRepository {
 
     public User getWithLogin(String username, String password) {
         TypedQuery<User> query = this.entityManager.createQuery(
-                "SELECT u FROM User u WHERE u.username = :username", User.class);
+                "SELECT u FROM User u WHERE u.email = :email", User.class);
 
-        query.setParameter("username", username);
+        query.setParameter("email", username);
 
         List<User> users = query.getResultList();
         if (!users.isEmpty()) {

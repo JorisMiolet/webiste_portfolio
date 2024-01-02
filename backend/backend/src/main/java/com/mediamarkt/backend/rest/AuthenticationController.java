@@ -23,9 +23,9 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<User> authenticateAccount(@RequestBody ObjectNode signInInfo) {
-        String username = signInInfo.get("username").toString().replaceAll("^\"|\"$", "");
+        String email = signInInfo.get("email").toString().replaceAll("^\"|\"$", "");
         String password = signInInfo.get("password").toString().replaceAll("^\"|\"$", "");
-        User user = usersRepository.getWithLogin(username, password);
+        User user = usersRepository.getWithLogin(email, password);
         if (user == null) {
             throw new ResourceNotFoundException("Er zijn geen users gevonden");
         }
