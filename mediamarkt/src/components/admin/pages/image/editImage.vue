@@ -113,6 +113,7 @@ import axios from "axios";
               <select v-model="image.STATUS"  class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
                 <option value="completed">completed</option>
                 <option value="in progress">in progress</option>
+                <option value="started">started</option>
               </select>
             </div>
           </div>
