@@ -2,34 +2,37 @@
 import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
 import VueJwtDecode from "vue-jwt-decode";
 
-export default {
-  name: "admin-overview",
-  components: {HeaderComponent},
-  data() {
-    return {
-      isAdmin: false
-    }
-  }, watch: {
-    $route() {
-      // Scroll to the top when the route changes
-      window.scrollTo(0, 0);
-    },
-  },
-  created() {
-    this.adminCheck()
-  },
-  methods: {
-    adminCheck() {
-      let token = sessionStorage.getItem("token")
-      let decodedtoken = VueJwtDecode.decode(token)
-      if (JSON.parse(decodedtoken.admin)){
-        this.isAdmin = true
-        console.log("admin is true")
-      }else {
-        this.isAdmin = false
-        console.log("admin is false")
+  export default {
+    name:"admin-overview",
+    components: {HeaderComponent},
+    data(){
+      return {
+        isAdmin: false,
       }
-    }
+    }, watch: {
+      $route() {
+        // Scroll to the top when the route changes
+        window.scrollTo(0, 0);
+        if(localStorage.getItem("isAdmin") === "true"){
+          this.isAdmin = true;
+        }
+      },
+    },
+    created() {
+      this.adminCheck()
+    },
+    methods: {
+      adminCheck() {
+        let token = sessionStorage.getItem("token")
+        let decodedtoken = VueJwtDecode.decode(token)
+        if (JSON.parse(decodedtoken.admin)){
+          this.isAdmin = true
+          console.log("admin is true")
+        }else {
+          this.isAdmin = false
+          console.log("admin is false")
+        }
+      }
   }
 }
 </script>

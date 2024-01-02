@@ -1,9 +1,11 @@
 package com.mediamarkt.backend.repositories;
 
 import com.mediamarkt.backend.models.Image;
+import com.mediamarkt.backend.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -11,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class ImageRepository {
@@ -175,4 +178,18 @@ public class ImageRepository {
         return query.getSingleResult();
     }
 
+    @Transactional
+    public Image pickup(String articleNumber, UUID userId) {
+        Image image = findByArticleNr(articleNumber);
+        User user = this.entityManager.find(User.class, userId);
+
+        if(user != null && image != null){
+            user.assosiateOffer(image);
+            this.entityManager.merge(image);
+            this.entityManager.merge(user);
+            return image;
+        } else {
+            return null;
+        }
+    }
 }

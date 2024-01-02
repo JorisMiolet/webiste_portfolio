@@ -13,7 +13,9 @@ export default {
       dummyData: imageData,
       selectedImage: null,
       searchFilter: null,
-      summary: []
+      summary: [],
+      currentPage: 1,
+      rowsPerPage: 10,
     }
   },
   created() {
@@ -98,6 +100,37 @@ export default {
       a.click();
       URL.revokeObjectURL(url);
     },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    pickup(image){
+      const urlWithQuery = `${this.url}/api/images/pickup`;
+      const data = {
+        "article_nr": image["Article NR"],
+        "user_id": localStorage.getItem('user_id')
+      }
+      axios.post(urlWithQuery, data)
+          .then(response => this.images = response.data)
+          .then(console.log(this.images))
+    },
+  },
+
+  computed: {
+    // totalPages(){
+    //   return Math.ceil(this.laptops.length / this.rowsPerPage)
+    // },
+    // paginatedlImages() {
+    //   const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+    //   const endIndex = startIndex + this.rowsPerPage;
+    //   return this.laptops.slice(startIndex, endIndex);
+    // },
   },
   watch: {
     searchFilter() {
@@ -162,6 +195,7 @@ export default {
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">Article number</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">EAN</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Brand</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Status</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">actions</th>
             </tr>
             </thead>
@@ -177,14 +211,22 @@ export default {
                 <span class="text-[13px] font-medium text-gray-800">{{ pcimage["Brand"] }}</span>
               </td>
               <td class="py-2 px-4 border-b border-b-gray-50">
-                <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                <span class="text-[13px] font-medium text-gray-800">{{ pcimage["STATUS"] }}</span>
+              </td>
+              <td class="py-2 px-4 border-b border-b-gray-50">
+                <span v-if="isAdmin" class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
                   <button>
                     <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">edit</router-link>
                   </button>
                 </span>
-                <span class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                <span v-if="isAdmin" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
                   <button>
                     <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">delete</router-link>
+                  </button>
+                </span>
+                <span v-if="pcimage['STATUS'] !== 'completed'" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                  <button>
+                    <a @click="pickup(pcimage)">pick up</a>
                   </button>
                 </span>
               </td>

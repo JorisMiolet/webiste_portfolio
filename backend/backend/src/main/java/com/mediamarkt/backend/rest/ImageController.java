@@ -1,8 +1,10 @@
 package com.mediamarkt.backend.rest;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
 import com.mediamarkt.backend.exceptions.ResourceNotFoundException;
 import com.mediamarkt.backend.models.Image;
+import com.mediamarkt.backend.models.User;
 import com.mediamarkt.backend.repositories.ImageRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/images")
@@ -124,6 +127,13 @@ public class ImageController {
     public Map<String, Long> getSummary() {
         Map<String, Long> images = imagesRepository.getSummaryStatistics();
         return images;
+    }
+
+    @PostMapping("/pickup")
+    public Image pickup(@RequestBody ObjectNode articleNumber) {
+        String articleNr = articleNumber.get("article_nr").asText();
+        UUID user_id = UUID.fromString(articleNumber.get("user_id").asText());
+        return imagesRepository.pickup(articleNr, user_id);
     }
 
 }

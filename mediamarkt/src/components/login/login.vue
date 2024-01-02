@@ -80,7 +80,6 @@ export default {
 
         if (response.ok) {
           let token = response.headers.get("Authorization")
-          console.log(token)
           if (token == null) {
             throw new Error('token niet gevonden');
           }

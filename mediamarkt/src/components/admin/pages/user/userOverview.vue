@@ -106,7 +106,7 @@
               <td class="py-2 px-4 border-b border-b-gray-50">
                 <span class="text-[13px] font-medium text-gray-800">{{user.locatie}}</span>
               </td>
-              <td class="py-2 px-4 border-b border-b-gray-50">
+              <td v-if="isAdmin" class="py-2 px-4 border-b border-b-gray-50">
                 <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
                   <router-link :to="{name: 'editUser', params: {id: user.uuid}}" exact>edit</router-link>
                 </span>

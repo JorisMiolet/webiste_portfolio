@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +33,9 @@ public class User {
     private boolean admin;
 
     private boolean active;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Image> images = new ArrayList<>();
 
     public User(String username, String password, boolean isAdmin, String locatie, String email) {
         // create user
@@ -111,4 +116,17 @@ public class User {
         this.active = active;
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public boolean assosiateOffer(Image image) {
+        this.images.add(image);
+        image.setUser(this);
+        return true;
+    }
 }

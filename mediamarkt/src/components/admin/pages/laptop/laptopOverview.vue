@@ -23,7 +23,7 @@
             <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md">EAN</th>
             <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Brand</th>
             <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Barcode</th>
-            <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">actions</th>
+            <th v-if="isAdmin" class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">actions</th>
           </tr>
           </thead>
           <tbody>
@@ -39,7 +39,7 @@
             <td class="py-2 px-4 border-b border-b-gray-50">
               <span class="text-[13px] font-medium text-gray-800">{{laptop.barcode}}</span>
             </td>
-            <td class="py-2 px-4 border-b border-b-gray-50">
+            <td v-if="isAdmin" class="py-2 px-4 border-b border-b-gray-50">
                 <span class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
                   <router-link :to="{name:'editLaptop', params: {EAN: laptop['id']}}" @click="onSelect(laptop)">
                     edit
