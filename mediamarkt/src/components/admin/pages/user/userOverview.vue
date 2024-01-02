@@ -12,6 +12,8 @@
         users:[],
         selectedUser:null,
         searchFilter: null,
+        currentPage: 1,
+        rowsPerPage: 10,
       }
     },
     created() {
@@ -51,10 +53,30 @@
         axios.get(this.url + "/api/users/disabled")
             .then(response => this.users = response.data)
       },
+      prevPage() {
+        if (this.currentPage > 1) {
+          this.currentPage--;
+        }
+      },
+      nextPage() {
+        if (this.currentPage < this.totalPages) {
+          this.currentPage++;
+        }
+      },
     },
     watch: {
       searchFilter() {
         this.filterUsers();
+      },
+    },
+    computed: {
+      totalPages(){
+        return Math.ceil(this.users.length / this.rowsPerPage)
+      },
+      paginatedUsers() {
+        const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+        const endIndex = startIndex + this.rowsPerPage;
+        return this.users.slice(startIndex, endIndex);
       },
     },
   }
@@ -92,7 +114,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(user) in users" :key="user.uuid">
+            <tr v-for="(user) in paginatedUsers" :key="user.uuid">
               <td class="py-2 px-4 border-b border-b-gray-50">
                 <div class="flex items-center">
                   <span class="text-[13px] font-medium text-gray-800">{{user.username}}</span>
@@ -120,6 +142,17 @@
             </tr>
             </tbody>
           </table>
+          <div class="flex justify-center mt-4">
+            <button @click="prevPage" :disabled="currentPage === 1" :class="{'disabled': currentPage === 1}" class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600">
+              Previous
+            </button>
+            <div class="mx-4">
+              Page {{ currentPage }} of {{ totalPages }}
+            </div>
+            <button @click="nextPage" :disabled="currentPage === totalPages" :class="{'disabled': currentPage === totalPages}" class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600">
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>

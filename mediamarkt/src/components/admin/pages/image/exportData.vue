@@ -125,14 +125,14 @@ export default {
     },
   },
   computed: {
-    // totalPages(){
-    //   return Math.ceil(this.laptops.length / this.rowsPerPage)
-    // },
-    // paginatedlImages() {
-    //   const startIndex = (this.currentPage - 1) * this.rowsPerPage;
-    //   const endIndex = startIndex + this.rowsPerPage;
-    //   return this.laptops.slice(startIndex, endIndex);
-    // },
+    totalPages(){
+      return Math.ceil(this.images.length / this.rowsPerPage)
+    },
+    paginatedImages() {
+      const startIndex = (this.currentPage - 1) * this.rowsPerPage;
+      const endIndex = startIndex + this.rowsPerPage;
+      return this.images.slice(startIndex, endIndex);
+    },
   },
   watch: {
     searchFilter() {
@@ -202,7 +202,7 @@ export default {
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(pcimage) in images" :key="pcimage.EAN">
+            <tr v-for="(pcimage) in paginatedImages" :key="pcimage.EAN">
               <td class="py-2 px-4 border-b border-b-gray-50">
                 <span class="text-[13px] font-medium text-gray-800">{{ pcimage["Article NR"] }}</span>
               </td>
@@ -235,6 +235,17 @@ export default {
             </tr>
             </tbody>
           </table>
+          <div class="flex justify-center mt-4">
+            <button @click="prevPage" :disabled="currentPage === 1" :class="{'disabled': currentPage === 1}" class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600">
+              Previous
+            </button>
+            <div class="mx-4">
+              Page {{ currentPage }} of {{ totalPages }}
+            </div>
+            <button @click="nextPage" :disabled="currentPage === totalPages" :class="{'disabled': currentPage === totalPages}" class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600">
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
