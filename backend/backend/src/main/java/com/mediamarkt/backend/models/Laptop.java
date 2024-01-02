@@ -27,7 +27,7 @@ public class Laptop {
     @JsonProperty("description")
     @Column(name = "DESCRIPTION")
     private String laptopDescription;
-    @OneToMany(mappedBy = "laptop", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "laptop", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Image> images;
 
