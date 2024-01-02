@@ -44,9 +44,13 @@ export default {
       this.selectedImage = pcimage;
       this.toggleView();
     },
-    deleteImage() {
-      this.images = this.images.filter((image) => image === this.selectedImage);
-      this.selectedImage = null;
+    deleteImage(image) {
+      const confirmDelete = confirm(`are you sure you want to delete image ${image["Article NR"]}`);
+      if (confirmDelete) {
+        const urlWithQuery = `${this.url}/api/images/${image["Article NR"]}`;
+        axios.delete(urlWithQuery)
+            .then(this.loadAllImages);
+      }
     },
     resetImage() {
       this.$router.push(this.$route.matched[0].path)
@@ -221,12 +225,12 @@ export default {
                     <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">edit</router-link>
                   </button>
                 </span>
-                <span v-if="isAdmin" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                <span @click="deleteImage(pcimage)" v-if="isAdmin" class="inline-block ml-2 p-1 rounded bg-red-600/10 text-red-600 font-medium text-[12px] leading-none">
                   <button>
-                    <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">delete</router-link>
+                    <span>delete</span>
                   </button>
                 </span>
-                <span @click="pickup(pcimage)" v-if="pcimage['STATUS'] !== 'completed' && pcimage['STATUS'] !== 'in progress'" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                <span @click="pickup(pcimage)" v-if="pcimage['STATUS'] !== 'completed' && pcimage['STATUS'] !== 'in progress'" class="inline-block ml-2 p-1 rounded bg-orange-500/10 text-orange-500 font-medium text-[12px] leading-none">
                   <button>
                     <span>pick up</span>
                   </button>

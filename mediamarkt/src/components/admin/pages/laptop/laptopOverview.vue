@@ -45,7 +45,7 @@
                     edit
                   </router-link>
                 </span>
-              <span class="inline-block p-1 ml-2 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+              <span class="inline-block p-1 ml-2 rounded bg-red-600/10 text-red-600 font-medium text-[12px] leading-none">
                   <router-link :to="{name:'editLaptop', params: {EAN: laptop['id']}}" @click="onSelect(laptop)">
                     delete
                   </router-link>
