@@ -1,8 +1,8 @@
 <template>
   <header class="bg-red-500 p-4 fixed top-0 left-0 right-0 z-20">
-    <div class="container mx-auto flex justify-between items-center">
+    <div class="container mx-auto flex justify-between items-center" :class="{'nav-show': hamburgerClicked}">
       <router-link to="/"><h1 class="text-white text-2xl font-semibold">Mediamarkt</h1></router-link>
-      <nav class="space-x-4">
+      <nav class="space-x-4 hidden md:block" :class="{'show-inner': hamburgerClicked}">
         <router-link to="/" class="text-white hover:underline">Home</router-link>
         <router-link v-if="this.isAdmin" to="/admin/image-overview" class="text-white hover:underline">Admin</router-link>
         <router-link v-if="!currentUser" to="/Login" class="text-white hover:underline">Log in</router-link>
@@ -13,6 +13,9 @@
           Scan barcode
         </button>
       </nav>
+      <div class="w-8 h-2 sm-screen-button cursor-pointer md:hidden" @click="setHamburgerButton" :class="{'clicked': hamburgerClicked}">
+
+      </div>
     </div>
   </header>
 </template>
@@ -27,6 +30,7 @@ export default {
     return {
       currentUser: null,
       isAdmin: false,
+      hamburgerClicked: false
     }
   },
   created() {
@@ -69,11 +73,52 @@ export default {
     },
     emitClicked(){
       this.$emit("scan-clicked")
+    },
+    setHamburgerButton(){
+      this.hamburgerClicked = !this.hamburgerClicked;
     }
   }
 };
 </script>
 
 <style scoped>
-
+    .sm-screen-button{
+      border-top: 4px solid #ce3938
+    }
+    .sm-screen-button::before{
+      content: "";
+      display: block;
+      border-top: 4px solid #ce3938;
+      transform: translateY(12px);
+    }
+    .sm-screen-button::after{
+      content: "";
+      display: block;
+      border-top: 4px solid #ce3938;
+    }
+    .sm-screen-button.clicked{
+      transform: rotate(45deg);
+    }
+    .sm-screen-button.clicked::before{
+      transform: rotate(-90deg) translate(4px,0);
+    }
+    .sm-screen-button.clicked::after{
+      transform:  translate(0, -8px);
+    }
+    .nav-show{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      opacity: 0.8;
+      z-index: 99;
+    }
+    .show-inner{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
 </style>

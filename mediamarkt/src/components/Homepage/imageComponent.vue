@@ -1,14 +1,14 @@
 <template>
   <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate" />
-    <table class="table-auto text-left mx-auto mt-20 h-[300px] overflow-y-scroll">
+    <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
       <thead class="border-b font-medium dark:border-neutral-500">
       <tr>
-        <th scope="col" class="px-6 py-4">#</th>
-        <th scope="col" class="px-6 py-4">Article NR</th>
-        <th scope="col" class="px-6 py-4">EAN</th>
-        <th scope="col" class="px-6 py-4">Brand</th>
-        <th scope="col" class="px-6 py-4">Description</th>
-        <th scope="col" class="px-6 py-4">Processor</th>
+        <th scope="col">#</th>
+        <th scope="col" >Article NR</th>
+        <th scope="col" >EAN</th>
+        <th scope="col" >Brand</th>
+        <th scope="col" >Description</th>
+        <th scope="col" >Processor</th>
       </tr>
       </thead>
       <tbody>
@@ -23,6 +23,21 @@
       </tr>
       </tbody>
     </table>
+  <table class="table-auto w-full text-left mt-40 h-[300px] overflow-y-scroll table md:hidden">
+    <thead class="border-b font-medium dark:border-neutral-500">
+    <tr>
+      <th scope="col" class="pl-6">#</th>
+      <th scope="col" >Article NR</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
+        @click="setSelectedImage(pcimage)">
+      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
+    </tr>
+    </tbody>
+  </table>
   <detail-image v-if="selectedImageInfo !== null"
                 v-bind:selectedImage="selectedImageInfo"
                 v-on:resetImage="resetImage()"/>
