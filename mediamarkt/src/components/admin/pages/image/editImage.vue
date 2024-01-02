@@ -35,7 +35,8 @@ import axios from "axios";
         axios.put(this.url + `/api/images/edit/${this.$route.params.ArticleNR}`, this.image)
             .then(() => {
               alert("Image saved");
-              this.$router.go(-1);
+              // TODO: reload image overview.
+              this.$router.push({ name: 'imageOverview' })
             })
             .catch(error => {
               console.error("Error saving image:", error);
@@ -92,7 +93,7 @@ import axios from "axios";
             </div>
             <div class="flex mt-2">
               <div class="relative w-1/2 mr-2">
-                <label for="userDropdown" class="text-sm text-gray-600">Select User:</label>
+<!--                <label for="userDropdown" class="text-sm text-gray-600">Select User:</label>-->
                 <select v-model="image.user" id="userDropdown" class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
                   <option v-for="user in users" :key="user.id" :value="user">
                     {{ user.email }}
@@ -100,7 +101,7 @@ import axios from "axios";
                 </select>
               </div>
               <div class="relative w-1/2">
-                <label for="laptopDropdown" class="text-sm text-gray-600">Select Laptop:</label>
+<!--                                <label for="laptopDropdown" class="text-sm text-gray-600">Select Laptop:</label>-->
                 <select v-model="image.laptop" id="laptopDropdown" class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
                   <option v-for="laptop in laptops" :key="laptop.id" :value="laptop">
                     {{ laptop.brand }} - {{ laptop.description }}
@@ -129,5 +130,4 @@ import axios from "axios";
 </template>
 
 <style scoped>
-
 </style>

@@ -42,6 +42,7 @@
         axios.get(this.url + `/api/users/${this.$route.params.id}`)
             .then(response => {
               this.user = response.data;
+              this.user.password = '';
               this.dataLoaded = true;
               console.log(this.user)
             })
@@ -73,21 +74,21 @@
             <input v-model="user.email"  type="email" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Email...">
             <input v-model="user.password" type="password" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Wachtwoord...">
             <div class="flex mt-2">
-              <select v-model="selectedRole" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 outline-none appearance-none bg-select-arrow bg-no-repeat bg-[length:16px_16px] bg-[right_16px_center]">
-                <option value="">Admin</option>
-                <option value="">Medewerker</option>
+              <select v-model="user.admin" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 outline-none appearance-none bg-select-arrow bg-no-repeat bg-[length:16px_16px] bg-[right_16px_center]">
+                <option :value="true">Admin</option>
+                <option :value="false">Medewerker</option>
               </select>
               <select v-model="user.locatie" class="flex-grow ml-1 text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 outline-none appearance-none bg-select-arrow bg-no-repeat bg-[length:16px_16px] bg-[right_16px_center]">
-                <option value="">Amsterdam</option>
-                <option value="">Utrecht</option>
-                <option value="">Rotterdam</option>
-                <option value="">Eindhoven</option>
-                <option value="">Arnhem</option>
+                <option value="Amsterdam">Amsterdam</option>
+                <option value="Utrecht">Utrecht</option>
+                <option value="Rotterdam">Rotterdam</option>
+                <option value="Eindhoven">Eindhoven</option>
+                <option value="Arnhem">Arnhem</option>
               </select>
             </div>
           </div>
           <button class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-            <button @click="saveUser">Save user</button>
+            <button @click="save">Save user</button>
           </button>
         </form>
       </div>
