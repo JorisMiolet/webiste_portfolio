@@ -1,6 +1,5 @@
 package com.mediamarkt.backend.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,21 +42,26 @@ public class Image {
     private String status;
 
     @ManyToOne
-    @JsonManagedReference
-    @JsonIgnore
     private Laptop laptop;
 
     @ManyToOne
-    @JoinColumn(name = "user_id") // Provide the actual column name in the database
-    @JsonBackReference // To avoid infinite loop during serialization
     private User user;
 
-    public Image(String articleNumber,
-                 String ean, String brand,
-                 String description, String processor,
-                 String ram, String storage,
-                 String gpu, String screenSizeInch,
-                 String screenSizeCm, String barcode, String date, String status) {
+    public Image(Long id,
+                 String articleNumber,
+                 String ean,
+                 String brand,
+                 String description,
+                 String processor,
+                 String ram,
+                 String storage,
+                 String gpu,
+                 String screenSizeInch,
+                 String screenSizeCm,
+                 String barcode,
+                 String date,
+                 String status) {
+        this.id = id;
         this.articleNumber = articleNumber;
         this.ean = ean;
         this.brand = brand;

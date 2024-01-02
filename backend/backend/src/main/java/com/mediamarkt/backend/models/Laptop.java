@@ -1,16 +1,19 @@
 package com.mediamarkt.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Laptop {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
     @JsonProperty("EAN")
     @Column(name = "EAN")
@@ -24,16 +27,16 @@ public class Laptop {
     @JsonProperty("description")
     @Column(name = "DESCRIPTION")
     private String laptopDescription;
-
-    @OneToMany(mappedBy = "laptop", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "laptop", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Image> images;
 
-    public Laptop(Long id, String ean, String barcode, String brand, String description) {
+    public Laptop(Long id, String ean, String laptopBarcode, String laptopBrand, String laptopDescription) {
         this.id = id;
         this.ean = ean;
-        this.laptopBarcode = barcode;
-        this.laptopBrand = brand;
-        this.laptopDescription = description;
+        this.laptopBarcode = laptopBarcode;
+        this.laptopBrand = laptopBrand;
+        this.laptopDescription = laptopDescription;
     }
 
     public Laptop() {
@@ -80,7 +83,31 @@ public class Laptop {
         this.laptopDescription = description;
     }
 
-    public void associateImage(Image image) {
+
+    public void setLaptopBarcode(String laptopBarcode) {
+        this.laptopBarcode = laptopBarcode;
+    }
+
+
+    public void setLaptopBrand(String laptopBrand) {
+        this.laptopBrand = laptopBrand;
+    }
+
+
+
+    public void setLaptopDescription(String laptopDescription) {
+        this.laptopDescription = laptopDescription;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public void addImage(Image image) {
         this.images.add(image);
     }
 }
