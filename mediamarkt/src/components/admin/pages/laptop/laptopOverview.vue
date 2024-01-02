@@ -6,7 +6,7 @@
         <div class="font-medium">Manage laptops</div>
       </div>
       <div class="flex items-center mb-4 order-tab">
-        <input type="file" @change="handleFileUpload" class="bg-red-500 text-sm font-medium text-white py-2 pl-4 rounded active" accept=".csv">
+        <input type="file" @change="handleFileUpload" @input="handleFileUpload" class="bg-red-500 text-sm font-medium text-white py-2 pl-4 rounded active" accept=".csv">
         <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600"><router-link :to="{name: 'createLaptop'}">Create Laptop</router-link></button>
       </div>
 
@@ -156,6 +156,7 @@ export default {
       const file = event.target.files[0];
       if (file) {
         this.importFromCSV(file);
+        event.target.value = null;
       }
     },
     handleImportCSV() {
