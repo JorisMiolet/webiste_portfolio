@@ -28,15 +28,32 @@
         }
       },
       save() {
-        axios.put(this.url + `/api/users/${this.$route.params.id}`, this.user)
-            .then(() => {
-              alert("User saved");
-              this.$router.go(-1);
-            })
-            .catch(error => {
-              console.error("Error saving image:", error);
-              // Handle the error appropriately, e.g., show an error message to the user
-            });
+        // Check if the password is not empty before sending it
+        if (this.user.password !== '') {
+          axios.put(this.url + `/api/users/${this.$route.params.id}`, this.user)
+              .then(() => {
+                alert("User saved");
+                this.$router.go(-1);
+              })
+              .catch(error => {
+                console.error("Error saving user:", error);
+                // Handle the error appropriately, e.g., show an error message to the user
+              });
+        } else {
+          // If password is empty, exclude it from the user object before sending
+          const userWithoutPassword = { ...this.user };
+          delete userWithoutPassword.password;
+
+          axios.put(this.url + `/api/users/${this.$route.params.id}`, userWithoutPassword)
+              .then(() => {
+                alert("User saved");
+                this.$router.go(-1);
+              })
+              .catch(error => {
+                console.error("Error saving user:", error);
+                // Handle the error appropriately, e.g., show an error message to the user
+              });
+        }
       },
       getUser() {
         axios.get(this.url + `/api/users/${this.$route.params.id}`)
@@ -44,7 +61,6 @@
               this.user = response.data;
               this.user.password = '';
               this.dataLoaded = true;
-              console.log(this.user)
             })
       }
     },

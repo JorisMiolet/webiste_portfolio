@@ -64,8 +64,25 @@ public class UserRepository {
     }
 
     public User updateUser(User newUser) {
-        return this.entityManager.merge(newUser);
+        User existingUser = this.entityManager.find(User.class, newUser.getUuid());
+
+        if (existingUser != null) {
+            // Retain the existing password if the new password is null or empty
+            if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
+                newUser.setPassword(existingUser.getPassword());
+            } else {
+                // If the new password is not empty, encode and set it
+                String encodedPassword = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
+                newUser.setPassword(encodedPassword);
+            }
+
+            return this.entityManager.merge(newUser);
+        }
+
+        return null;
     }
+
+
 
     public User deleteUser(UUID uuid) {
         User user = this.entityManager.find(User.class, uuid);
