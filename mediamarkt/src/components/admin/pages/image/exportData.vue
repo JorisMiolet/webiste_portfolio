@@ -154,7 +154,7 @@ export default {
 
 <template>
   <div class="p-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 mt-40 md:mt-0">
       <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
         <div class="flex justify-between mb-6">
           <div>
@@ -185,15 +185,15 @@ export default {
     </div>
     <div class="mb-6">
       <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
-        <div class="flex justify-between mb-4 items-start">
-          <div class="font-medium">Manage images</div>
+        <div class="flex justify-center sm:justify-between mb-4 sm:items-start">
+          <div class="font-medium ">Manage images</div>
         </div>
-        <div class="flex items-center mb-4 order-tab">
+        <div class="flex flex-col sm:flex-row items-center mb-4 order-tab">
           <button @click="loadAllImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">All</button>
           <button @click="loadCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">Completed</button>
           <button @click="loadInCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">In progress</button>
           <button @click="loadOutdatedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">Outdated</button>
-          <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createImage'}">Create image</router-link></button>
+          <button type="button" class="sm:ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createImage'}">Create image</router-link></button>
         </div>
         <div class="flex items-center mb-4">
           <div class="relative w-full mr-2">

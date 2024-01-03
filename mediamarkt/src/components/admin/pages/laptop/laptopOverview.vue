@@ -1,13 +1,13 @@
 <template>
   <div class="p-6">
-  <div class="mb-6">
+  <div class="mb-6 mt-40 md:mt-0">
     <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
-      <div class="flex justify-between mb-4 items-start">
+      <div class="flex justify-center sm:justify-between mb-4 items-center sm:items-start">
         <div class="font-medium">Manage laptops</div>
       </div>
-      <div class="flex items-center mb-4 order-tab">
+      <div class="flex items-center mb-4 order-tab flex-col sm:flex-row">
         <input type="file" @change="handleFileUpload" @input="handleFileUpload" class="bg-red-500 text-sm font-medium text-white py-2 pl-4 rounded active" accept=".csv">
-        <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600"><router-link :to="{name: 'createLaptop'}">Create Laptop</router-link></button>
+        <button type="button" class="sm:ml-auto mt-6 sm:mt-0 bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600"><router-link :to="{name: 'createLaptop'}">Create Laptop</router-link></button>
       </div>
 
       <div class="flex items-center mb-4">

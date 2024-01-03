@@ -2,7 +2,7 @@
   <HeaderComponent/>
   <div class="h-[100vh] w-full flex items-center justify-center">
     <img :src="backgroundImage" alt="background_img" class="h-[100vh] z-[-1] absolute top-0 left-0">
-    <div class="login-small w-[500px] h-[500px] shadow-2xl bg-secondary flex flex-col ml-[200px]">
+    <div class="  w-[500px] h-[500px] shadow-2xl bg-secondary flex flex-col md:ml-[200px]">
       <div class="text-center pt-10">
         <h1 class="text-6xl">Login</h1>
       </div>
@@ -116,12 +116,6 @@ export default {
   background-color: transparent;
 }
 
-@media (max-width: 768px) {
-  .login-small {
-    width: 300px;
-    margin: 0
-  }
-}
 
 
 </style>

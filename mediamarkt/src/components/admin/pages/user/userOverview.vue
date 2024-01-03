@@ -85,15 +85,15 @@
 <template>
   <div class="p-6">
     <div class="mb-6">
-      <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
-        <div class="flex justify-between mb-4 items-start">
+      <div class="mt-40 md:mt-0 bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
+        <div class="flex justify-center sm:justify-between mb-4 items-start">
           <div class="font-medium">Manage users</div>
         </div>
-        <div class="flex items-center mb-4 order-tab">
+        <div class="flex flex-col sm:flex-row items-center mb-4 order-tab">
           <button @click="loadAllUsers" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">all</button>
           <button @click="activeUsers" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">active</button>
           <button @click="disabledUsers" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">disabled</button>
-          <button type="button" class="ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createUser'}">Create user</router-link></button>
+          <button type="button" class="sm:ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createUser'}">Create user</router-link></button>
         </div>
 
         <div class="flex items-center mb-4">
