@@ -1,39 +1,39 @@
 <template>
-  <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate" />
-    <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
-      <thead class="border-b font-medium dark:border-neutral-500">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col" >Article NR</th>
-        <th scope="col" >EAN</th>
-        <th scope="col" >Brand</th>
-        <th scope="col" >Description</th>
-        <th scope="col" >Processor</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
-      @click="setSelectedImage(pcimage)">
-        <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
-        <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
-      </tr>
-      </tbody>
-    </table>
-  <table class="table-auto w-full text-left mt-40 h-[300px] overflow-y-scroll table md:hidden">
+  <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate"/>
+  <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
-      <th scope="col" class="pl-6">#</th>
-      <th scope="col" >Article NR</th>
+      <th scope="col">#</th>
+      <th scope="col" @click="sortTable('Article NR')" :class="{ 'sorted-asc': sortColumn === 'Article NR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Article NR' && sortOrder === 'desc' }">Article NR</th>
+      <th scope="col" @click="sortTable('EAN')" :class="{ 'sorted-asc': sortColumn === 'EAN' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'EAN' && sortOrder === 'desc' }">EAN</th>
+      <th scope="col" @click="sortTable('Brand')" :class="{ 'sorted-asc': sortColumn === 'Brand' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Brand' && sortOrder === 'desc' }">Brand</th>
+      <th scope="col" @click="sortTable('Description / Model type')" :class="{ 'sorted-asc': sortColumn === 'Description / Model type' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Description / Model type' && sortOrder === 'desc' }">Description</th>
+      <th scope="col" @click="sortTable('Processor')" :class="{ 'sorted-asc': sortColumn === 'Processor' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Processor' && sortOrder === 'desc' }">Processor</th>
     </tr>
     </thead>
     <tbody>
     <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
         @click="setSelectedImage(pcimage)">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
+      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key + 1) }}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table-auto w-full text-left mt-40 h-[300px] overflow-y-scroll table md:hidden">
+    <thead class="border-b font-medium dark:border-neutral-500">
+    <tr>
+      <th scope="col" class="pl-6">#</th>
+      <th scope="col">Article NR</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
+        @click="setSelectedImage(pcimage)">
+      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key + 1) }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
     </tr>
     </tbody>
@@ -47,6 +47,7 @@
 import detailImage from "@/components/admin/pages/image/detail-image.vue";
 import axios from "axios";
 import searchComponent from "@/components/Homepage/searchComponent.vue";
+
 export default {
   name: "imageComponent",
   inject: ['url'],
@@ -60,6 +61,8 @@ export default {
       originalLaptops: [], // Voeg een array toe om de oorspronkelijke lijst met laptops op te slaan
       selectedImageInfo: null,
       active: false,
+      sortColumn: null,
+      sortOrder: 'asc'
     };
   },
   mounted() {
@@ -71,7 +74,7 @@ export default {
       this.selectedImageInfo = image;
     },
 
-    resetImage(){
+    resetImage() {
       this.selectedImageInfo = null;
     },
 
@@ -100,7 +103,7 @@ export default {
         if (this.laptops.length === 0) {
           this.laptops = [];
         }
-      }else {
+      } else {
         this.laptops = this.originalLaptops
         this.active = false
       }
@@ -121,18 +124,76 @@ export default {
           this.laptops = [];
         }
       }
-    }
-  }
+    },
+    // Functie om de tabel te sorteren op basis van de kolomnaam
+    sortTable(column) {
+      if (this.sortColumn === column) {
+        // Wijzig de sorteervolgorde als dezelfde kolom opnieuw wordt gekozen
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        // Als een andere kolom wordt gekozen, reset dan de sorteervolgorde naar oplopend
+        this.sortOrder = 'desc';
+      }
+
+      // Bewaar de geselecteerde kolomnaam
+      this.sortColumn = column;
+
+      // Sorteer de laptops op basis van de geselecteerde kolom
+      this.laptops.sort((a, b) => {
+        // Gebruik de lokale vergelijking voor het sorteren van strings (alfabetisch)
+        const compareString = (a, b) => a.localeCompare(b);
+
+        // Sorteer oplopend of aflopend op basis van de sorteervolgorde
+        const order = this.sortOrder === 'asc' ? 1 : -1;
+
+        // Vergelijk de waarden van de geselecteerde kolom
+        if (column === 'Description / Model type' || column === 'Brand' || column === 'Processor') {
+          // Voor tekstkolommen, gebruik de stringvergelijking
+          return compareString(a[column], b[column]) * order;
+        } else {
+          // Voor numerieke kolommen, gebruik de numerieke vergelijking
+          return (a[column] - b[column]) * order;
+        }
+      });
+    },
+  },
 }
 </script>
 
 <style scoped>
-body, html{
+body, html {
   overflow-y: hidden;
 }
-.form{
+
+.form {
   max-height: 90vh;
 }
-html, body {margin: 0; height: 100%; overflow: hidden}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden
+
+
+
+}/* Voeg een cursor toe die aangeeft dat de koppen klikbaar zijn */
+th {
+  cursor: pointer;
+}
+
+/* Voeg een pijl toe om de sorteervolgorde aan te geven */
+th::after {
+  display: inline-block;
+  margin-left: 4px; /* Ruimte tussen de tekst en pijltjes */
+}
+
+/* Geef het actieve pijltje volledige doorzichtigheid */
+th.sorted-asc::after {
+  content: ' \25b4';
+}
+
+th.sorted-desc::after {
+  content: ' \25be';
+}
 </style>
 
