@@ -91,6 +91,7 @@ public class LaptopController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Laptop> deleteLaptop(@PathVariable Long id) {
         Laptop deletedLaptop = laptopRepository.deleteLaptop(id);
         if (deletedLaptop != null) {

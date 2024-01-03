@@ -5,6 +5,7 @@ import com.mediamarkt.backend.models.Laptop;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,12 +34,12 @@ public class LaptopRepository {
         return this.entityManager.merge(updatedLaptop);
     }
 
+    @Transactional
     public Laptop deleteLaptop(Long id) {
         Laptop laptop = this.entityManager.find(Laptop.class, id);
         if (laptop != null) {
             this.entityManager.remove(laptop);
             this.entityManager.flush();
-            this.entityManager.detach(laptop);
         }
         return laptop;
     }

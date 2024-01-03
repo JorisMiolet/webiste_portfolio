@@ -44,9 +44,13 @@ export default {
       this.selectedImage = pcimage;
       this.toggleView();
     },
-    deleteImage() {
-      this.images = this.images.filter((image) => image === this.selectedImage);
-      this.selectedImage = null;
+    deleteImage(image) {
+      const confirmDelete = confirm(`are you sure you want to delete image ${image["Article NR"]}`);
+      if (confirmDelete) {
+        const urlWithQuery = `${this.url}/api/images/${image["id"]}`;
+        axios.delete(urlWithQuery)
+            .then(this.loadAllImages);
+      }
     },
     resetImage() {
       this.$router.push(this.$route.matched[0].path)
@@ -123,6 +127,9 @@ export default {
       axios.post(urlWithQuery, data)
           .then(this.loadAllImages())
     },
+    getUserEmail(user) {
+      return user ? user.email : 'N/A'; // Modify this based on your user object structure
+    },
   },
   computed: {
     totalPages(){
@@ -133,6 +140,7 @@ export default {
       const endIndex = startIndex + this.rowsPerPage;
       return this.images.slice(startIndex, endIndex);
     },
+
   },
   watch: {
     searchFilter() {
@@ -151,6 +159,7 @@ export default {
         <div class="flex justify-between mb-6">
           <div>
             <div v-if="this.summary.completed" class="text-2xl font-semibold mb-1">{{ this.summary.completed }}</div>
+            <div v-else class="text-2xl font-semibold mb-1">0</div>
             <div class="text-sm font-medium text-gray-600">Completed</div>
           </div>
         </div>
@@ -159,6 +168,7 @@ export default {
         <div class="flex justify-between mb-6">
           <div>
             <div v-if="this.summary.in_progress" class="text-2xl font-semibold mb-1">{{ this.summary.in_progress }}</div>
+            <div v-else class="text-2xl font-semibold mb-1">0</div>
             <div class="text-sm font-medium text-gray-600">In progress</div>
           </div>
         </div>
@@ -167,6 +177,7 @@ export default {
         <div class="flex justify-between mb-6">
           <div>
             <div v-if="this.summary.outdated" class="text-2xl font-semibold mb-1">{{ this.summary.outdated }}</div>
+            <div v-else class="text-2xl font-semibold mb-1">0</div>
             <div class="text-sm font-medium text-gray-600">Outdated</div>
           </div>
         </div>
@@ -198,7 +209,8 @@ export default {
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">EAN</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Brand</th>
               <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">Status</th>
-              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">actions</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">User</th>
+              <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -216,17 +228,20 @@ export default {
                 <span class="text-[13px] font-medium text-gray-800">{{ pcimage["STATUS"] }}</span>
               </td>
               <td class="py-2 px-4 border-b border-b-gray-50">
+                <span class="text-[13px] font-medium text-gray-800">{{ getUserEmail(pcimage["user"]) }}</span>
+              </td>
+              <td class="py-2 px-4 border-b border-b-gray-50">
                 <span v-if="isAdmin" class="inline-block p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
                   <button>
                     <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">edit</router-link>
                   </button>
                 </span>
-                <span v-if="isAdmin" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                <span @click="deleteImage(pcimage)" v-if="isAdmin" class="inline-block ml-2 p-1 rounded bg-red-600/10 text-red-600 font-medium text-[12px] leading-none">
                   <button>
-                    <router-link :to="{name:'editImage', params: {ArticleNR: pcimage['Article NR']}}" @click="onSelect(pcimage)">delete</router-link>
+                    <span>delete</span>
                   </button>
                 </span>
-                <span @click="pickup(pcimage)" v-if="pcimage['STATUS'] !== 'completed' && pcimage['STATUS'] !== 'in progress'" class="inline-block ml-2 p-1 rounded bg-emerald-500/10 text-emerald-500 font-medium text-[12px] leading-none">
+                <span @click="pickup(pcimage)" v-if="pcimage['STATUS'] !== 'completed' && pcimage['STATUS'] !== 'in progress'" class="inline-block ml-2 p-1 rounded bg-orange-500/10 text-orange-500 font-medium text-[12px] leading-none">
                   <button>
                     <span>pick up</span>
                   </button>

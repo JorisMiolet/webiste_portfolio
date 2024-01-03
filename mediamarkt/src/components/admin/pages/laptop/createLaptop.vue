@@ -1,46 +1,32 @@
 <template>
-    <form class="w-full max-w-lg">
-      <div class="flex flex-wrap mb-6 mt-10 ml-1">
-        <div class="w-full px-3 md:w-1/2">
-          <label for="Brand" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            EAN
-          </label>
-          <input v-model="newLaptop.EAN" type="number" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" placeholder="Brand" id="Brand">
+  <div class="p-6 flex h-screen">
+    <div class="mb-6 mx-auto">
+      <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
+        <div class="flex justify-between mb-4 items-start">
+          <div class="font-medium">Create laptop</div>
         </div>
+        <form action="" class="flex items-center flex-col">
+          <div class="relative w-full mb-2">
+            <div class="flex mt-2">
+              <input v-model="newLaptop.Barcode" type="text" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 mr-2" placeholder="Barcode">
+              <input v-model="newLaptop.EAN" type="text" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500" placeholder="Ean">
+            </div>
+            <input v-model="newLaptop.Brand" type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Brand">
+            <input v-model="newLaptop.Description" type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Description">
+          </div>
+          <div class="flex justify-between">
+            <button @click="saveLaptop" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              Create laptop
+            </button>
+            <button @click="clear" class="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              Clear
+            </button>
+          </div>
+        </form>
       </div>
-      <div class="flex flex-wrap mb-6 mt-5 ml-1">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="EAN">
-            Barcode
-          </label>
-          <input v-model="newLaptop.Barcode" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="EAN" type="number" placeholder="EAN">
-        </div>
-      </div>
-      <div class="flex flex-wrap mb-6 mt-10 ml-1">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Description">
-            Brand
-          </label>
-          <input v-model="newLaptop.Brand" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="Description" type="text" placeholder="Description / Model type">
-        </div>
-      </div>
-      <div class="flex flex-wrap mb-6 mt-10 ml-1">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Description">
-            Description
-          </label>
-          <input v-model="newLaptop.Description" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="Description" type="text" placeholder="Description / Model type">
-        </div>
-      </div>
-      <div class="md:flex md:items-center">
-        <div class="md:w-1/3"></div>
-        <div class="md:w-2/3 mb-2">
-          <button @click="saveLaptop" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-            Save
-          </button>
-        </div>
-      </div>
-    </form>
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -73,6 +59,12 @@ export default {
             alert('Laptop created!');
             this.$router.go   (-1);
           });
+    },
+    clear(){
+      this.newLaptop.EAN = '';
+      this.newLaptop.Barcode = '';
+      this.newLaptop.Brand = '';
+      this.newLaptop.Description = '';
     }
   }
 }
