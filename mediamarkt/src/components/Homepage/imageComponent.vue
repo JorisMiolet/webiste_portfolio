@@ -3,18 +3,18 @@
   <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
-      <th scope="col">#</th>
+      <th scope="col" @click="sortTable('id')" :class="{ 'sorted-asc': sortColumn === 'id' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'id' && sortOrder === 'desc' }">#</th>
       <th scope="col" @click="sortTable('Article NR')" :class="{ 'sorted-asc': sortColumn === 'Article NR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Article NR' && sortOrder === 'desc' }">Article NR</th>
       <th scope="col" @click="sortTable('EAN')" :class="{ 'sorted-asc': sortColumn === 'EAN' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'EAN' && sortOrder === 'desc' }">EAN</th>
       <th scope="col" @click="sortTable('Brand')" :class="{ 'sorted-asc': sortColumn === 'Brand' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Brand' && sortOrder === 'desc' }">Brand</th>
       <th scope="col" @click="sortTable('Description / Model type')" :class="{ 'sorted-asc': sortColumn === 'Description / Model type' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Description / Model type' && sortOrder === 'desc' }">Description</th>
-      <th scope="col" @click="sortTable('Processor')" :class="{ 'sorted-asc': sortColumn === 'Processor' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Processor' && sortOrder === 'desc' }">Processor</th>
+      <th scope="col" @click="sortTable('PROCESSOR')" :class="{ 'sorted-asc': sortColumn === 'PROCESSOR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'PROCESSOR' && sortOrder === 'desc' }">Processor</th>
     </tr>
     </thead>
     <tbody>
-    <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
+    <tr class="border-b dark:border-neutral-500" v-for="(pcimage) in laptops" :key="pcimage.EAN"
         @click="setSelectedImage(pcimage)">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key + 1) }}</td>
+      <td class="whitespace-nowrap px-6 py-4 font-medium">{{pcimage["id"]}}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
@@ -128,10 +128,8 @@ export default {
     // Functie om de tabel te sorteren op basis van de kolomnaam
     sortTable(column) {
       if (this.sortColumn === column) {
-        // Wijzig de sorteervolgorde als dezelfde kolom opnieuw wordt gekozen
         this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
       } else {
-        // Als een andere kolom wordt gekozen, reset dan de sorteervolgorde naar oplopend
         this.sortOrder = 'desc';
       }
 
@@ -140,17 +138,31 @@ export default {
 
       // Sorteer de laptops op basis van de geselecteerde kolom
       this.laptops.sort((a, b) => {
-        // Gebruik de lokale vergelijking voor het sorteren van strings (alfabetisch)
-        const compareString = (a, b) => a.localeCompare(b);
+
+        // const compareString = (a, b) => a.localeCompare(b);
+        const compareStringWithNumber = function(a, b) {
+
+          // Vergelijk de namen
+          var nameComparison = a.localeCompare(b);
+
+          // Als de namen gelijk zijn, vergelijk dan de cijfers
+          if (nameComparison === 0) {
+            var numA = parseInt(a.match(/\d+/)[0]);
+            var numB = parseInt(b.match(/\d+/)[0]);
+
+            return numA - numB;
+          } else {
+            return nameComparison;
+          }
+        };
 
         // Sorteer oplopend of aflopend op basis van de sorteervolgorde
         const order = this.sortOrder === 'asc' ? 1 : -1;
-
-        // Vergelijk de waarden van de geselecteerde kolom
-        if (column === 'Description / Model type' || column === 'Brand' || column === 'Processor') {
-          // Voor tekstkolommen, gebruik de stringvergelijking
-          return compareString(a[column], b[column]) * order;
-        } else {
+        
+        if ( column === 'Article NR' || column === 'Brand'|| column === 'Description / Model type' ||  column === 'PROCESSOR') {
+          return compareStringWithNumber(a[column], b[column]) * order;
+        }
+        else {
           // Voor numerieke kolommen, gebruik de numerieke vergelijking
           return (a[column] - b[column]) * order;
         }
