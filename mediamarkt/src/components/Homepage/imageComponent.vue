@@ -59,6 +59,7 @@ export default {
       laptops: [],
       originalLaptops: [], // Voeg een array toe om de oorspronkelijke lijst met laptops op te slaan
       selectedImageInfo: null,
+      active: false,
     };
   },
   mounted() {
@@ -86,16 +87,22 @@ export default {
       return this.laptops = laptops;
     },
     filterLaptopsByDate() {
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      if (this.active === false) {
+        const threeMonthsAgo = new Date();
+        threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-      this.laptops = this.originalLaptops.filter((laptop) => {
-        const laptopDate = new Date(laptop['DATE']);
-        return laptopDate < threeMonthsAgo;
-      });
+        this.laptops = this.originalLaptops.filter((laptop) => {
+          const laptopDate = new Date(laptop['DATE']);
+          this.active = true
+          return laptopDate < threeMonthsAgo;
+        });
 
-      if (this.laptops.length === 0) {
-        this.laptops = [];
+        if (this.laptops.length === 0) {
+          this.laptops = [];
+        }
+      }else {
+        this.laptops = this.originalLaptops
+        this.active = false
       }
     },
 
