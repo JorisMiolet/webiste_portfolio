@@ -52,7 +52,7 @@ export default {
 <template>
   <div>
     <template v-if="dataLoaded">
-      <form class="w-full max-w-lg">
+      <div class="w-full max-w-lg">
         <div class="flex flex-wrap mb-6 mt-10 ml-1">
           <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="ArticleNR">
@@ -101,7 +101,7 @@ export default {
             <button @click="resetLaptop" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">reset</button>
           </div>
         </div>
-      </form>
+      </div>
 
     </template>
 

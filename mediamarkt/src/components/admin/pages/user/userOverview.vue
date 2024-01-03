@@ -136,7 +136,7 @@
                   <router-link :to="{name: 'editUser', params: {id: user.uuid}}" exact>edit</router-link>
                 </span>
                 <span class="inline-block ml-2 p-1 rounded bg-red-600/10 text-red-600 font-medium text-[12px] leading-none">
-                  <router-link :to="{name: 'editUser', params: {id: user.uuid}}" exact>delete</router-link>
+                  <span @click="deleteUser(user)">delete</span>
                 </span>
               </td>
             </tr>

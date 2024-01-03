@@ -74,7 +74,7 @@ import axios from "axios";
         <div class="flex justify-between mb-4 items-start">
           <div class="font-medium">Edit image</div>
         </div>
-        <form action="" class="flex items-center flex-col">
+        <div class="flex items-center flex-col">
           <div class="relative w-full mb-2">
             <div class="flex mt-2">
               <input v-model="image['Article NR']" type="text" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 mr-2" placeholder="Article Nr">
@@ -124,7 +124,7 @@ import axios from "axios";
             <button @click="deleteImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">delete</button>
             <button @click="resetImage" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">reset</button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>

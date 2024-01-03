@@ -5,7 +5,7 @@
         <div class="flex justify-between mb-4 items-start">
           <div class="font-medium">Create laptop</div>
         </div>
-        <form action="" class="flex items-center flex-col">
+        <div class="flex items-center flex-col">
           <div class="relative w-full mb-2">
             <div class="flex mt-2">
               <input v-model="newLaptop.Barcode" type="text" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 mr-2" placeholder="Barcode">
@@ -22,7 +22,7 @@
               Clear
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
