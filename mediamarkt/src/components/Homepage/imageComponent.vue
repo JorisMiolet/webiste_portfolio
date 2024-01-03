@@ -3,12 +3,13 @@
   <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
-      <th scope="col" @click="sortTable('id')" :class="{ 'sorted-asc': sortColumn === 'id' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'id' && sortOrder === 'desc' }">#</th>
-      <th scope="col" @click="sortTable('Article NR')" :class="{ 'sorted-asc': sortColumn === 'Article NR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Article NR' && sortOrder === 'desc' }">Article NR</th>
-      <th scope="col" @click="sortTable('EAN')" :class="{ 'sorted-asc': sortColumn === 'EAN' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'EAN' && sortOrder === 'desc' }">EAN</th>
-      <th scope="col" @click="sortTable('Brand')" :class="{ 'sorted-asc': sortColumn === 'Brand' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Brand' && sortOrder === 'desc' }">Brand</th>
-      <th scope="col" @click="sortTable('Description / Model type')" :class="{ 'sorted-asc': sortColumn === 'Description / Model type' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Description / Model type' && sortOrder === 'desc' }">Description</th>
-      <th scope="col" @click="sortTable('PROCESSOR')" :class="{ 'sorted-asc': sortColumn === 'PROCESSOR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'PROCESSOR' && sortOrder === 'desc' }">Processor</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('id')" :class="{ 'sorted-asc': sortColumn === 'id' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'id' && sortOrder === 'desc' }">#</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Article NR')" :class="{ 'sorted-asc': sortColumn === 'Article NR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Article NR' && sortOrder === 'desc' }">Article NR</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('EAN')" :class="{ 'sorted-asc': sortColumn === 'EAN' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'EAN' && sortOrder === 'desc' }">EAN</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Brand')" :class="{ 'sorted-asc': sortColumn === 'Brand' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Brand' && sortOrder === 'desc' }">Brand</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Description / Model type')" :class="{ 'sorted-asc': sortColumn === 'Description / Model type' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Description / Model type' && sortOrder === 'desc' }">Description</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('PROCESSOR')" :class="{ 'sorted-asc': sortColumn === 'PROCESSOR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'PROCESSOR' && sortOrder === 'desc' }">Processor</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('STATUS')" :class="{ 'sorted-asc': sortColumn === 'STATUS' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'STATUS' && sortOrder === 'desc' }">Status</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,9 @@
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
+      <td class="whitespace-nowrap px-6 py-4">
+        <div :class="getStatusClasses(pcimage['STATUS'])">{{ pcimage["STATUS"] }}</div>
+      </td>
     </tr>
     </tbody>
   </table>
@@ -58,7 +62,7 @@ export default {
   data() {
     return {
       laptops: [],
-      originalLaptops: [], // Voeg een array toe om de oorspronkelijke lijst met laptops op te slaan
+      originalLaptops: [],
       selectedImageInfo: null,
       active: false,
       sortColumn: null,
@@ -124,6 +128,19 @@ export default {
           this.laptops = [];
         }
       }
+    }, getStatusClasses(status) {
+      switch (status.toLowerCase()) {
+        case 'updating':
+          return 'status-pill updating';
+        case 'completed':
+          return 'status-pill completed';
+        case 'out of date':
+          return 'status-pill out-of-date';
+        case 'up to date':
+          return 'status-pill up-to-date';
+        default:
+          return 'status-pill';
+      }
     },
     // Functie om de tabel te sorteren op basis van de kolomnaam
     sortTable(column) {
@@ -139,8 +156,7 @@ export default {
       // Sorteer de laptops op basis van de geselecteerde kolom
       this.laptops.sort((a, b) => {
 
-
-        const compareStringWithNumber = function(a, b) {
+        const compareString = function(a, b) {
           // Vergelijk de namen
           var nameComparison = a.localeCompare(b);
 
@@ -158,8 +174,9 @@ export default {
         // Sorteer oplopend of aflopend op basis van de sorteervolgorde
         const order = this.sortOrder === 'asc' ? 1 : -1;
 
-        if ( column === 'Article NR' || column === 'Brand'|| column === 'Description / Model type' ||  column === 'PROCESSOR') {
-          return compareStringWithNumber(a[column], b[column]) * order;
+        if ( column === 'Article NR' || column === 'Brand'|| column === 'Description / Model type' ||
+             column === 'PROCESSOR'||  column === 'STATUS') {
+          return compareString(a[column], b[column]) * order;
         }
         else if(column === 'id' || column === 'EAN'){
           return (a[column] - b[column]) * order;
@@ -188,6 +205,7 @@ html, body {
 /*Sorteer functie tabel*/
 th {
   cursor: pointer;
+  user-select: none;
 }
 
 th::after {
@@ -202,5 +220,34 @@ th.sorted-asc::after {
 th.sorted-desc::after {
   content: ' \25be';
 }
+
+/*Style for status pills*/
+.status-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.updating {
+  background-color: #ffcc00; /* Yellow */
+  color: #333;
+}
+
+.completed {
+  background-color: #00cc66; /* Green */
+  color: #fff;
+}
+
+.out-of-date {
+  background-color: #ff6666; /* Red */
+  color: #fff;
+}
+
+.up-to-date {
+  background-color: #3399ff; /* Blue */
+  color: #fff;
+}
+
 </style>
 
