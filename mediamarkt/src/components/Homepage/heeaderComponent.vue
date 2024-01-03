@@ -102,6 +102,9 @@ export default {
     }
     .sm-screen-button.clicked{
       transform: rotate(45deg);
+      position: absolute;
+      top: 50px;
+      right: 50px;
     }
     .sm-screen-button.clicked::before{
       transform: rotate(-90deg) translate(4px,0);
@@ -123,6 +126,7 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-around;
+      height: 60%;
     }
 </style>
