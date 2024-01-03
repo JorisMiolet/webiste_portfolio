@@ -133,15 +133,14 @@ export default {
         this.sortOrder = 'desc';
       }
 
-      // Bewaar de geselecteerde kolomnaam
+      // Bewaar de geselecteerde kolom
       this.sortColumn = column;
 
       // Sorteer de laptops op basis van de geselecteerde kolom
       this.laptops.sort((a, b) => {
 
-        // const compareString = (a, b) => a.localeCompare(b);
-        const compareStringWithNumber = function(a, b) {
 
+        const compareStringWithNumber = function(a, b) {
           // Vergelijk de namen
           var nameComparison = a.localeCompare(b);
 
@@ -158,12 +157,11 @@ export default {
 
         // Sorteer oplopend of aflopend op basis van de sorteervolgorde
         const order = this.sortOrder === 'asc' ? 1 : -1;
-        
+
         if ( column === 'Article NR' || column === 'Brand'|| column === 'Description / Model type' ||  column === 'PROCESSOR') {
           return compareStringWithNumber(a[column], b[column]) * order;
         }
-        else {
-          // Voor numerieke kolommen, gebruik de numerieke vergelijking
+        else if(column === 'id' || column === 'EAN'){
           return (a[column] - b[column]) * order;
         }
       });
@@ -185,21 +183,18 @@ html, body {
   margin: 0;
   height: 100%;
   overflow: hidden
+}
 
-
-
-}/* Voeg een cursor toe die aangeeft dat de koppen klikbaar zijn */
+/*Sorteer functie tabel*/
 th {
   cursor: pointer;
 }
 
-/* Voeg een pijl toe om de sorteervolgorde aan te geven */
 th::after {
   display: inline-block;
-  margin-left: 4px; /* Ruimte tussen de tekst en pijltjes */
+  margin-left: 4px;
 }
 
-/* Geef het actieve pijltje volledige doorzichtigheid */
 th.sorted-asc::after {
   content: ' \25b4';
 }
