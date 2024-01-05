@@ -43,6 +43,7 @@ export default {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem('user_id');
       sessionStorage.removeItem('isAdmin');
+      this.loggedIn = false;
       this.currentUser = null;
       this.isAdmin = false;
     },
