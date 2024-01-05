@@ -27,7 +27,10 @@ export default {
     setClicked(){
       this.buttonClicked = !this.buttonClicked;
       console.log(this.buttonClicked)
-    }
+    },
+    updateStatusImage(){
+
+    },
   },
   created() {
   }

@@ -35,23 +35,6 @@ public class UserRepository {
         return query.getResultList();
     }
 
-    public User getWithLogin(String username, String password) {
-        TypedQuery<User> query = this.entityManager.createQuery(
-                "SELECT u FROM User u WHERE u.email = :email", User.class);
-
-        query.setParameter("email", username);
-
-        List<User> users = query.getResultList();
-        if (!users.isEmpty()) {
-            if(BCrypt.checkpw(password, users.get(0).getPassword())){
-                return users.get(0);
-            }
-            return null;
-        }
-
-        return null;
-    }
-
     public User getUserByUUID(UUID uuid) {
         return this.entityManager.find(User.class, uuid);
     }
@@ -112,5 +95,19 @@ public class UserRepository {
         }
 
         return query.getResultList();
+    }
+
+    public User getByEmail(String email) {
+        TypedQuery<User> query = this.entityManager.createQuery(
+                "SELECT u FROM User u WHERE u.email = :email", User.class);
+
+        query.setParameter("email", email);
+
+        List<User> users = query.getResultList();
+        if (!users.isEmpty()) {
+            return users.get(0);
+        }
+
+        return null;
     }
 }

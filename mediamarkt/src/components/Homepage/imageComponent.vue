@@ -98,6 +98,7 @@ export default {
         const threeMonthsAgo = new Date();
         threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
+
         this.laptops = this.originalLaptops.filter((laptop) => {
           const laptopDate = new Date(laptop['DATE']);
           this.active = true
@@ -130,14 +131,14 @@ export default {
       }
     }, getStatusClasses(status) {
       switch (status.toLowerCase()) {
-        case 'updating':
-          return 'status-pill updating';
+        case 'in progress':
+          return 'status-pill in-progress';
         case 'completed':
           return 'status-pill completed';
         case 'out of date':
           return 'status-pill out-of-date';
-        case 'up to date':
-          return 'status-pill up-to-date';
+        case 'created':
+          return 'status-pill created';
         default:
           return 'status-pill';
       }
@@ -229,7 +230,7 @@ th.sorted-desc::after {
   font-size: 14px;
 }
 
-.updating {
+.in-progress {
   background-color: #ffcc00; /* Yellow */
   color: #333;
 }
@@ -244,7 +245,7 @@ th.sorted-desc::after {
   color: #fff;
 }
 
-.up-to-date {
+.created {
   background-color: #3399ff; /* Blue */
   color: #fff;
 }

@@ -7,12 +7,14 @@
         <h1 class="text-6xl">Login</h1>
       </div>
       <div class="w-80 mx-auto my-10 flex flex-col justify-between flex-1 relative">
-        <input type="email"
+        <input :class="{ 'border-red-500': errorMessage && !emailInput }"
+               type="email"
                class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 bg-input"
                placeholder="Email"
                v-model="emailInput"
         />
-        <input :type="[showPassword ? 'text' : 'password']"
+        <input :class="{ 'border-red-500': errorMessage && !passwordInput }"
+               :type="[showPassword ? 'text' : 'password']"
                class="h-16 w-full border-[#D0D0D0] border-2 rounded-xl text-2xl pl-5 pr-12 sm:pr-16 bg-input"
                placeholder="Wachtwoord"
                v-model="passwordInput"
@@ -24,13 +26,13 @@
         />
       </div>
       <div class="pb-10 w-full flex items-center justify-center">
-
         <button class="text-3xl text-white rounded bg-primary px-[23%] py-5 hover:drop-shadow-lg hover:bg-[#F36261FF]"
                 @click="handleButton"
         >
           Log In
         </button>
       </div>
+      <div v-if="errorMessage" class="text-red-500 text-center mb-4">{{ errorMessage }}</div>
     </div>
   </div>
 </template>
@@ -56,6 +58,7 @@ export default {
       emailInput: "",
       passwordInput: "",
       currentUser: null,
+      errorMessage: null,
     }
   },
   mounted() {
@@ -68,40 +71,58 @@ export default {
     loadUserList() {
       axios.get(`${this.url}/api/users/all`).then(response => this.userList = response.data)
     },
+    setErrorMessage(message) {
+      this.errorMessage = message;
+
+      setTimeout(() => {
+        this.errorMessage = null;
+      }, 3000);
+    },
     async handleButton() {
       try {
-        let response = await fetch(`${this.url}/authentication/login`,
-            {
-              method: "POST",
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({email: this.emailInput, password: this.passwordInput})
-              //credentials: 'include'
-            })
+        if (!this.emailInput || !this.passwordInput) {
+          this.setErrorMessage("Vul alle velden in");
+          return;
+        }
+
+        let response = await fetch(`${this.url}/authentication/login`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email: this.emailInput.toLowerCase(), password: this.passwordInput})
+        });
 
         if (response.ok) {
-          let token = response.headers.get("Authorization")
+          let token = response.headers.get("Authorization");
           if (token == null) {
-            throw new Error('token niet gevonden');
+            throw new Error('Token niet gevonden');
           }
 
           let responsedata = await response.json();
           token = token.replace('Bearer ', '');
           sessionStorage.setItem('token', token);
-          sessionStorage.setItem('user_id', responsedata.uuid)
-          sessionStorage.setItem('isAdmin', responsedata.admin)
-          this.$router.push("/")
-        }
-
-      } catch (error) {
-        if (error.response && error.response.status === 404) {
-          console.error("User not found");
-        } else if (error.response && error.response.status === 500) {
-          window.alert("combinatie van gebruikersnaam en wachtwoord is niet goed")
+          sessionStorage.setItem('user_id', responsedata.uuid);
+          sessionStorage.setItem('isAdmin', responsedata.admin);
+          this.$router.push("/");
         } else {
-          console.error("An error occurred:", error);
+          // Foutafhandeling voor niet-OK-responsen
+          let errorText = await response.text();
+          if (response.status === 404) {
+            this.setErrorMessage("Email niet gevonden");
+          } else if (response.status === 401) {
+            this.setErrorMessage("Onjuist wachtwoord");
+          } else {
+            this.setErrorMessage("Er is een fout opgetreden");
+            console.error("Serverfout:", response.status, errorText);
+          }
         }
+      } catch (error) {
+        // Foutafhandeling voor andere soorten fouten
+       this.setErrorMessage("Er is een fout opgetreden");
+        console.error("An error occurred:", error);
       }
     },
+
+
   }
 }
 </script>
