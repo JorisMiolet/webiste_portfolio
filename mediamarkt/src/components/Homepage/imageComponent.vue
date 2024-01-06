@@ -59,6 +59,7 @@ export default {
     detailImage,
     searchComponent,
   },
+  props: ["laptopInfo", "buttonClicked"],
   data() {
     return {
       laptops: [],
@@ -72,7 +73,17 @@ export default {
   mounted() {
     this.loadUserList();
   },
-
+  watch: {
+    laptopInfo: {
+      immediate: true,
+      handler(newVal) {
+        // Handle the updated laptopInfo
+        if (newVal) {
+          this.laptops = [newVal];
+        }
+      },
+    },
+  },
   methods: {
     setSelectedImage(image) {
       this.selectedImageInfo = image;

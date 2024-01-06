@@ -2,11 +2,11 @@
   <header-component @scan-clicked="setClicked"/>
   <div class="container flex flex-row mt-20">
     <div class="z-[999]">
-      <BarcodeComponent :button-is-clicked="buttonClicked"/>
+      <BarcodeComponent :button-is-clicked="buttonClicked" @barcodeDecoded="handleBarcodeDecoded"/>
     </div>
     <div class="flex-col content mr-auto">
 <!--      <search-component/>-->
-      <image-component/>
+      <ImageComponent :laptop-info="laptopInfo"/>
     </div>
   </div>
 </template>
@@ -20,7 +20,8 @@ export default {
   components: {BarcodeComponent, HeaderComponent, ImageComponent},
   data() {
     return{
-      buttonClicked: false
+      buttonClicked: false,
+      laptopInfo: null,
     }
   },
   methods: {
@@ -28,8 +29,10 @@ export default {
       this.buttonClicked = !this.buttonClicked;
       console.log(this.buttonClicked)
     },
-    updateStatusImage(){
-
+    handleBarcodeDecoded(laptopInfo) {
+      // Update the laptopInfo directly
+      this.laptopInfo = laptopInfo;
+      console.log(this.laptopInfo)
     },
   },
   created() {
