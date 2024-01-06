@@ -24,6 +24,12 @@ export default {
         this.loadLaptop();
       }
     },
+    cancel(){
+      const confirmReset = confirm(`are you sure you want to cancel`);
+      if(confirmReset){
+        this.$router.go(-1)
+      }
+    },
     save(){
       axios.put(this.url + `/api/laptops/${this.$route.params.EAN}`, this.laptop)
           .then(() => {
@@ -73,8 +79,11 @@ export default {
             <button @click="deleteImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Delete Laptop
             </button>
-            <button @click="resetLaptop" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            <button @click="resetLaptop" class=" mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Reset Laptop
+            </button>
+            <button @click="cancel" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              cancel
             </button>
           </div>
         </div>

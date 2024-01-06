@@ -42,7 +42,7 @@ import VueJwtDecode from "vue-jwt-decode";
 <template>
   <header-component/>
   <!-- start: Sidebar -->
-  <div class="md:fixed absolute w-full left-0 top-0 md:w-64 md:h-full bg-red-500 p-4 mt-20 sidebar-menu transition-transform">
+  <div class="md:fixed absolute w-full left-0 top-0 md:w-64 md:h-full bg-red-500 p-4 mt-16 sidebar-menu transition-transform">
     <ul class="mt-4">
       <li class="mb-1 group" v-if="this.isAdmin">
         <router-link :to="{name: 'userOverview'}"
@@ -69,7 +69,7 @@ import VueJwtDecode from "vue-jwt-decode";
   </div>
   <!-- end: Sidebar -->
 
-  <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main mt-20">
+  <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main mt-16">
     <router-view :isAdmin="isAdmin"/>
   </main>
 </template>

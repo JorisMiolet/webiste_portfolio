@@ -3,26 +3,47 @@
   <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('id')" :class="{ 'sorted-asc': sortColumn === 'id' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'id' && sortOrder === 'desc' }">#</th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Article NR')" :class="{ 'sorted-asc': sortColumn === 'Article NR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Article NR' && sortOrder === 'desc' }">Article NR</th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('EAN')" :class="{ 'sorted-asc': sortColumn === 'EAN' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'EAN' && sortOrder === 'desc' }">EAN</th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Brand')" :class="{ 'sorted-asc': sortColumn === 'Brand' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Brand' && sortOrder === 'desc' }">Brand</th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Description / Model type')" :class="{ 'sorted-asc': sortColumn === 'Description / Model type' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Description / Model type' && sortOrder === 'desc' }">Description</th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('PROCESSOR')" :class="{ 'sorted-asc': sortColumn === 'PROCESSOR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'PROCESSOR' && sortOrder === 'desc' }">Processor</th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('STATUS')" :class="{ 'sorted-asc': sortColumn === 'STATUS' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'STATUS' && sortOrder === 'desc' }">Status</th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('id')"
+          :class="{ 'sorted-asc': sortColumn === 'id' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'id' && sortOrder === 'desc' }">
+        #
+      </th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Article NR')"
+          :class="{ 'sorted-asc': sortColumn === 'Article NR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Article NR' && sortOrder === 'desc' }">
+        Article NR
+      </th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('EAN')"
+          :class="{ 'sorted-asc': sortColumn === 'EAN' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'EAN' && sortOrder === 'desc' }">
+        EAN
+      </th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Brand')"
+          :class="{ 'sorted-asc': sortColumn === 'Brand' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Brand' && sortOrder === 'desc' }">
+        Brand
+      </th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Description / Model type')"
+          :class="{ 'sorted-asc': sortColumn === 'Description / Model type' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Description / Model type' && sortOrder === 'desc' }">
+        Description
+      </th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('PROCESSOR')"
+          :class="{ 'sorted-asc': sortColumn === 'PROCESSOR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'PROCESSOR' && sortOrder === 'desc' }">
+        Processor
+      </th>
+      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('STATUS')"
+          :class="{ 'sorted-asc': sortColumn === 'STATUS' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'STATUS' && sortOrder === 'desc' }">
+        Status
+      </th>
     </tr>
     </thead>
     <tbody>
     <tr class="border-b dark:border-neutral-500" v-for="(pcimage) in laptops" :key="pcimage.EAN"
         @click="setSelectedImage(pcimage)">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{pcimage["id"]}}</td>
+      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ pcimage["id"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">
-        <div :class="getStatusClasses(pcimage['STATUS'])">{{ pcimage["STATUS"] }}</div>
+        <div :class="getStatusClasses(pcimage)">{{ pcimage["STATUS"] }}</div>
       </td>
     </tr>
     </tbody>
@@ -109,7 +130,6 @@ export default {
         const threeMonthsAgo = new Date();
         threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
-
         this.laptops = this.originalLaptops.filter((laptop) => {
           const laptopDate = new Date(laptop['DATE']);
           this.active = true
@@ -140,19 +160,32 @@ export default {
           this.laptops = [];
         }
       }
-    }, getStatusClasses(status) {
-      switch (status.toLowerCase()) {
-        case 'in progress':
-          return 'status-pill in-progress';
-        case 'completed':
-          return 'status-pill completed';
-        case 'out of date':
-          return 'status-pill out-of-date';
-        case 'created':
-          return 'status-pill created';
-        default:
-          return 'status-pill';
+    }, getStatusClasses(image) {
+      const threeMonthsAgo = new Date();
+      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+      let status = 'status-pill';
+      const imageDate = new Date(image['DATE']);
+
+      if (imageDate < threeMonthsAgo) {
+        status = 'status-pill out-of-date';
+        image['STATUS'] = "outdated";
+      } else {
+        switch (image['STATUS'].toLowerCase()) {
+          case 'in progress':
+            status = 'status-pill in-progress';
+            image['STATUS'] = "in-progress"
+            break;
+          case 'completed':
+            status = 'status-pill completed';
+            image['STATUS'] = "completed"
+            break;
+          case 'created':
+            status = 'status-pill created';
+            image['STATUS'] = "created"
+            break;
+        }
       }
+      return status
     },
     // Functie om de tabel te sorteren op basis van de kolomnaam
     sortTable(column) {
@@ -167,17 +200,15 @@ export default {
 
       // Sorteer de laptops op basis van de geselecteerde kolom
       this.laptops.sort((a, b) => {
-
-        const compareString = function(a, b) {
+        const compareString = function (a, b) {
           // Vergelijk de namen
           var nameComparison = a.localeCompare(b);
-
           // Als de namen gelijk zijn, vergelijk dan de cijfers
           if (nameComparison === 0) {
-            var numA = parseInt(a.match(/\d+/)[0]);
-            var numB = parseInt(b.match(/\d+/)[0]);
-
-            return numA - numB;
+            // var numA = parseInt(a.match(/\d+/)[0]);
+            // var numB = parseInt(b.match(/\d+/)[0]);
+            return nameComparison;
+            // return numA - numB;
           } else {
             return nameComparison;
           }
@@ -185,12 +216,10 @@ export default {
 
         // Sorteer oplopend of aflopend op basis van de sorteervolgorde
         const order = this.sortOrder === 'asc' ? 1 : -1;
-
-        if ( column === 'Article NR' || column === 'Brand'|| column === 'Description / Model type' ||
-             column === 'PROCESSOR'||  column === 'STATUS') {
+        if (column === 'Article NR' || column === 'Brand' || column === 'Description / Model type' ||
+            column === 'PROCESSOR' || column === 'STATUS') {
           return compareString(a[column], b[column]) * order;
-        }
-        else if(column === 'id' || column === 'EAN'){
+        } else if (column === 'id' || column === 'EAN') {
           return (a[column] - b[column]) * order;
         }
       });

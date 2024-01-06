@@ -31,6 +31,12 @@ import axios from "axios";
           this.loadImage();
         }
       },
+      cancelImage(){
+        const confirmReset = confirm(`are you sure you want to cancel`);
+        if(confirmReset){
+          this.$router.go(-1)
+        }
+      },
       save(){
         axios.put(this.url + `/api/images/edit/${this.$route.params.ArticleNR}`, this.image)
             .then(() => {
@@ -122,7 +128,8 @@ import axios from "axios";
               Save
             </button>
             <button @click="deleteImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">delete</button>
-            <button @click="resetImage" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">reset</button>
+            <button @click="resetImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">reset</button>
+            <button @click="cancelImage" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">cancel</button>
           </div>
         </div>
       </div>
