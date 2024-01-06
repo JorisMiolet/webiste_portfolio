@@ -1,6 +1,6 @@
 <template>
   <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate"/>
-  <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
+  <table class="table-auto text-left mx-auto mt-40 overflow-y-scroll hidden md:table">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
       <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('id')"
@@ -45,21 +45,6 @@
       <td class="whitespace-nowrap px-6 py-4">
         <div :class="getStatusClasses(pcimage['STATUS'])">{{ pcimage["STATUS"] }}</div>
       </td>
-    </tr>
-    </tbody>
-  </table>
-  <table class="table-auto w-full text-left mt-40 h-[300px] overflow-y-scroll table md:hidden">
-    <thead class="border-b font-medium dark:border-neutral-500">
-    <tr>
-      <th scope="col" class="pl-6">#</th>
-      <th scope="col">Article NR</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
-        @click="setSelectedImage(pcimage)">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key + 1) }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
     </tr>
     </tbody>
   </table>
@@ -215,71 +200,6 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-body, html {
-  overflow-y: hidden;
-}
-
-.form {
-  max-height: 90vh;
-}
-
-html, body {
-  margin: 0;
-  height: 100%;
-  overflow: hidden
-}
-
-/*Sorteer functie tabel*/
-th {
-  cursor: pointer;
-  user-select: none;
-}
-
-th::after {
-  display: inline-block;
-  margin-left: 4px;
-}
-
-th.sorted-asc::after {
-  content: ' \25b4';
-}
-
-th.sorted-desc::after {
-  content: ' \25be';
-}
-
-/*Style for status pills*/
-.status-pill {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 14px;
-}
-
-.in-progress {
-  background-color: #ffcc00; /* Yellow */
-  color: #333;
-}
-
-.completed {
-  background-color: #00cc66; /* Green */
-  color: #fff;
-}
-
-.out-of-date {
-  background-color: #ff6666; /* Red */
-  color: #fff;
-}
-
-.created {
-  background-color: #3399ff; /* Blue */
-  color: #fff;
-}
-
-</style>
-
 
 <style scoped>
 body, html {
