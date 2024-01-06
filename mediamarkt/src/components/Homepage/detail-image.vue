@@ -1,33 +1,32 @@
 <template>
-    <!-- Overlay / Achtergrond donker maken -->
-    <div v-if="popupVisible" class="overlay"></div>
+  <!-- Overlay / Achtergrond donker maken -->
+  <div v-if="popupVisible" class="overlay"></div>
 
-    <!-- De popup -->
-    <div v-if="popupVisible" class="popup" @click="closePopup">
+  <!-- De popup -->
+  <div v-if="popupVisible" class="popup" @click="closePopup">
 
-      <!-- Inhoud van de popup -->
-      <div class="popup-content" @click.stop>
+    <!-- Inhoud van de popup -->
+    <div class="popup-content" @click.stop>
 
-        <!-- Weergave van de 10 waarden uit de JSON-gegevens -->
-        <div class="table-div">
-          <table class="table-images">
-            <tbody>
-            <tr v-for="(value, key) in filteredProxyImage" :key="key">
-              <td>{{ key }}</td>
-              <td>
-                <span v-if="key === 'user'">{{ value.username }}</span>
-                <span v-else>{{ value }}</span>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-
+      <!-- Weergave van de 10 waarden uit de JSON-gegevens -->
+      <div class="table-div">
+        <table class="table-images">
+          <tbody>
+          <tr v-for="(value, key) in filteredProxyImage" :key="key">
+            <td>{{ key }}</td>
+            <td>
+              <span v-if="key === 'user'">
+              {{ value && value.username !== null ? value.username : 'Niet toegewezen' }}
+              </span>
+              <span v-else>{{ value }}</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-
+  </div>
 </template>
-
 
 
 <script>
@@ -46,7 +45,7 @@ export default {
       if (this.selectedImage.laptop === null) {
         // If the laptop property is present, create a new object without it
         // eslint-disable-next-line no-unused-vars
-        const { laptop, ...selectedImageWithoutLaptop } = this.selectedImage;
+        const {laptop, ...selectedImageWithoutLaptop} = this.selectedImage;
         this.proxyImage = selectedImageWithoutLaptop;
       } else {
         // If laptop is null, use the entire selectedImage
@@ -60,7 +59,7 @@ export default {
 
     },
   },
-  computed:{
+  computed: {
     filteredProxyImage() {
       // Check if this.proxyImage exists before filtering
       if (!this.proxyImage) {
@@ -77,7 +76,7 @@ export default {
     }
   },
   mounted() {
-      this.loadImage();
+    this.loadImage();
   },
 }
 </script>
