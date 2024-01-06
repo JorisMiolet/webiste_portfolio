@@ -182,7 +182,7 @@ public class ImageRepository {
 
     private Long getCountOfOutdatedImages() {
         TypedQuery<Long> query = this.entityManager.createQuery(
-                "SELECT COUNT(i) FROM Image i WHERE i.date < :threeMonthsAgo AND i.status != 'completed'",
+                "SELECT COUNT(i) FROM Image i WHERE i.date < :threeMonthsAgo",
                 Long.class
         );
         LocalDate threeMonthsAgo = LocalDate.now().minusMonths(3);

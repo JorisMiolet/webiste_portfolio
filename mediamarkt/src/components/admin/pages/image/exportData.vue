@@ -49,7 +49,13 @@ export default {
       if (confirmDelete) {
         const urlWithQuery = `${this.url}/api/images/${image["id"]}`;
         axios.delete(urlWithQuery)
-            .then(this.loadAllImages);
+            .then(() => {
+              this.loadAllImages()
+              this.loadCompletedImages()
+              this.loadInCompletedImages()
+              this.loadImageSummary()
+              this.loadOutdatedImages()
+            });
       }
     },
     resetImage() {
@@ -125,7 +131,13 @@ export default {
         "user_id": sessionStorage.getItem('user_id')
       }
       axios.post(urlWithQuery, data)
-          .then(this.loadAllImages())
+          .then(() => {
+            this.loadAllImages()
+            this.loadCompletedImages()
+            this.loadInCompletedImages()
+            this.loadImageSummary()
+            this.loadOutdatedImages()
+          })
     },
     getUserEmail(user) {
       return user ? user.email : 'N/A'; // Modify this based on your user object structure

@@ -75,7 +75,7 @@ export default {
         <div class="flex justify-between mb-4 items-start">
           <div class="font-medium">Create image</div>
         </div>
-        <div action="" class="flex items-center flex-col">
+        <div class="flex items-center flex-col">
           <div class="relative w-full mb-2">
             <div class="flex mt-2">
               <input v-model="articleNumber" type="text" class="flex-grow text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 mr-2" placeholder="Article Nr">

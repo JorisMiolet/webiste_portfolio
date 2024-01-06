@@ -13,6 +13,7 @@ import java.util.UUID;
 public class User {
 
     @Id
+    @Column(columnDefinition = "VARCHAR(255)")
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("uuid")
     private UUID uuid;
