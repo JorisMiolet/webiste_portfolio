@@ -94,22 +94,19 @@
                 <option :value="true">Admin</option>
                 <option :value="false">Medewerker</option>
               </select>
-              <div class="relative">
-                <select v-model="user.locatie" class="flex-grow ml-1 text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 outline-none appearance-none bg-select-arrow bg-no-repeat bg-[length:16px_16px] bg-[right_16px_center]">
-                  <option value="" disabled selected>Kies een locatie</option>
-                  <option value="Amsterdam">MediaMarkt Amsterdam</option>
-                  <option value="Rotterdam">MediaMarkt Rotterdam</option>
-                  <option value="Utrecht">MediaMarkt Utrecht</option>
-                  <option value="Den Haag">MediaMarkt Den Haag</option>
-                  <option value="Eindhoven">MediaMarkt Eindhoven</option>
-                  <option value="Groningen">MediaMarkt Groningen</option>
-                  <option value="Tilburg">MediaMarkt Tilburg</option>
-                  <option value="Breda">MediaMarkt Breda</option>
-                  <option value="Arnhem">MediaMarkt Arnhem</option>
-                  <option value="Nijmegen">MediaMarkt Nijmegen</option>
-                </select>
-                <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-sm text-gray-500" v-if="!user.locatie">Kies een locatie...</span>
-              </div>
+              <select v-model="user.locatie" class="flex-grow ml-1 text-sm py-2 pl-4 pr-10 bg-gray-50 border border-gray-100 rounded-md focus:border-blue-500 outline-none appearance-none bg-select-arrow bg-no-repeat bg-[length:16px_16px] bg-[right_16px_center] text-gray-500">
+                <option value="" disabled>{{ user.locatie ? '' : 'Kies een locatie...' }}</option>
+                <option value="Amsterdam">MediaMarkt Amsterdam</option>
+                <option value="Rotterdam">MediaMarkt Rotterdam</option>
+                <option value="Utrecht">MediaMarkt Utrecht</option>
+                <option value="Den Haag">MediaMarkt Den Haag</option>
+                <option value="Eindhoven">MediaMarkt Eindhoven</option>
+                <option value="Groningen">MediaMarkt Groningen</option>
+                <option value="Tilburg">MediaMarkt Tilburg</option>
+                <option value="Breda">MediaMarkt Breda</option>
+                <option value="Arnhem">MediaMarkt Arnhem</option>
+                <option value="Nijmegen">MediaMarkt Nijmegen</option>
+              </select>
 
             </div>
           </div>
