@@ -138,6 +138,7 @@ export default {
             this.loadImageSummary()
             this.loadOutdatedImages()
           })
+
     },
     getUserEmail(user) {
       return user ? user.email : 'N/A'; // Modify this based on your user object structure

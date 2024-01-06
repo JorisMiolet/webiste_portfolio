@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import detailImage from "@/components/admin/pages/image/detail-image.vue";
+import detailImage from "@/components/Homepage/detail-image.vue";
 import axios from "axios";
 import searchComponent from "@/components/Homepage/searchComponent.vue";
 
@@ -59,6 +59,7 @@ export default {
     detailImage,
     searchComponent,
   },
+  props: ["laptopInfo", "buttonClicked"],
   data() {
     return {
       laptops: [],
@@ -72,7 +73,17 @@ export default {
   mounted() {
     this.loadUserList();
   },
-
+  watch: {
+    laptopInfo: {
+      immediate: true,
+      handler(newVal) {
+        // Handle the updated laptopInfo
+        if (newVal) {
+          this.laptops = [newVal];
+        }
+      },
+    },
+  },
   methods: {
     setSelectedImage(image) {
       this.selectedImageInfo = image;

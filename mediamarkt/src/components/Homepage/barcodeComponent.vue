@@ -69,7 +69,8 @@ export default {
             this.laptopInfo = response.data;
 
             // Emit the laptop information to the parent component (imageComponent)
-            this.$emit("updateLaptops", [this.laptopInfo]); // Send the laptop information as an array
+            this.$emit("barcodeDecoded", this.laptopInfo); // Send the laptop information as an
+            console.log(this.laptopInfo)
 
 
           })
