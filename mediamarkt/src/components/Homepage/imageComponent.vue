@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import detailImage from "@/components/admin/pages/image/detail-image.vue";
+import detailImage from "@/components/Homepage/detail-image.vue";
 import axios from "axios";
 import searchComponent from "@/components/Homepage/searchComponent.vue";
 
