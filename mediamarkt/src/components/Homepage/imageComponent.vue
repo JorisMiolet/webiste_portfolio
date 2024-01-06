@@ -146,8 +146,8 @@ export default {
           return 'status-pill in-progress';
         case 'completed':
           return 'status-pill completed';
-        case 'out of date':
-          return 'status-pill out-of-date';
+        // case 'out of date':
+        //   return 'status-pill out-of-date';
         case 'created':
           return 'status-pill created';
         default:
@@ -167,17 +167,15 @@ export default {
 
       // Sorteer de laptops op basis van de geselecteerde kolom
       this.laptops.sort((a, b) => {
-
         const compareString = function(a, b) {
           // Vergelijk de namen
           var nameComparison = a.localeCompare(b);
-
           // Als de namen gelijk zijn, vergelijk dan de cijfers
           if (nameComparison === 0) {
-            var numA = parseInt(a.match(/\d+/)[0]);
-            var numB = parseInt(b.match(/\d+/)[0]);
-
-            return numA - numB;
+            // var numA = parseInt(a.match(/\d+/)[0]);
+            // var numB = parseInt(b.match(/\d+/)[0]);
+            return nameComparison;
+            // return numA - numB;
           } else {
             return nameComparison;
           }
@@ -185,7 +183,6 @@ export default {
 
         // Sorteer oplopend of aflopend op basis van de sorteervolgorde
         const order = this.sortOrder === 'asc' ? 1 : -1;
-
         if ( column === 'Article NR' || column === 'Brand'|| column === 'Description / Model type' ||
              column === 'PROCESSOR'||  column === 'STATUS') {
           return compareString(a[column], b[column]) * order;
