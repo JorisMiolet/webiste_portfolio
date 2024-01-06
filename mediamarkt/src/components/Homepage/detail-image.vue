@@ -12,15 +12,17 @@
         <div class="table-div">
           <table class="table-images">
             <tbody>
-            <tr v-for="(value, key) in proxyImage" :key="key">
+            <tr v-for="(value, key) in filteredProxyImage" :key="key">
               <td>{{ key }}</td>
               <td>
-                <span>{{ value }}</span>
+                <span v-if="key === 'user'">{{ value.username }}</span>
+                <span v-else>{{ value }}</span>
               </td>
             </tr>
             </tbody>
           </table>
         </div>
+
       </div>
     </div>
 
@@ -50,8 +52,6 @@ export default {
         // If laptop is null, use the entire selectedImage
         this.proxyImage = this.selectedImage;
       }
-
-      // console.log("Proxy- detailview", JSON.stringify(this.proxyImage, null, 2));
     },
     closePopup() {
       this.popupVisible = false;
@@ -60,11 +60,22 @@ export default {
 
     },
   },
-  // computed: {
-  //   loadSelectedImage() {
-  //     return this.selectedImage;
-  //   }
-  // },
+  computed:{
+    filteredProxyImage() {
+      // Check if this.proxyImage exists before filtering
+      if (!this.proxyImage) {
+        return {};
+      }
+
+      // Filter the proxyImage object to exclude the 'laptop' key
+      return Object.keys(this.proxyImage)
+          .filter(key => key !== 'laptop')
+          .reduce((acc, key) => {
+            acc[key] = this.proxyImage[key];
+            return acc;
+          }, {});
+    }
+  },
   mounted() {
       this.loadImage();
   },

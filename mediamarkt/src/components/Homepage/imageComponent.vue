@@ -171,7 +171,7 @@ export default {
         image['STATUS'] = "outdated";
       } else {
         switch (image['STATUS'].toLowerCase()) {
-          case 'in progress':
+          case 'in-progress':
             status = 'status-pill in-progress';
             image['STATUS'] = "in-progress"
             break;
