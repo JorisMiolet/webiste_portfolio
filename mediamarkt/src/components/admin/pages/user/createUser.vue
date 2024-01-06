@@ -87,12 +87,13 @@ export default {
             </div>
           </div>
           <div class="flex w-56 justify-around">
-          <button @click="saveUser" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-            save user
-          </button>
             <button @click="cancel" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               cancel
             </button>
+            <button @click="saveUser" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            save user
+          </button>
+
           </div>
           <div v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
         </div>
