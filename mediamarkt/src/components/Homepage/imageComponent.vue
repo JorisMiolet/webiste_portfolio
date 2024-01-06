@@ -163,9 +163,9 @@ export default {
     }, getStatusClasses(image) {
       const threeMonthsAgo = new Date();
       threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-
       let status = 'status-pill';
       const imageDate = new Date(image['DATE']);
+
       if (imageDate < threeMonthsAgo) {
         status = 'status-pill out-of-date';
         image['STATUS'] = "outdated";

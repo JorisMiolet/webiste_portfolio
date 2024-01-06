@@ -27,6 +27,12 @@
           this.getUser();
         }
       },
+      cancel(){
+        const confirmReset = confirm(`are you sure you want to cancel`);
+        if(confirmReset){
+          this.$router.go(-1)
+        }
+      },
       save() {
         // Check if the password is not empty before sending it
         if (this.user.password !== '') {
@@ -110,9 +116,14 @@
 
             </div>
           </div>
-          <button class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-            <button @click="save">Save user</button>
+          <div class="flex w-56 justify-around">
+          <button @click="save" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            save user
           </button>
+          <button @click="cancel" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            cancel
+          </button>
+          </div>
         </div>
       </div>
     </div>
