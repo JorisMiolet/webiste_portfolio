@@ -4,23 +4,33 @@ import axios from "axios";
 export default {
   inject: ['url'],
   name: "createUser",
-  data(){
-    return{
+  data() {
+    return {
       name: '',
       email: '',
       password: '',
       locatie: '',
       rechten: '',
+      errorMessage: null,
     }
   },
-  methods:{
-    saveUser(){
-      axios.post(this.url  +'/api/users/create-user', {
+  methods: {
+    saveUser() {
+      // Check if all fields are filled
+      if (!this.name || !this.email || !this.password || !this.locatie || !this.rechten) {
+        this.errorMessage = "Please fill in all fields.";
+        return;
+      }
+
+      // Clear any previous error message
+      this.errorMessage = null;
+
+      axios.post(this.url + '/api/users/create-user', {
         username: this.name,
         email: this.email,
         password: this.password,
         locatie: this.locatie,
-        rechten: this.rechten === 'admin' ? this.rechten = true : this.rechten = false,
+        rechten: this.rechten === 'admin' ? true : false,
       })
           .then(() => {
             this.$router.push("/admin/user-overview");
@@ -31,8 +41,6 @@ export default {
           });
     }
   },
-
-
 }
 </script>
 
@@ -74,10 +82,12 @@ export default {
           <button class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
             <button @click="saveUser">Save user</button>
           </button>
+          <div v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
+        </div>
         </div>
       </div>
     </div>
-  </div>
+
 </template>
 
 <style scoped>

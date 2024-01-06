@@ -21,6 +21,7 @@
             <button @click="clear" class="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Clear
             </button>
+            <div v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
           </div>
         </div>
       </div>
@@ -43,22 +44,38 @@ export default {
         Brand: null,
         Description: null,
       },
+      errorMessage: null,
     }
   },
   methods: {
     saveLaptop() {
-      const newLaptop = {
-        "EAN":this.newLaptop.EAN,
-        "barcode":this.newLaptop.Barcode,
-        "brand":this.newLaptop.Brand,
-        "description":this.newLaptop.Description,
-        "images":null
+      // Check if all fields are filled
+      if (!this.newLaptop.EAN || !this.newLaptop.Barcode || !this.newLaptop.Brand || !this.newLaptop.Description) {
+        this.errorMessage = "Please fill in all fields.";
+        return;
       }
-      console.log(newLaptop)
+
+      // Clear any previous error message
+      this.errorMessage = null;
+
+      const newLaptop = {
+        "EAN": this.newLaptop.EAN,
+        "barcode": this.newLaptop.Barcode,
+        "brand": this.newLaptop.Brand,
+        "description": this.newLaptop.Description,
+        "images": null
+      };
+
+      console.log(newLaptop);
+
       axios.post(this.url + '/api/laptops/create-laptop', newLaptop)
           .then(() => {
             alert('Laptop created!');
             this.$router.go(-1);
+          })
+          .catch(error => {
+            console.error('Error creating laptop:', error);
+            // Handle the error appropriately, e.g., show an error message to the user
           });
     },
     clear(){

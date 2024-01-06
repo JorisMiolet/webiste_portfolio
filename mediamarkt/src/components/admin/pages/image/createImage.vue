@@ -15,12 +15,22 @@ export default {
       storage: '',
       gpu: '',
       screenSizeCm: '',
-      status: '',
+      status: 'in progress', // Set a default value for status
       barcode: '',
+      errorMessage: null,
     };
   },
   methods: {
     save() {
+      // Check if all fields are filled
+      if (!this.articleNumber || !this.brand || !this.ean || !this.description || !this.processor || !this.ram || !this.storage || !this.gpu || !this.screenSizeCm || !this.barcode) {
+        this.errorMessage = "Please fill in all fields.";
+        return;
+      }
+
+      // Clear any previous error message
+      this.errorMessage = null;
+
       const newImage = {
         "Article NR": this.articleNumber,
         "EAN": this.ean,
@@ -61,7 +71,7 @@ export default {
       this.storage = '';
       this.gpu = '';
       this.screenSizeCm = '';
-      this.status = '';
+      this.status = 'in progress';
       this.barcode = '';
     },
   },
@@ -108,6 +118,7 @@ export default {
             <button @click="clear" class="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Clear
             </button>
+            <div v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
           </div>
         </div>
       </div>
