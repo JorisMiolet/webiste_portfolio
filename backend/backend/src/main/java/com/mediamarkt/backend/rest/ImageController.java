@@ -138,4 +138,19 @@ public class ImageController {
         return imagesRepository.pickup(articleNr, user_id);
     }
 
+
+    @PostMapping("/done")
+    @Transactional
+    public ResponseEntity<Image> markDone(@RequestBody ObjectNode articleNumber) {
+        String articleNr = articleNumber.get("article_nr").asText();
+
+        Image markedImage = imagesRepository.markDone(articleNr);
+
+        if (markedImage != null) {
+            return ResponseEntity.ok(markedImage);
+        } else {
+            throw new ResourceNotFoundException("Image not found or cannot be marked as done");
+        }
+    }
+
 }

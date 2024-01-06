@@ -211,4 +211,11 @@ public class ImageRepository {
             return null;
         }
     }
+
+    public Image markDone(String articleNr) {
+        Image image = findByArticleNr(articleNr);
+        image.setStatus("completed");
+        image.setDate(LocalDate.now().toString());
+        return this.entityManager.merge(image);
+    }
 }

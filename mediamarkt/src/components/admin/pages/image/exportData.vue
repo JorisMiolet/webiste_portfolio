@@ -143,6 +143,21 @@ export default {
     getUserEmail(user) {
       return user ? user.email : 'N/A'; // Modify this based on your user object structure
     },
+    markDone(image){
+      console.log(image)
+      const urlWithQuery = `${this.url}/api/images/done`;
+      const data = {
+        "article_nr": image["Article NR"]
+      }
+      axios.post(urlWithQuery, data)
+          .then(() => {
+            this.loadAllImages()
+            this.loadCompletedImages()
+            this.loadInCompletedImages()
+            this.loadImageSummary()
+            this.loadOutdatedImages()
+          })
+    },
   },
   computed: {
     totalPages(){
@@ -152,6 +167,17 @@ export default {
       const startIndex = (this.currentPage - 1) * this.rowsPerPage;
       const endIndex = startIndex + this.rowsPerPage;
       return this.images.slice(startIndex, endIndex);
+    },
+    checkIfImageBelongsToUser(){
+      return (image) => {
+        const loggedInUserId = sessionStorage.getItem('user_id');
+        let imageId = 0;
+        if(image.user != null){
+          imageId = image.user.id
+        }
+        // return false
+        return imageId == loggedInUserId && (image.STATUS !== 'completed' || image.STATUS !== 'in progress');
+      };
     },
 
   },
@@ -257,6 +283,11 @@ export default {
                 <span @click="pickup(pcimage)" v-if="pcimage['STATUS'] !== 'completed' && pcimage['STATUS'] !== 'in progress'" class="inline-block ml-2 p-1 rounded bg-orange-500/10 text-orange-500 font-medium text-[12px] leading-none">
                   <button>
                     <span>pick up</span>
+                  </button>
+                </span>
+                <span @click="markDone(pcimage)" v-if="checkIfImageBelongsToUser(pcimage) && pcimage['STATUS'] !== 'completed'" class="inline-block ml-2 p-1 rounded bg-orange-500/10 text-orange-500 font-medium text-[12px] leading-none">
+                  <button>
+                    <span>mark done</span>
                   </button>
                 </span>
               </td>
