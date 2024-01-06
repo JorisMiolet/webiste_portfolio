@@ -9,6 +9,7 @@
         <router-link v-else @click="logout" :to="{name: 'home'}" class="text-white hover:underline">Log out</router-link>
         <button @click="emitClicked"
                 class="bg-primary py-3 px-10 rounded-2xl text-white slide"
+                v-if="isHome"
         >
           Scan barcode
         </button>
@@ -31,14 +32,18 @@ export default {
       currentUser: null,
       isAdmin: false,
       loggedIn: false,
-      hamburgerClicked: false
+      hamburgerClicked: false,
+      isHome: true
     }
   },
   created() {
-    console.log("Header created");
     this.updateUserInformation()
+    this.checkRoute()
   },
   methods:{
+    checkRoute(){
+      this.isHome = this.$route.path.includes("home")
+    },
     logout() {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem('user_id');
