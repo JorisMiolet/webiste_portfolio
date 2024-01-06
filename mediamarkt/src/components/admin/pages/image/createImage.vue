@@ -112,7 +112,7 @@ export default {
               <select v-model="status"  class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
                 <option value="completed">completed</option>
                 <option selected value="in progress">in progress</option>
-                <option selected value="started">started</option>
+                <option selected value="created">created</option>
               </select>
               <input v-model="barcode" type="text" class="flex-grow mr-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Barcode">
             </div>

@@ -43,7 +43,7 @@
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">
-        <div :class="getStatusClasses(pcimage)">{{ pcimage["STATUS"] }}</div>
+        <div :class="getStatusClasses(pcimage['STATUS'])">{{ pcimage["STATUS"] }}</div>
       </td>
     </tr>
     </tbody>
@@ -130,6 +130,7 @@ export default {
         const threeMonthsAgo = new Date();
         threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
 
+
         this.laptops = this.originalLaptops.filter((laptop) => {
           const laptopDate = new Date(laptop['DATE']);
           this.active = true
@@ -160,32 +161,19 @@ export default {
           this.laptops = [];
         }
       }
-    }, getStatusClasses(image) {
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      let status = 'status-pill';
-      const imageDate = new Date(image['DATE']);
-
-      if (imageDate < threeMonthsAgo) {
-        status = 'status-pill out-of-date';
-        image['STATUS'] = "outdated";
-      } else {
-        switch (image['STATUS'].toLowerCase()) {
-          case 'in-progress':
-            status = 'status-pill in-progress';
-            image['STATUS'] = "in-progress"
-            break;
-          case 'completed':
-            status = 'status-pill completed';
-            image['STATUS'] = "completed"
-            break;
-          case 'created':
-            status = 'status-pill created';
-            image['STATUS'] = "created"
-            break;
-        }
+    }, getStatusClasses(status) {
+      switch (status.toLowerCase()) {
+        case 'in progress':
+          return 'status-pill in-progress';
+        case 'completed':
+          return 'status-pill completed';
+          case 'out of date':
+            return 'status-pill out-of-date';
+        case 'created':
+          return 'status-pill created';
+        default:
+          return 'status-pill';
       }
-      return status
     },
     // Functie om de tabel te sorteren op basis van de kolomnaam
     sortTable(column) {
@@ -227,6 +215,71 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+body, html {
+  overflow-y: hidden;
+}
+
+.form {
+  max-height: 90vh;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden
+}
+
+/*Sorteer functie tabel*/
+th {
+  cursor: pointer;
+  user-select: none;
+}
+
+th::after {
+  display: inline-block;
+  margin-left: 4px;
+}
+
+th.sorted-asc::after {
+  content: ' \25b4';
+}
+
+th.sorted-desc::after {
+  content: ' \25be';
+}
+
+/*Style for status pills*/
+.status-pill {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.in-progress {
+  background-color: #ffcc00; /* Yellow */
+  color: #333;
+}
+
+.completed {
+  background-color: #00cc66; /* Green */
+  color: #fff;
+}
+
+.out-of-date {
+  background-color: #ff6666; /* Red */
+  color: #fff;
+}
+
+.created {
+  background-color: #3399ff; /* Blue */
+  color: #fff;
+}
+
+</style>
+
 
 <style scoped>
 body, html {
