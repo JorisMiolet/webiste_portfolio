@@ -21,6 +21,12 @@ export default {
     };
   },
   methods: {
+    cancel(){
+      const confirmReset = confirm(`are you sure you want to cancel`);
+      if(confirmReset){
+        this.$router.go(-1)
+      }
+    },
     save() {
       // Check if all fields are filled
       if (!this.articleNumber || !this.brand || !this.ean || !this.description || !this.processor || !this.ram || !this.storage || !this.gpu || !this.screenSizeCm || !this.barcode) {
@@ -115,8 +121,11 @@ export default {
             <button @click="save" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Create image
             </button>
-            <button @click="clear" class="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            <button @click="clear" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Clear
+            </button>
+            <button @click="cancel" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              cancel
             </button>
             <div v-if="errorMessage" class="text-red-500 mt-2">{{ errorMessage }}</div>
           </div>
