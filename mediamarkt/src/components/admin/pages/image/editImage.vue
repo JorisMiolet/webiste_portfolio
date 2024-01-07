@@ -119,17 +119,19 @@ import axios from "axios";
               <select v-model="image.STATUS"  class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
                 <option value="completed">completed</option>
                 <option value="in progress">in progress</option>
-                <option value="started">started</option>
+                <option value="created">created</option>
               </select>
             </div>
           </div>
           <div class="flex justify-between">
+            <button @click="cancelImage" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">cancel</button>
             <button @click="save" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Save
             </button>
-            <button @click="deleteImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">delete</button>
-            <button @click="resetImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">reset</button>
-            <button @click="cancelImage" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">cancel</button>
+            <button @click="resetImage" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">reset</button>
+            <button @click="deleteImage" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">delete</button>
+
+
           </div>
         </div>
       </div>
