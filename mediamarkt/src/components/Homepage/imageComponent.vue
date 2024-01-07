@@ -98,7 +98,7 @@ export default {
     resetImage() {
       this.selectedImageInfo = null;
     },
-
+    
     //loads all laptops
     loadUserList() {
       axios.get(`${this.url}/api/images/all`).then((response) => {

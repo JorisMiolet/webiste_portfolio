@@ -6,7 +6,7 @@
   <div v-if="popupVisible" class="popup" @click="closePopup">
 
     <!-- Inhoud van de popup -->
-    <div class="popup-content" @click.stop>
+    <div class="popup-content flex flex-col items-center" @click.stop>
 
       <!-- Weergave van de 10 waarden uit de JSON-gegevens -->
         <table class="table-image-details">
@@ -23,16 +23,32 @@
           </tbody>
         </table>
 
+      <span @click="markDone(filteredProxyImage)" v-if="checkIfImageBelongsToUser(filteredProxyImage)"
+            class="inline-block bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded transition-colors duration-300 cursor-pointer"
+            :style="{ marginTop: '1vw' }">
+                  <button>Mark as completed</button>
+      </span>
+
+      <span @click="pickup(filteredProxyImage)" v-if="filteredProxyImage['STATUS'] !== 'completed' && filteredProxyImage['STATUS'] !== 'in progress'"
+            class="inline-block bg-orange-500 hover:bg-orange-400 text-white px-4 py-2 rounded transition-colors duration-300 cursor-pointer"
+            :style="{ marginTop: '1vw' }">
+                  <button>Pickup image</button>
+      </span>
+
+
     </div>
   </div>
 </template>
 
 
 <script>
+import axios from "axios";
+
 export default {
   name: 'detail-image',
   props: ['selectedImage'],
   emits: ['resetImage'],
+  inject: ['url'],
   data() {
     return {
       popupVisible: true,
@@ -57,6 +73,24 @@ export default {
       this.$emit('resetImage');
 
     },
+    markDone(image){
+      const urlWithQuery = `${this.url}/api/images/done`;
+      const data = {
+        "article_nr": image["Article NR"]
+      }
+      axios.post(urlWithQuery, data)
+      this.closePopup();
+    },
+    pickup(image){
+      const urlWithQuery = `${this.url}/api/images/pickup`;
+      const data = {
+        "article_nr": image["Article NR"],
+        "user_id": sessionStorage.getItem('user_id')
+      }
+      axios.post(urlWithQuery, data)
+      this.closePopup();
+    },
+
   },
   computed: {
     filteredProxyImage() {
@@ -72,7 +106,18 @@ export default {
             acc[key] = this.proxyImage[key];
             return acc;
           }, {});
-    }
+    },
+    checkIfImageBelongsToUser(){
+      return (image) => {
+        const loggedInUserId = sessionStorage.getItem('user_id');
+        let imageId = 0;
+        if(image.user != null){
+          imageId = image.user.id
+        }
+        // return false
+        return imageId == loggedInUserId && (image.STATUS !== 'completed' || image.STATUS !== 'in progress');
+      };
+    },
   },
   mounted() {
     this.loadImage();
