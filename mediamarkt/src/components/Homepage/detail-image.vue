@@ -29,7 +29,7 @@
                   <button>Mark as completed</button>
       </span>
 
-      <span @click="pickup(filteredProxyImage)" v-if="filteredProxyImage['STATUS'] !== 'completed' && filteredProxyImage['STATUS'] !== 'in progress'"
+      <span @click="pickup(filteredProxyImage)" v-if="checkIfLoggedIn && filteredProxyImage['STATUS'] !== 'completed' && filteredProxyImage['STATUS'] !== 'in progress' && filteredProxyImage.username !== null"
             class="inline-block bg-orange-500 hover:bg-orange-400 text-white px-4 py-2 rounded transition-colors duration-300 cursor-pointer"
             :style="{ marginTop: '1vw' }">
                   <button>Pickup image</button>
@@ -80,7 +80,7 @@ export default {
       }
       axios.post(urlWithQuery, data)
           .then(() => {
-            this.$emit('refreshTable'); // Emit the event to notify the parent
+            this.$emit('refreshTable');
             this.closePopup();
           })
           .catch((error) => {
@@ -88,7 +88,6 @@ export default {
           });
 
     },
-    // Inside the pickup method in detail-image.vue
     pickup(image) {
       const urlWithQuery = `${this.url}/api/images/pickup`;
       const data = {
@@ -97,7 +96,7 @@ export default {
       }
       axios.post(urlWithQuery, data)
           .then(() => {
-            this.$emit('refreshTable'); // Emit the event to notify the parent
+            this.$emit('refreshTable');
             this.closePopup();
           })
           .catch((error) => {
@@ -121,6 +120,11 @@ export default {
             acc[key] = this.proxyImage[key];
             return acc;
           }, {});
+    },
+    checkIfLoggedIn(){
+      const loggedInUserId = sessionStorage.getItem('user_id');
+
+      return loggedInUserId !== null;
     },
     checkIfImageBelongsToUser(){
       return (image) => {
