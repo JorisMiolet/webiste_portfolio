@@ -47,7 +47,7 @@ import axios from "axios";
 export default {
   name: 'detail-image',
   props: ['selectedImage'],
-  emits: ['resetImage'],
+  emits: ['resetImage','refreshTable'],
   inject: ['url'],
   data() {
     return {
@@ -79,17 +79,32 @@ export default {
         "article_nr": image["Article NR"]
       }
       axios.post(urlWithQuery, data)
-      this.closePopup();
+          .then(() => {
+            this.$emit('refreshTable'); // Emit the event to notify the parent
+            this.closePopup();
+          })
+          .catch((error) => {
+            console.error('Error picking up image:', error);
+          });
+
     },
-    pickup(image){
+    // Inside the pickup method in detail-image.vue
+    pickup(image) {
       const urlWithQuery = `${this.url}/api/images/pickup`;
       const data = {
         "article_nr": image["Article NR"],
         "user_id": sessionStorage.getItem('user_id')
       }
       axios.post(urlWithQuery, data)
-      this.closePopup();
+          .then(() => {
+            this.$emit('refreshTable'); // Emit the event to notify the parent
+            this.closePopup();
+          })
+          .catch((error) => {
+            console.error('Error picking up image:', error);
+          });
     },
+
 
   },
   computed: {

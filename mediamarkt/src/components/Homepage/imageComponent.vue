@@ -50,7 +50,8 @@
   </table>
   <detail-image v-if="selectedImageInfo !== null"
                 v-bind:selectedImage="selectedImageInfo"
-                v-on:resetImage="resetImage()"/>
+                v-on:resetImage="resetImage()"
+                v-on:refreshTable="loadUserList"/>
 </template>
 
 <script>
@@ -101,10 +102,11 @@ export default {
     
     //loads all laptops
     loadUserList() {
-      axios.get(`${this.url}/api/images/all`).then((response) => {
-        this.laptops = response.data;
-        this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
-      });
+      axios.get(`${this.url}/api/images/all`)
+          .then((response) => {
+            this.laptops = response.data;
+            this.originalLaptops = response.data;
+          })
     },
     updateLaptops(laptops) {
       console.log('Updating laptops:', laptops);
