@@ -154,7 +154,7 @@ export default {
           return 'status-pill in-progress';
         case 'completed':
           return 'status-pill completed';
-          case 'out of date':
+          case 'outdated':
             return 'status-pill out-of-date';
         case 'created':
           return 'status-pill created';
