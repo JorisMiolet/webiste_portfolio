@@ -75,7 +75,6 @@ export default {
         "images": null
       };
 
-      console.log(newLaptop);
 
       axios.post(this.url + '/api/laptops/create-laptop', newLaptop)
           .then(() => {

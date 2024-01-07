@@ -45,7 +45,7 @@ export default {
           .then(response => {
             this.laptop = response.data;
             this.dataLoaded = true;
-            console.log(this.laptop)
+
           });
     }
   },

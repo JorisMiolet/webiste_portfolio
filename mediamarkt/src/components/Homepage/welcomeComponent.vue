@@ -32,11 +32,11 @@ export default {
   methods: {
     setClicked() {
       this.buttonClicked = !this.buttonClicked;
-      console.log(this.buttonClicked);
+
     },
     handleBarcodeDecoded(laptopInfo) {
       this.laptopInfo = laptopInfo;
-      console.log(this.laptopInfo);
+
       this.buttonClicked = false;
     },
     closeBarcode() {

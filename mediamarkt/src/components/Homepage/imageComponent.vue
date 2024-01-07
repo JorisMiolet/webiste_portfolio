@@ -109,7 +109,7 @@ export default {
           })
     },
     updateLaptops(laptops) {
-      console.log('Updating laptops:', laptops);
+
       return this.laptops = laptops;
     },
     filterLaptopsByDate() {

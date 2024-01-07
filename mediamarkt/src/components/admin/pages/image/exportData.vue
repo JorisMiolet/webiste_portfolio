@@ -19,12 +19,13 @@ export default {
       summary: [],
       currentPage: 1,
       rowsPerPage: 10,
+      activePage: 'all',
     }
   },
   created() {
     this.loadAllImages();
     this.loadImageSummary();
-    console.log(this.images)
+
   },
   methods: {
     createOffer(image) {
@@ -68,25 +69,28 @@ export default {
       const urlWithQuery = `${this.url}/api/images/search?Filter=${this.searchFilter}`;
       axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-          .then(console.log(this.images))
+
     },
     loadAllImages() {
+      this.activePage = 'all';
       const urlWithQuery = `${this.url}/api/images/all`;
       axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-          .then(console.log(this.images))
+
     },
     loadCompletedImages(){
+      this.activePage = 'completed';
       const urlWithQuery = `${this.url}/api/images/completed`;
       axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-          .then(console.log(this.images))
+
     },
     loadInCompletedImages(){
+      this.activePage = 'inProgress';
       const urlWithQuery = `${this.url}/api/images/incomplete`;
       axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-          .then(console.log(this.images))
+
     },
     loadImageSummary(){
       const urlWithQuery = `${this.url}/api/images/summary`;
@@ -94,10 +98,11 @@ export default {
           .then(response => this.summary = response.data)
     },
     loadOutdatedImages(){
+      this.activePage = 'outdated';
       const urlWithQuery = `${this.url}/api/images/outdated`;
       axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-          .then(console.log(this.images))
+
     },
     exportToExcel() {
       const worksheet = XLSX.utils.json_to_sheet(this.images);
@@ -144,7 +149,7 @@ export default {
       return user ? user.email : 'N/A'; // Modify this based on your user object structure
     },
     markDone(image){
-      console.log(image)
+
       const urlWithQuery = `${this.url}/api/images/done`;
       const data = {
         "article_nr": image["Article NR"]
@@ -228,10 +233,10 @@ export default {
           <div class="font-medium ">Manage images</div>
         </div>
         <div class="flex flex-col sm:flex-row items-center mb-4 order-tab">
-          <button @click="loadAllImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">All</button>
-          <button @click="loadCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 active">Completed</button>
-          <button @click="loadInCompletedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600">In progress</button>
-          <button @click="loadOutdatedImages" type="button" class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600">Outdated</button>
+          <button @click="loadAllImages" :class="{ 'bg-gray-50': activePage === 'all', 'text-gray-600': activePage !== 'all' }" type="button" class="text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 focus:outline-none  active">All</button>
+          <button @click="loadCompletedImages" :class="{ 'bg-gray-50': activePage === 'completed', 'text-gray-600': activePage !== 'completed' }" type="button" class="text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600 focus:outline-none active">Completed</button>
+          <button @click="loadInCompletedImages" :class="{ 'bg-gray-50': activePage === 'inProgress', 'text-gray-600': activePage !== 'inProgress' }" type="button" class="text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600 focus:outline-none active">In progress</button>
+          <button @click="loadOutdatedImages" :class="{ 'bg-gray-50': activePage === 'outdated', 'text-gray-600': activePage !== 'outdated' }" type="button" class="text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600 focus:outline-none active">Outdated</button>
           <button type="button" class="sm:ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"><router-link :to="{name: 'createImage'}">Create image</router-link></button>
         </div>
         <div class="flex items-center mb-4">

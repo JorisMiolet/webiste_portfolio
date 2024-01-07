@@ -53,11 +53,10 @@ export default {
         "STATUS": this.status,
       };
 
-      console.log(newImage)
 
       axios.post(this.url + '/api/images/create-image', newImage)
           .then((data) => {
-            console.log(data)
+
             alert('Image created successfully');
             this.$router.go(-1);
           })

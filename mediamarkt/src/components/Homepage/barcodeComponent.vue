@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     onDecode(result) {
-      console.log(result);
+
 
       // Assuming the barcode contains a unique identifier for your laptops
       const barcode = result;
@@ -70,7 +70,7 @@ export default {
 
             // Emit the laptop information to the parent component (imageComponent)
             this.$emit("barcodeDecoded", this.laptopInfo); // Send the laptop information as an
-            console.log(this.laptopInfo)
+
 
 
           })
