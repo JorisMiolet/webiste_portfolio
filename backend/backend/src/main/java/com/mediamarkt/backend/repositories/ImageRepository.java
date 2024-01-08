@@ -78,7 +78,6 @@ public class ImageRepository {
 
     public Image deleteImage(Long id) {
         Image image = this.entityManager.find(Image.class, id);
-
         if (image != null) {
             this.entityManager.remove(image);
             this.entityManager.flush();
