@@ -26,8 +26,9 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.23.7",
     "@babel/eslint-parser": "^7.12.16",
+    "@babel/preset-env": "^7.23.7",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-unit-jest": "~5.0.0",
@@ -35,12 +36,13 @@
     "@vue/test-utils": "^2.4.3",
     "@vue/vue3-jest": "^27.0.0-alpha.1",
     "autoprefixer": "^10.4.16",
-    "babel-jest": "^27.0.6",
+    "babel-jest": "^27.5.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^27.0.5",
     "postcss": "^8.4.30",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "vue-template-compiler": "^2.7.16"
   },
   "eslintConfig": {
     "root": true,
@@ -72,6 +74,28 @@
         }
       }
     ]
+  },
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest",
+    "setupFilesAfterEnv": [
+      "jest-expect-message"
+    ],
+    "testMatch": [
+      "**/src/**/*.spec.js"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "/images/(.*)$": "<rootDir>/public/images/$1",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "^.+\\.vue$": "@vue/vue3-jest",
+      "^.+\\.(jpg|jpeg|png|gif|svg|mp3|mp4|mpeg)$": "<rootDir>/jest-media-transformer.js",
+      "^.+\\.js$": "babel-jest",
+      "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns":  [ "node_modules/(?!variables/.*)"],
+    "verbose": false
   },
   "browserslist": [
     "> 1%",
