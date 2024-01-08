@@ -1,6 +1,6 @@
 <template>
   <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate"/>
-  <table class="table-auto text-left mx-auto mt-40 h-[300px] overflow-y-scroll hidden md:table">
+  <table class="table-auto text-left mx-auto mt-40 overflow-y-scroll hidden md:table">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
       <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('id')"
@@ -43,29 +43,15 @@
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
       <td class="whitespace-nowrap px-6 py-4">
-        <div :class="getStatusClasses(pcimage)">{{ pcimage["STATUS"] }}</div>
+        <div :class="getStatusClasses(pcimage['STATUS'])">{{ pcimage["STATUS"] }}</div>
       </td>
-    </tr>
-    </tbody>
-  </table>
-  <table class="table-auto w-full text-left mt-40 h-[300px] overflow-y-scroll table md:hidden">
-    <thead class="border-b font-medium dark:border-neutral-500">
-    <tr>
-      <th scope="col" class="pl-6">#</th>
-      <th scope="col">Article NR</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
-        @click="setSelectedImage(pcimage)">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key + 1) }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
     </tr>
     </tbody>
   </table>
   <detail-image v-if="selectedImageInfo !== null"
                 v-bind:selectedImage="selectedImageInfo"
-                v-on:resetImage="resetImage()"/>
+                v-on:resetImage="resetImage()"
+                v-on:refreshTable="loadUserList"/>
 </template>
 
 <script>
@@ -113,22 +99,24 @@ export default {
     resetImage() {
       this.selectedImageInfo = null;
     },
-
+    
     //loads all laptops
     loadUserList() {
-      axios.get(`${this.url}/api/images/all`).then((response) => {
-        this.laptops = response.data;
-        this.originalLaptops = response.data; // Bewaar de oorspronkelijke lijst
-      });
+      axios.get(`${this.url}/api/images/all`)
+          .then((response) => {
+            this.laptops = response.data;
+            this.originalLaptops = response.data;
+          })
     },
     updateLaptops(laptops) {
-      console.log('Updating laptops:', laptops);
+
       return this.laptops = laptops;
     },
     filterLaptopsByDate() {
       if (this.active === false) {
         const threeMonthsAgo = new Date();
         threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
 
         this.laptops = this.originalLaptops.filter((laptop) => {
           const laptopDate = new Date(laptop['DATE']);
@@ -160,32 +148,19 @@ export default {
           this.laptops = [];
         }
       }
-    }, getStatusClasses(image) {
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      let status = 'status-pill';
-      const imageDate = new Date(image['DATE']);
-
-      if (imageDate < threeMonthsAgo) {
-        status = 'status-pill out-of-date';
-        image['STATUS'] = "outdated";
-      } else {
-        switch (image['STATUS'].toLowerCase()) {
-          case 'in progress':
-            status = 'status-pill in-progress';
-            image['STATUS'] = "in-progress"
-            break;
-          case 'completed':
-            status = 'status-pill completed';
-            image['STATUS'] = "completed"
-            break;
-          case 'created':
-            status = 'status-pill created';
-            image['STATUS'] = "created"
-            break;
-        }
+    }, getStatusClasses(status) {
+      switch (status.toLowerCase()) {
+        case 'in progress':
+          return 'status-pill in-progress';
+        case 'completed':
+          return 'status-pill completed';
+          case 'outdated':
+            return 'status-pill out-of-date';
+        case 'created':
+          return 'status-pill created';
+        default:
+          return 'status-pill';
       }
-      return status
     },
     // Functie om de tabel te sorteren op basis van de kolomnaam
     sortTable(column) {

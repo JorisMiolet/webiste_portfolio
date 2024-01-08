@@ -45,7 +45,7 @@ export default {
           .then(response => {
             this.laptop = response.data;
             this.dataLoaded = true;
-            console.log(this.laptop)
+
           });
     }
   },
@@ -73,18 +73,20 @@ export default {
             <input v-model="laptop.description" type="text" class="mt-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Description">
           </div>
           <div class="flex justify-between">
+            <button @click="cancel" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              cancel
+            </button>
             <button @click="save" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Create Laptop
             </button>
-            <button @click="deleteImage" class="mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-              Delete Laptop
-            </button>
-            <button @click="resetLaptop" class=" mr-3 shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+            <button @click="resetLaptop" class=" mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               Reset Laptop
             </button>
-            <button @click="cancel" class="shadow bg-red-800 hover:bg-red-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-              cancel
+            <button @click="deleteImage" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+              Delete Laptop
             </button>
+
+
           </div>
         </div>
       </div>

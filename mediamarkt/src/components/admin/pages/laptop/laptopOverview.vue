@@ -176,7 +176,7 @@ export default {
       }
     },
     async onSelect(laptop) {
-      console.log(laptop)
+
       // if (this.selectedLaptop === laptop) {
       //   this.selectedLaptop = null;
       //   this.$router.push(this.$route.matched[1].path);

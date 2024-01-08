@@ -29,7 +29,7 @@
       loadAllUsers(){
         axios.get(this.url + "/api/users/all")
             .then(response => this.users = response.data)
-            .then(console.log(this.users));
+
       },
       deleteUser(user){
         const confirmDelete = confirm(`are you sure you want to delete user ${user.username}`);

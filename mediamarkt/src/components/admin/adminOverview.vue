@@ -13,11 +13,11 @@ import VueJwtDecode from "vue-jwt-decode";
       $route() {
         // Scroll to the top when the route changes
         window.scrollTo(0, 0);
-        console.log(sessionStorage.getItem("isAdmin"))
+
         if(sessionStorage.getItem("isAdmin")){
           this.isAdmin = true;
         }
-        console.log(this.isAdmin)
+
       },
     },
     created() {
@@ -29,10 +29,10 @@ import VueJwtDecode from "vue-jwt-decode";
         let decodedtoken = VueJwtDecode.decode(token)
         if (JSON.parse(decodedtoken.admin)){
           this.isAdmin = true
-          console.log("admin is true")
+
         }else {
           this.isAdmin = false
-          console.log("admin is false")
+
         }
       }
   }
