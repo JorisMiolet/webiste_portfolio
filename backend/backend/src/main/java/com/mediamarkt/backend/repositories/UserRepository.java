@@ -1,6 +1,5 @@
 package com.mediamarkt.backend.repositories;
 
-import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -17,7 +16,7 @@ import java.util.UUID;
 public class UserRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    public EntityManager entityManager;
 
 
     public List<User> getAll() {
