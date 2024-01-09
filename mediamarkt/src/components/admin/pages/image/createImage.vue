@@ -18,7 +18,12 @@ export default {
       status: 'created', // Set a default value for status
       barcode: '',
       errorMessage: null,
+      laptops: [],
+      laptop: null,
     };
+  },
+  created(){
+    this.loadLaptops();
   },
   methods: {
     cancel(){
@@ -26,6 +31,12 @@ export default {
       if(confirmReset){
         this.$router.go(-1)
       }
+    },
+    loadLaptops(){
+      axios.get(this.url + `/api/laptops/all`)
+          .then(response => {
+            this.laptops = response.data;
+          });
     },
     save() {
       // Check if all fields are filled
@@ -51,6 +62,7 @@ export default {
         "BARCODE": this.barcode,
         "DATE": new Date(),
         "STATUS": this.status,
+        "LAPTOP": this.laptop
       };
 
 
@@ -114,6 +126,15 @@ export default {
               </select>
               <input v-model="barcode" type="text" class="flex-grow mr-2 py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500" placeholder="Barcode">
             </div>
+            <div class="flex mt-2">
+              <select v-model="laptop" id="laptopDropdown" class="block appearance-none w-full bg-gray-50 border border-gray-100 text-sm py-2 pl-4 pr-10 rounded-md focus:border-blue-500">
+                <option value="undefined" disabled selected>laptops</option>
+                <option v-for="laptop in laptops" :key="laptop.id" :value="laptop">
+                  {{ laptop.brand }} - {{ laptop.description }}
+                </option>
+              </select>
+            </div>
+
           </div>
           <div class="flex justify-between">
             <button @click="cancel" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">

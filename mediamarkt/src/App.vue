@@ -9,7 +9,7 @@ export default {
   name: 'App',
   provide(){
     return {
-      url: 'http://localhost:8085'
+      url: 'http://127.0.0.1:8085'
     }
   }
 }
