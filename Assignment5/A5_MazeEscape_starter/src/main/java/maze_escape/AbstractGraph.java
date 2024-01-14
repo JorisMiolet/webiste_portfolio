@@ -38,20 +38,27 @@ public abstract class AbstractGraph<V> {
     private Set<V> getAllVerticesRecursive(V vertex, Set<V> visitedVertices) {
         Set<V> reachableVertices = new HashSet<>();
 
+        // Mark the current vertex as visited and add it to the reachable set
         visitedVertices.add(vertex);
         reachableVertices.add(vertex);
 
+        // Retrieve neighbors of the current vertex
         Set<V> neighbors = getNeighbours(vertex);
 
+        // Explore neighbors recursively
         for (V neighbor : neighbors) {
             if (!visitedVertices.contains(neighbor)) {
+                // Get reachable vertices from the neighbor
                 Set<V> recursiveVertices = getAllVerticesRecursive(neighbor, visitedVertices);
+
+                // Add the reachable vertices from the neighbor to the set
                 reachableVertices.addAll(recursiveVertices);
             }
         }
 
         return reachableVertices;
     }
+
 
 
 
@@ -75,25 +82,33 @@ public abstract class AbstractGraph<V> {
         return stringBuilder.toString();
     }
 
-    private void formatAdjacencyListRecursive(V vertex,Set<V> visited, StringBuilder stringBuilder) {
+    private void formatAdjacencyListRecursive(V vertex, Set<V> visited, StringBuilder stringBuilder) {
+        // Mark the current vertex as visited
         visited.add(vertex);
+
         stringBuilder.append(vertex).append(": [");
 
+        // Retrieve the neighbors of the current vertex
         Set<V> neighbors = getNeighbours(vertex);
+
         String space = "";
+
+        // Add the neighbor names to the format
         for (V neighbor : neighbors) {
             stringBuilder.append(space).append(neighbor);
             space = ",";
         }
+
         stringBuilder.append("]\n");
+
+        // Explore unvisited neighbors recursively
         for (V neighbor : neighbors) {
-            if(!visited.contains(neighbor)){
-                formatAdjacencyListRecursive(neighbor,visited,stringBuilder);
+            if (!visited.contains(neighbor)) {
+                formatAdjacencyListRecursive(neighbor, visited, stringBuilder);
             }
         }
-
-
     }
+
 
 
 
@@ -177,24 +192,36 @@ public abstract class AbstractGraph<V> {
     }
 
     private GPath depthFirstSearchRecursive(V currentVertex, V targetVertex, Set<V> visited) {
-        if(currentVertex == null || targetVertex == null)return null;
+        if (currentVertex == null || targetVertex == null) return null;
+
+        // Check if the current vertex has been visited
         if (visited.contains(currentVertex)) {
             return null;
         }
+
+        // Mark the current vertex as visited
         visited.add(currentVertex);
-        if(currentVertex.equals(targetVertex)){
+
+        // Check if the current vertex is the target vertex
+        if (currentVertex.equals(targetVertex)) {
+            // If the target is reached, create a GPath and add the current vertex
             GPath gPath = new GPath();
             gPath.vertices.addLast(currentVertex);
             gPath.visited = visited;
             return gPath;
         }
+
+        // Retrieve neighbors of the current vertex
         Set<V> neighbors = getNeighbours(currentVertex);
+
+        // Explore neighbors recursively
         for (V neighbor : neighbors) {
             GPath gPath = depthFirstSearchRecursive(neighbor, targetVertex, visited);
-                if (gPath != null) {
-                    gPath.vertices.addFirst(currentVertex);
-                    return gPath;
-                }
+            if (gPath != null) {
+                // If a path is found, add the current vertex to the path and return
+                gPath.vertices.addFirst(currentVertex);
+                return gPath;
+            }
         }
 
         return null;
