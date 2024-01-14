@@ -180,9 +180,9 @@ public class Constituency {
         return getPollingStations().stream()
                 .flatMap(pollingStation -> pollingStation.getVotesByParty().entrySet().stream())
                 .collect(Collectors.toMap(
-                        Map.Entry::getKey,  // Party from entry
-                        Map.Entry::getValue, // Votes from entry
-                        Integer::sum         // Merge function for votes if parties have duplicate entries
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        Integer::sum
                 ));
     }
 
