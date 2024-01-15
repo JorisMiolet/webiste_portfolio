@@ -1,8 +1,6 @@
 <script>
 import HeaderComponent from "@/components/Homepage/heeaderComponent.vue";
-import VueJwtDecode from "vue-jwt-decode";
-
-
+import VueJwtDecode from "vue-jwt-decode"
 export default {
   name:"admin-overview",
   components: {HeaderComponent},

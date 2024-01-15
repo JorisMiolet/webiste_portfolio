@@ -19,7 +19,7 @@ public class ImageRepositoryTests {
 
     @Test
     public void testRepoCreate() {
-        Image newImage = new Image(null, "LT10", "1234567820123", "BrandX",  "High-performance laptop","Intel Core i7", "16GB",  "512GB SSD", "NVIDIA GeForce GTX 1650" , "16", "40", "15","2021-12-13 10:00:00","outdated");
+        Image newImage = new Image(123L, "LT10", "1234567820123", "BrandX",  "High-performance laptop","Intel Core i7", "16GB",  "512GB SSD", "NVIDIA GeForce GTX 1650" , "16", "40", "15","2021-12-13 10:00:00","outdated");
 
         Image createdImage = imageRepository.create(newImage);
         System.out.println(createdImage);
