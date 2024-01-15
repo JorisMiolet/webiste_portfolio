@@ -1,6 +1,7 @@
 import WelcomeComponent from "@/components/Homepage/welcomeComponent.vue";
 import {shallowMount} from "@vue/test-utils";
 
+
 describe("WelcomeComponent.vue", () => {
     it("renders properly when mounted", () => {
         const wrapper = shallowMount(WelcomeComponent);
