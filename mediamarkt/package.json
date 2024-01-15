@@ -26,12 +26,10 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.7",
+    "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
-    "@babel/preset-env": "^7.23.7",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-unit-jest": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "@vue/test-utils": "^2.4.3",
     "@vue/vue3-jest": "^27.0.0-alpha.1",
@@ -41,17 +39,21 @@
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^27.0.5",
     "postcss": "^8.4.30",
-    "tailwindcss": "^3.3.3",
-    "vue-template-compiler": "^2.7.16"
+    "tailwindcss": "^3.3.3"
   },
   "eslintConfig": {
     "root": true,
     "env": {
-      "parserOptions": {
-        "parser": "@babel/eslint-parser"
-      },
-      "rules": {}
-    }
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
   },
   "jest": {
     "preset": "@vue/cli-plugin-unit-jest",
@@ -72,7 +74,9 @@
       "^.+\\.js$": "babel-jest",
       "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
     },
-    "transformIgnorePatterns":  [ "node_modules/(?!variables/.*)"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ],
     "verbose": false
   },
   "browserslist": [
