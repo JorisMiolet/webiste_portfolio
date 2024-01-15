@@ -30,13 +30,15 @@ export default {
 
       // Clear any previous error message
       this.errorMessage = null;
-
+      console.log("Rechten vv");
+      console.log(this.rechten);
       axios.post(this.url + '/api/users/create-user', {
         username: this.name,
         email: this.email,
         password: this.password,
         locatie: this.locatie,
-        rechten: this.rechten === 'admin' ? true : false,
+        admin: this.rechten,
+        active: true,
       })
           .then(() => {
             this.$router.push("/admin/user-overview");

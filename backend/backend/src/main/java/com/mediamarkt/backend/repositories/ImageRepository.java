@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ImageRepository {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    public EntityManager entityManager;
 
 
     public List<Image> getAll() {

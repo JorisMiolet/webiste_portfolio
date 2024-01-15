@@ -1,8 +1,8 @@
 <script>
-  import axios from "axios";
-  import VueJwtDecode from "vue-jwt-decode";
+import axios from "axios";
+import VueJwtDecode from "vue-jwt-decode";
 
-  export default {
+export default {
     inject: ['url'],
     props: {
       isAdmin: Boolean,
