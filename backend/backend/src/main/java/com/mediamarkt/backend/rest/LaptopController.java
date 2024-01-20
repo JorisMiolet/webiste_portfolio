@@ -3,6 +3,7 @@ package com.mediamarkt.backend.rest;
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
 import com.mediamarkt.backend.models.Image;
 import com.mediamarkt.backend.models.Laptop;
+import com.mediamarkt.backend.repositories.ImageRepository;
 import com.mediamarkt.backend.repositories.LaptopRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class LaptopController {
 
     @Autowired
     private LaptopRepository laptopRepository;
+    @Autowired
+    private ImageRepository imageRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<Laptop>> getAllLaptops() {
@@ -95,6 +98,7 @@ public class LaptopController {
     public ResponseEntity<Laptop> deleteLaptop(@PathVariable Long id) {
         Laptop deletedLaptop = laptopRepository.deleteLaptop(id);
         if (deletedLaptop != null) {
+            imageRepository.deleteAllForEAN(deletedLaptop.getEan());
             return new ResponseEntity<>(deletedLaptop, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
