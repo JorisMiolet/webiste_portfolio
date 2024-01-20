@@ -14,7 +14,7 @@ public class User {
 
     @Id
     @Column(columnDefinition = "VARCHAR(255)")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @JsonProperty("uuid")
     private UUID uuid;
 

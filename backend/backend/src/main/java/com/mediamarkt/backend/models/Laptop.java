@@ -13,7 +13,7 @@ import java.util.List;
 public class Laptop {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @JsonProperty("EAN")
     @Column(name = "EAN")
@@ -27,7 +27,7 @@ public class Laptop {
     @JsonProperty("description")
     @Column(name = "DESCRIPTION")
     private String laptopDescription;
-    @OneToMany(mappedBy = "laptop", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "laptop", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Image> images;
 
