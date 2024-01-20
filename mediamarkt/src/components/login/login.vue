@@ -1,4 +1,5 @@
 <template>
+<!--  adds header component to the file-->
   <HeaderComponent/>
   <div class="h-[100vh] w-full flex items-center justify-center">
     <img :src="backgroundImage" alt="background_img" class="h-[100vh] z-[-1] absolute top-0 left-0">
