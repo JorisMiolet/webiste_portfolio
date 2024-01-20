@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @JsonProperty("id")
     private Long id;
 
