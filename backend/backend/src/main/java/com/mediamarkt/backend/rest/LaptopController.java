@@ -48,7 +48,7 @@ public class LaptopController {
             BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
             String line;
             List<Laptop> laptops = new ArrayList<>();
-
+            List<Laptop> existingLaptops = laptopRepository.getAll();
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
@@ -58,8 +58,11 @@ public class LaptopController {
                     String barcode = parts[1].trim();
                     String brand = parts[2].trim();
                     String description = parts[3].trim();
-                    Laptop laptop = new Laptop(null, ean, barcode, brand, description);
-                    laptops.add(laptop);
+
+                    if(!isLaptopExists(existingLaptops, ean)){
+                        Laptop laptop = new Laptop(null, ean, barcode, brand, description);
+                        laptops.add(laptop);
+                    }
                 }
             }
             laptopRepository.addLaptops(laptops);
@@ -68,6 +71,15 @@ public class LaptopController {
         } catch (IOException e) {
             return new ResponseEntity<>("Error importing laptops: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private boolean isLaptopExists(List<Laptop> laptops, String ean) {
+        for (Laptop laptop : laptops) {
+            if (ean.equals(laptop.getEan())) {
+                return true; // Laptop with the given EAN already exists
+            }
+        }
+        return false; // Laptop with the given EAN does not exist
     }
 
     @PostMapping("/create-laptop")
