@@ -1,6 +1,6 @@
 <template>
 
-  <div class="flex lg:w-2/5 left-[50%] translate-x-[-50%] w-[80%] lg:mx-auto mt-4 p-4 sm:rounded-full bg-red-500 border border-gray-300 sm:flex-row flex-col fixed items-center ml-auto">
+  <div class="flex lg:w-2/5 rounded-md left-[50%] translate-x-[-50%] w-[80%] lg:mx-auto mt-4 p-4 sm:rounded-full bg-red-500 border border-gray-300 sm:flex-row flex-col fixed items-center ml-auto">
     <input
         v-model="searchQuery"
         type="text"

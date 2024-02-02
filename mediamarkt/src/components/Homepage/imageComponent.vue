@@ -1,6 +1,6 @@
 <template>
   <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate"/>
-  <table class="table-auto text-left mx-auto mt-40 overflow-y-scroll hidden md:table">
+  <table class="text-left mx-auto mt-40 overflow-y-scroll hidden md:table">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
       <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('id')"
@@ -36,15 +36,30 @@
     <tbody>
     <tr class="border-b dark:border-neutral-500" v-for="(pcimage) in laptops" :key="pcimage.EAN"
         @click="setSelectedImage(pcimage)">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ pcimage["id"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4 font-medium">{{ pcimage["id"] }}</td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4">{{ pcimage["Article NR"] }}</td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4">{{ pcimage["EAN"] }}</td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4">{{ pcimage["Brand"] }}</td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4">
         <div :class="getStatusClasses(pcimage['STATUS'])">{{ pcimage["STATUS"] }}</div>
       </td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table w-[100vw] text-left mt-40 h-[300px] overflow-y-scroll table md:hidden">
+    <thead class="border-b font-medium dark:border-neutral-500">
+    <tr>
+      <th scope="col" class="pl-6">#</th>
+      <th scope="col" >Article NR</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="border-b dark:border-neutral-500" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
+        @click="setSelectedImage(pcimage)">
+      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ (key+1) }}</td>
+      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
     </tr>
     </tbody>
   </table>
