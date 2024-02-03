@@ -57,7 +57,7 @@ export default {
         "RAM": this.ram,
         "STORAGE": this.storage,
         "GPU": this.gpu,
-        "SCREENSIZE (inch)": 'this.screenSizeInch', // Check this property, it seems incorrect
+        "SCREENSIZE (inch)": 'this.screenSizeInch',
         "SCREENSIZE (cm)": this.screenSizeCm,
         "BARCODE": this.barcode,
         "DATE": new Date(),

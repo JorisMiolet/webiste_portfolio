@@ -1,60 +1,160 @@
 package com.mediamarkt.backend;
 
 import com.mediamarkt.backend.models.Image;
+import com.mediamarkt.backend.models.User;
 import com.mediamarkt.backend.repositories.ImageRepository;
+import com.mediamarkt.backend.repositories.UserRepository;
 import jakarta.transaction.Transactional;
+import org.aspectj.apache.bcel.Repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 @SpringBootTest
 @Transactional
 public class ImageRepositoryTests {
+
     @Autowired
     private ImageRepository imageRepository;
 
-    @Test
-    public void testRepoCreate() {
-        Image newImage = new Image(123L, "LT10", "1234567820123", "BrandX",  "High-performance laptop","Intel Core i7", "16GB",  "512GB SSD", "NVIDIA GeForce GTX 1650" , "16", "40", "15","2021-12-13 10:00:00","outdated");
+    @Autowired
+    private UserRepository userRepository;
 
+    @Test
+    public void testGetAllImages() {
+        // Act: call the method
+        List<Image> images = imageRepository.getAll();
+
+        // Assert: check the result
+        assertNotNull(images.toString(), images);
+        assertTrue("The images array should not be empty", !images.isEmpty());
+        assertEquals(4, images.size());
+        assertTrue("All images should have non-null IDs", images.stream().allMatch(image -> image.getId() != null));
+    }
+
+    @Test
+    public void testFindImageByBarcode() {
+        // Arrange data
+        String barcode = "1234567890123";
+
+        // Act: call the method
+        Image image = imageRepository.findByBarcode(barcode);
+
+        // Assert: check the result
+        assertNotNull(image.toString(), image);
+        assertEquals(barcode, image.getBarcode());
+    }
+
+    @Test
+    public void testIncorrectFindImageByBarcode(){
+        // Arrange data
+        String barcode = null;
+
+        // Act: call the method
+        Image image = imageRepository.findByBarcode(barcode);
+
+        // Assert: check the result
+        assertEquals(null, image);
+    }
+
+
+    @Test
+    public void testCreateImage() {
+        // Arrange data
+        Image newImage = new Image();
+
+        // Act: call the method
         Image createdImage = imageRepository.create(newImage);
-        System.out.println(createdImage);
-        assertNotNull(createdImage);
 
-        List<Image> images = imageRepository.getAll();
-
-        assertTrue(images.contains(createdImage));
+        // Assert: check the result
+        assertNotNull(createdImage.toString(), createdImage);
+        assertNotNull("Found image should have a non-null ID", newImage.getId());
     }
 
     @Test
-    public void testRepoGetAll() {
-        List<Image> images = imageRepository.getAll();
+    public void testUpdateImage() {
+        // Arrange data
+        Image imageToUpdate = new Image();
 
-        assertNotNull(images);
-        assertFalse(images.isEmpty());
+        // Act: call the method
+        Image updatedImage = imageRepository.updateImage(imageToUpdate);
+
+        // Assert: check the result
+        assertNotNull(updatedImage.toString(), updatedImage);
     }
 
     @Test
-    public void testRepoUpdate() {
-        Image image = new Image();
-        image.setStatus("completed");
-        Image savedImage = imageRepository.updateImage(image);
+    public void testDeleteImage() {
+        // Arrange data
+        Long imageIdToDelete = 1L;
 
-        assertNotNull(savedImage);
-        assertEquals(savedImage.getStatus(), image.getStatus());
+        // Act: call the method
+        Image deletedImage = imageRepository.deleteImage(imageIdToDelete);
+
+        // Assert: check the result
+        assertNotNull(deletedImage.toString(), deletedImage);
+    }
+
+
+    @Test
+    public void testGetCompletedImages() {
+        // Arrange data
+        List<Image> completedImages;
+
+        // Act: call the method
+        completedImages = imageRepository.getCompletedImages();
+
+        // Assert: check the result
+        assertNotNull(completedImages.toString(), completedImages);
+    }
+    @Test
+    @Transactional
+    public void testPickupImage() {
+        // Arrange data
+        Image newImage = new Image();
+        newImage.setArticleNumber("LT1001");
+        User newUser = new User();;
+
+        imageRepository.create(newImage);
+        userRepository.create(newUser);
+
+        // call the method
+        Image pickedUpImage = imageRepository.pickup("LT1001", userRepository.getUserByUUID(newUser.getUuid()).getId());
+
+        // Assert: check the result
+        assertNotNull(pickedUpImage.toString(), pickedUpImage);
+        assertEquals("in progress", pickedUpImage.getStatus());
     }
 
     @Test
-    public void testRepoDelete() {
-        List<Image> images = imageRepository.getAll();
-        Image image = images.get(0);
-        Image deleteImage = imageRepository.deleteImage(image.getId());
+    @Transactional
+    public void testMarkDoneImage(){
+        // Arrange data
+        Image newImage = new Image();
+        newImage.setArticleNumber("LT1001");
+        User newUser = new User();;
+        imageRepository.create(newImage);
+        userRepository.create(newUser);
 
-        assertNotNull(deleteImage);
-        assertEquals(image, deleteImage);
+        // call the method
+        Image markedDoneImage = imageRepository.markDone("LT1001");
+
+        // Assert: check the result
+        assertNotNull(markedDoneImage.toString(), markedDoneImage);
+        assertEquals("completed", markedDoneImage.getStatus());
+        assertNotNull(markedDoneImage.getDate().toString(), markedDoneImage.getDate());
     }
+
 }

@@ -7,12 +7,13 @@ import VueJwtDecode from "vue-jwt-decode";
 export default {
   name: 'exportData',
   components: {},
-  inject: ['url'],
+  // inject: ['url'],
   props: {
     isAdmin: Boolean,
   },
   data() {
     return {
+      url: 'http://127.0.0.1:8085',
       images: [],
       dummyData: imageData,
       selectedImage: null,
@@ -21,16 +22,16 @@ export default {
       currentPage: 1,
       rowsPerPage: 10,
       activePage: 'all',
+      axios: axios
     }
   },
   created() {
     this.validateAdmin();
     this.loadAllImages();
     this.loadImageSummary();
-
   },
   methods: {
-    createOffer(image) {
+    create_image(image) {
       image = PCImage.createSampleImage(
           image.ArticleNR,
           image.EAN,
@@ -71,7 +72,6 @@ export default {
       const urlWithQuery = `${this.url}/api/images/search?Filter=${this.searchFilter}`;
       axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-
     },
     loadAllImages() {
       this.activePage = 'all';
@@ -324,7 +324,7 @@ export default {
       </div>
     </div>
   </div>
-  <router-view :key="$route.fullPath"/>
+  <router-view/>
 </template>
 
 <style scoped>
