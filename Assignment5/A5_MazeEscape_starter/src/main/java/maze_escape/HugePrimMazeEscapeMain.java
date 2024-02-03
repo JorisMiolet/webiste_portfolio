@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 public class HugePrimMazeEscapeMain {
     private static final long SEED = 20231113L;
 
-    private static final int WIDTH = 700;
+    private static final int WIDTH = 5000;
     private static final int HEIGHT = WIDTH;
     private static final int REMOVE = 2 * WIDTH;
 
@@ -20,7 +20,7 @@ public class HugePrimMazeEscapeMain {
         maze.removeRandomWalls(REMOVE);
         System.out.printf("\nCreated %dx%d Randomized-Prim-Maze(%d) with %d walls removed\n", WIDTH, HEIGHT, SEED, REMOVE);
 
-        doPathSearches(maze, "Breadth First Search", maze::breadthFirstSearch);
+        //doPathSearches(maze, "Breadth First Search", maze::breadthFirstSearch);
         doPathSearches(maze, "Dijkstra Shortest Path", (v1,v2)-> maze.dijkstraShortestPath(v1,v2,maze::manhattanTime));
         //doPathSearches(maze, "Depth First Search", maze::depthFirstSearch);
     }

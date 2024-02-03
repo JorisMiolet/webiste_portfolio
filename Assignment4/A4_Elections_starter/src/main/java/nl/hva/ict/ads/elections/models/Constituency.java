@@ -60,22 +60,13 @@ public class Constituency {
         Party candidateParty = candidate.getParty();
 
         // Check if the party exists in the registered candidates map
-        if (!getRankedCandidatesByParty().containsKey(candidateParty)) {
-            getRankedCandidatesByParty().put(candidateParty, new TreeMap<>());
-        }
+        getRankedCandidatesByParty().computeIfAbsent(candidateParty, party -> new TreeMap<>());
 
         NavigableMap<Integer, Candidate> candidatesByRank = getRankedCandidatesByParty().get(candidateParty);
 
         // Check if the rank is already taken by another candidate for the same party
-        if (candidatesByRank.containsKey(rank)) {
-            return false; // Rank is already taken, registration failed
-        }
-
-        // Check if the candidate has been registered already at another rank
-        for (NavigableMap<Integer, Candidate> map : getRankedCandidatesByParty().values()) {
-            if (map.containsValue(candidate)) {
-                return false; // Candidate already registered at another rank, registration failed
-            }
+        if (candidatesByRank.containsKey(rank) || candidatesByRank.containsValue(candidate)) {
+            return false; // Rank is already taken or candidate is already registered, registration failed
         }
 
         // Register the candidate at the given rank for the party in this constituency

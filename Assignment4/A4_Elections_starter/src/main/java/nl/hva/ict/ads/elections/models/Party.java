@@ -46,17 +46,20 @@ public class Party {
      */
     public Candidate addOrGetCandidate(Candidate newCandidate) {
 
-        // associate the new Candidate with this party
         newCandidate.setParty(this);
 
-        if(!getCandidates().add(newCandidate)) {
-            for (Candidate candidate : candidates) {
-                if (candidate.equals(newCandidate)) {
-                    return candidate; // Found duplicate
-                }
-            }
+        Optional<Candidate> existingCandidate = getCandidates().stream()
+                .filter(candidate -> candidate.equals(newCandidate))
+                .findFirst();
+
+        if (existingCandidate.isPresent()) {
+            // If a candidate with the same details already exists, return the existing one
+            return existingCandidate.get();
+        } else {
+            // If no existing candidate found, add the new candidate to the set
+            getCandidates().add(newCandidate);
+            return newCandidate;
         }
-        return newCandidate;
     }
 
     @Override

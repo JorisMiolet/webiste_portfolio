@@ -39,10 +39,7 @@ public class Election {
      */
     public Collection<Party> getParties() {
         //getsparties by mapping over all the constituencies
-        return getConstituencies()
-                .stream()
-                .flatMap(constituency -> constituency.getParties().stream())
-                .collect(Collectors.toSet());
+        return new ArrayList<>(parties.values());
     }
 
     /**
@@ -51,13 +48,7 @@ public class Election {
      * @return  the party with given id, or null if no such party exists.
      */
     public Party getParty(int id) {
-        for (Party party : getParties()) {
-            if (party.getId() == id) {
-                return party;
-            }
-        }
-
-        return null;
+        return parties.get(id);
     }
 
     public Set<? extends Constituency> getConstituencies() {
