@@ -4,7 +4,7 @@
       <router-link to="/"><h1 class="text-white text-2xl font-semibold">Mediamarkt</h1></router-link>
       <nav class="space-x-4 hidden md:block" :class="{'show-inner': hamburgerClicked}">
         <router-link to="/" class="text-white hover:underline">Home</router-link>
-        <router-link to="/admin/image-overview" v-if="loggedIn" class="text-white hover:underline">Dashboard</router-link>
+        <router-link to="/admin/image-overview" v-if="loggedIn && isAdmin" class="text-white hover:underline">Dashboard</router-link>
         <router-link v-if="!currentUser" to="/Login" class="text-white hover:underline">Log in</router-link>
         <router-link v-else @click="logout" :to="{name: 'home'}" class="text-white hover:underline">Log out</router-link>
         <button @click="emitClicked"
