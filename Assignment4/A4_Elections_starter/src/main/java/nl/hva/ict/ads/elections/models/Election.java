@@ -62,9 +62,8 @@ public class Election {
      */
     public List<Candidate> getAllCandidates() {
         return getParties().stream()
-                .flatMap(party -> party.getCandidates().stream())//for each party get all candidates
-                .distinct()//removes duplicate parties
-                .sorted(Comparator.comparingInt(candidate -> candidate.getParty().getId()))//sort by party id
+                .sorted(Comparator.comparingInt(Party::getId)) // Sort parties by id
+                .flatMap(party -> party.getCandidates().stream()) // For each party, get all candidates
                 .collect(Collectors.toList());
     }
 

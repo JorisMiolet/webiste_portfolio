@@ -39,21 +39,16 @@ public class Candidate {
      * @return
      */
     public static String fullName(String firstName, String lastNamePrefix, String lastName) {
-        // every candidate shall have a last name
         String fullName = lastName;
-        lastNamePrefix = Optional.ofNullable(lastNamePrefix).orElse("");
-        firstName = Optional.ofNullable(firstName).orElse("");
-
-        if(!lastNamePrefix.isEmpty()){
-            fullName = String.format("%s %s", lastNamePrefix, fullName);
+        if (lastNamePrefix != null && !lastNamePrefix.isEmpty()) {
+            fullName = lastNamePrefix + " " + fullName;
         }
-        if(!firstName.isEmpty()){
-            fullName = String.format("%s %s", firstName, fullName);
+        if (firstName != null && !firstName.isEmpty()) {
+            fullName = firstName + " " + fullName;
         }
-
-
         return fullName;
     }
+
 
     public String getFullName() {
         return fullName(this.firstName, this.lastNamePrefix, this.lastName);
@@ -73,12 +68,9 @@ public class Candidate {
         if (!(o instanceof Candidate)) return false;
         Candidate other = (Candidate) o;
 
-        if(this.getParty().getId() == other.getParty().getId()){
-            return this.getFullName().equals(other.getFullName());
-        }
-
-        return false; // replace by a proper outcome
+        return this.getFullName().equals(other.getFullName()) && Objects.equals(this.getParty(), other.getParty());
     }
+
 
     @Override
     public int hashCode() {
