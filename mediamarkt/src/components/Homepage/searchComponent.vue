@@ -1,22 +1,24 @@
 <template>
 
-  <div class="flex lg:w-2/5 left-[50%] translate-x-[-50%] w-[80%] lg:mx-auto mt-4 p-4 sm:rounded-full bg-red-500 border border-gray-300 sm:flex-row flex-col fixed items-center ml-auto">
-    <input
-        v-model="searchQuery"
-        type="text"
-        class="w-full rounded-full px-4 py-2 focus:outline-none"
-        placeholder="Zoeken..."
-        @input="handleSearch"
-    />
-    <div class="customCheckBoxHolder w-[200px] flex justify-center">
+  <div class="flex items-center w-screen mx-10 mt-10">
+    <div class="w-[80%]">
+      <input
+          v-model="searchQuery"
+          type="text"
+          class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500"
+          placeholder="Zoeken..."
+          @input="handleSearch"
+      />
+      <div class="customCheckBoxHolder w-[200px] flex justify-center">
 
-      <input type="checkbox" @change="filterByDate" id="cCB1" class="customCheckBoxInput">
-      <label for="cCB1" class="customCheckBoxWrapper">
-        <div class="customCheckBox">
-          <div class="inner">Out Dated</div>
-        </div>
-      </label>
+        <input type="checkbox" @change="filterByDate" id="cCB1" class="customCheckBoxInput">
+        <label for="cCB1" class="customCheckBoxWrapper">
+          <div class="customCheckBox">
+            <div class="inner">Out Dated</div>
+          </div>
+        </label>
 
+      </div>
     </div>
   </div>
 </template>

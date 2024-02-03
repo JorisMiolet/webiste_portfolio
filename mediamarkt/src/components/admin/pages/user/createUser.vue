@@ -54,7 +54,7 @@ export default {
 </script>
 
 <template>
-  <div class="p-6 flex h-screen">
+  <div class="p-6 flex h-screen mt-60 md:mt-0">
     <div class="mb-6 mx-auto">
       <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
         <div class="flex justify-between mb-4 items-start">
@@ -88,7 +88,7 @@ export default {
 
             </div>
           </div>
-          <div class="flex w-56 justify-around">
+          <div class="flex w-full sm:w-56 justify-around">
             <button @click="cancel" class="mr-3 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
               cancel
             </button>

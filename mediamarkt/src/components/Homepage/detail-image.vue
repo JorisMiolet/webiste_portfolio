@@ -6,7 +6,7 @@
   <div v-if="popupVisible" class="popup" @click="closePopup">
 
     <!-- Inhoud van de popup -->
-    <div class="popup-content flex flex-col items-center" @click.stop>
+    <div class="popup-content mx-5 h-[90%] sm:h-full flex flex-col items-center" @click.stop>
 
       <!-- Weergave van de 10 waarden uit de JSON-gegevens -->
         <table class="table-image-details">

@@ -3,6 +3,7 @@ package com.mediamarkt.backend.rest;
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
 import com.mediamarkt.backend.models.Image;
 import com.mediamarkt.backend.models.Laptop;
+import com.mediamarkt.backend.repositories.ImageRepository;
 import com.mediamarkt.backend.repositories.LaptopRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class LaptopController {
 
     @Autowired
     private LaptopRepository laptopRepository;
+    @Autowired
+    private ImageRepository imageRepository;
 
     @GetMapping("/all")
     public ResponseEntity<List<Laptop>> getAllLaptops() {
@@ -48,7 +51,7 @@ public class LaptopController {
             BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
             String line;
             List<Laptop> laptops = new ArrayList<>();
-
+            List<Laptop> existingLaptops = laptopRepository.getAll();
             reader.readLine();
 
             while ((line = reader.readLine()) != null) {
@@ -58,8 +61,11 @@ public class LaptopController {
                     String barcode = parts[1].trim();
                     String brand = parts[2].trim();
                     String description = parts[3].trim();
-                    Laptop laptop = new Laptop(null, ean, barcode, brand, description);
-                    laptops.add(laptop);
+
+                    if(!isLaptopExists(existingLaptops, ean)){
+                        Laptop laptop = new Laptop(null, ean, barcode, brand, description);
+                        laptops.add(laptop);
+                    }
                 }
             }
             laptopRepository.addLaptops(laptops);
@@ -68,6 +74,15 @@ public class LaptopController {
         } catch (IOException e) {
             return new ResponseEntity<>("Error importing laptops: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private boolean isLaptopExists(List<Laptop> laptops, String ean) {
+        for (Laptop laptop : laptops) {
+            if (ean.equals(laptop.getEan())) {
+                return true; // Laptop with the given EAN already exists
+            }
+        }
+        return false; // Laptop with the given EAN does not exist
     }
 
     @PostMapping("/create-laptop")
@@ -95,6 +110,7 @@ public class LaptopController {
     public ResponseEntity<Laptop> deleteLaptop(@PathVariable Long id) {
         Laptop deletedLaptop = laptopRepository.deleteLaptop(id);
         if (deletedLaptop != null) {
+            imageRepository.deleteAllForEAN(deletedLaptop.getEan());
             return new ResponseEntity<>(deletedLaptop, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

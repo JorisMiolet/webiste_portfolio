@@ -3,6 +3,7 @@ import imageData from '../dummyData.json';
 import {PCImage} from "@/image.js";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import VueJwtDecode from "vue-jwt-decode";
 export default {
   name: 'exportData',
   components: {},
@@ -23,6 +24,7 @@ export default {
     }
   },
   created() {
+    this.validateAdmin();
     this.loadAllImages();
     this.loadImageSummary();
 
@@ -104,6 +106,13 @@ export default {
           .then(response => this.images = response.data)
 
     },
+    validateAdmin(){
+      let token = sessionStorage.getItem("token")
+      let decodedToken = VueJwtDecode.decode(token)
+      if (!JSON.parse(decodedToken.admin)){
+        this.$router.push("/")
+      }
+    },
     exportToExcel() {
       const worksheet = XLSX.utils.json_to_sheet(this.images);
       const workbook = XLSX.utils.book_new();
@@ -184,6 +193,7 @@ export default {
         return imageId == loggedInUserId && (image.STATUS !== 'completed' || image.STATUS !== 'in progress');
       };
     },
+
 
   },
   watch: {

@@ -1,14 +1,14 @@
 <template>
   <div>
     <header-component @scan-clicked="setClicked" />
-    <div class="container flex flex-row mt-20">
+    <div class="container flex flex-row mt-20 w-screen">
       <div class="z-[999]">
         <BarcodeComponent
             :button-is-clicked="buttonClicked"
             @barcodeDecoded="handleBarcodeDecoded"
         />
       </div>
-      <div class="flex-col content mr-auto">
+      <div class="flex-col content w-screen">
         <ImageComponent :laptop-info="laptopInfo"/>
       </div>
     </div>

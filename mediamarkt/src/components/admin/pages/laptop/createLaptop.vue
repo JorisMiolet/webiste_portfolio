@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 flex h-screen">
+  <div class="p-6 flex h-screen mt-60 md:mt-0">
     <div class="mb-6 mx-auto">
       <div class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md">
         <div class="flex justify-between mb-4 items-start">

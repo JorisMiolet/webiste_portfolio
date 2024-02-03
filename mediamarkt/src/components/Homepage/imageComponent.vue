@@ -1,50 +1,68 @@
 <template>
   <search-component @search="filterLaptops" @filterByDate="filterLaptopsByDate"/>
-  <table class="table-auto text-left mx-auto mt-40 overflow-y-scroll hidden md:table">
+  <table class="w-full min-w-[540px] hidden md:table mt-10">
     <thead class="border-b font-medium dark:border-neutral-500">
     <tr>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('id')"
+      <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left" scope="col" @click="sortTable('id')"
           :class="{ 'sorted-asc': sortColumn === 'id' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'id' && sortOrder === 'desc' }">
         #
       </th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Article NR')"
+      <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md" scope="col" @click="sortTable('Article NR')"
           :class="{ 'sorted-asc': sortColumn === 'Article NR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Article NR' && sortOrder === 'desc' }">
         Article NR
       </th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('EAN')"
+      <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left" scope="col" @click="sortTable('EAN')"
           :class="{ 'sorted-asc': sortColumn === 'EAN' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'EAN' && sortOrder === 'desc' }">
         EAN
       </th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Brand')"
+      <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left" scope="col" @click="sortTable('Brand')"
           :class="{ 'sorted-asc': sortColumn === 'Brand' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Brand' && sortOrder === 'desc' }">
         Brand
       </th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('Description / Model type')"
+      <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left" scope="col" @click="sortTable('Description / Model type')"
           :class="{ 'sorted-asc': sortColumn === 'Description / Model type' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'Description / Model type' && sortOrder === 'desc' }">
         Description
       </th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('PROCESSOR')"
+      <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left" scope="col" @click="sortTable('PROCESSOR')"
           :class="{ 'sorted-asc': sortColumn === 'PROCESSOR' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'PROCESSOR' && sortOrder === 'desc' }">
         Processor
       </th>
-      <th class="whitespace-nowrap px-6 py-4" scope="col" @click="sortTable('STATUS')"
+      <th class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left" scope="col" @click="sortTable('STATUS')"
           :class="{ 'sorted-asc': sortColumn === 'STATUS' && sortOrder === 'asc', 'sorted-desc': sortColumn === 'STATUS' && sortOrder === 'desc' }">
         Status
       </th>
     </tr>
     </thead>
     <tbody>
-    <tr class="border-b dark:border-neutral-500" v-for="(pcimage) in laptops" :key="pcimage.EAN"
+    <tr class="py-2 px-4 border-b border-b-gray-50" v-for="(pcimage) in laptops" :key="pcimage.EAN"
         @click="setSelectedImage(pcimage)">
-      <td class="whitespace-nowrap px-6 py-4 font-medium">{{ pcimage["id"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Article NR"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["EAN"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Brand"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["Description / Model type"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">{{ pcimage["PROCESSOR"] }}</td>
-      <td class="whitespace-nowrap px-6 py-4">
-        <div :class="getStatusClasses(pcimage['STATUS'])">{{ pcimage["STATUS"] }}</div>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4 font-medium"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["id"] }}</span></td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["Article NR"] }}</span></td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["EAN"] }}</span></td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["Brand"] }}</span></td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["Description / Model type"] }}</span></td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["PROCESSOR"] }}</span></td>
+
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4">
+        <div  :class="getStatusClasses(pcimage['STATUS'])"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["STATUS"] }}</span></div>
       </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <table class="w-screen  mt-10 table md:hidden">
+    <thead class="border-b font-medium dark:border-neutral-500">
+    <tr >
+      <th scope="col" class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left">#</th>
+      <th scope="col" class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left" >EAN</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="py-2 px-4 border-b border-b-gray-50" v-for="(pcimage, key) in laptops" :key="pcimage.EAN"
+        @click="setSelectedImage(pcimage)">
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["id"] }}</span></td>
+      <td class="whitespace-nowrap text-[13px] lg:text-[16px] px-6 py-4"><span class="text-[13px] font-medium text-gray-800">{{ pcimage["EAN"] }}</span></td>
+
     </tr>
     </tbody>
   </table>
