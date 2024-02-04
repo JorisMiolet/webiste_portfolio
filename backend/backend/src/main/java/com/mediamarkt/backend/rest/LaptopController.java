@@ -1,7 +1,6 @@
 package com.mediamarkt.backend.rest;
 
 import com.mediamarkt.backend.exceptions.PreConditionFailedException;
-import com.mediamarkt.backend.models.Image;
 import com.mediamarkt.backend.models.Laptop;
 import com.mediamarkt.backend.repositories.ImageRepository;
 import com.mediamarkt.backend.repositories.LaptopRepository;

@@ -222,6 +222,10 @@ export default {
 </script>
 
 <style scoped>
+tr:nth-child(even) {
+  background-color: #f2f2f2; /* You can adjust the color as per your preference */
+}
+
 body, html {
   overflow-y: hidden;
 }

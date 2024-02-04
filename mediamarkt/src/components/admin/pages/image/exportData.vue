@@ -7,13 +7,13 @@ import VueJwtDecode from "vue-jwt-decode";
 export default {
   name: 'exportData',
   components: {},
-  // inject: ['url'],
+  inject: ['url'],
   props: {
     isAdmin: Boolean,
   },
   data() {
     return {
-      url: 'http://127.0.0.1:8085',
+      url: 'https://ewa-back-end-r7ie.onrender.com',
       images: [],
       dummyData: imageData,
       selectedImage: null,
@@ -54,11 +54,11 @@ export default {
         const urlWithQuery = `${this.url}/api/images/${image["id"]}`;
         axios.delete(urlWithQuery)
             .then(() => {
-              this.loadAllImages()
               this.loadCompletedImages()
               this.loadInCompletedImages()
               this.loadImageSummary()
               this.loadOutdatedImages()
+              this.loadAllImages()
             });
       }
     },
@@ -146,11 +146,11 @@ export default {
       }
       axios.post(urlWithQuery, data)
           .then(() => {
-            this.loadAllImages()
             this.loadCompletedImages()
             this.loadInCompletedImages()
             this.loadImageSummary()
             this.loadOutdatedImages()
+            this.loadAllImages()
           })
 
     },
@@ -165,16 +165,17 @@ export default {
       }
       axios.post(urlWithQuery, data)
           .then(() => {
-            this.loadAllImages()
             this.loadCompletedImages()
             this.loadInCompletedImages()
             this.loadImageSummary()
             this.loadOutdatedImages()
+            this.loadAllImages()
           })
     },
   },
   computed: {
     totalPages(){
+      console.log(this.url)
       return Math.ceil(this.images.length / this.rowsPerPage)
     },
     paginatedImages() {

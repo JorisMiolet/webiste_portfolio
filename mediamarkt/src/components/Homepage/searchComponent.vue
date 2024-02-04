@@ -1,7 +1,6 @@
 <template>
-
-  <div class="flex items-center w-screen mx-10 mt-10">
-    <div class="w-[80%]">
+  <div class="flex flex-col md:flex-row items-center mx-10 mt-10 bg-gray-200 p-4 rounded-md">
+    <div class="w-full md:w-[80%] flex items-center relative mb-2 md:mb-0 md:mr-2">
       <input
           v-model="searchQuery"
           type="text"
@@ -9,16 +8,11 @@
           placeholder="Zoeken..."
           @input="handleSearch"
       />
-      <div class="customCheckBoxHolder w-[200px] flex justify-center">
-
-        <input type="checkbox" @change="filterByDate" id="cCB1" class="customCheckBoxInput">
-        <label for="cCB1" class="customCheckBoxWrapper">
-          <div class="customCheckBox">
-            <div class="inner">Out Dated</div>
-          </div>
-        </label>
-
-      </div>
+    </div>
+    <div class="w-full md:w-auto flex items-center md:ml-2">
+      <button @click="filterByDate(); toggleButton()"  :class="buttonClasses">
+        Outdated
+      </button>
     </div>
   </div>
 </template>
@@ -30,6 +24,7 @@ export default {
   data() {
     return {
       searchQuery: "",
+      isActive: false
     };
   },
   methods: {
@@ -42,11 +37,29 @@ export default {
     filterByDate() {
       this.$emit("filterByDate");
     },
+    toggleButton() {
+      this.isActive = !this.isActive;
+    }
   },
+  computed: {
+    buttonClasses() {
+      return {
+        'bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border-b-4 border-green-700 hover:border-green-500 rounded': this.isActive,
+        'bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 border-b-4 border-gray-700 hover:border-gray-500 rounded': !this.isActive
+      };
+    }
+  }
 };
 </script>
 
 <style scoped>
+#myButton:active {
+  transform: translateY(2px);
+  border-bottom: 0;
+  margin-bottom: 4px;
+}
+
+
 /* Voeg eventuele aanvullende stijlen toe met behulp van Tailwind CSS-klassen */
 .customCheckBoxHolder {
   margin: 5px;
@@ -54,7 +67,6 @@ export default {
 }
 
 .customCheckBox {
-  width: fit-content;
   position: relative;
   overflow: hidden;
   cursor: pointer;

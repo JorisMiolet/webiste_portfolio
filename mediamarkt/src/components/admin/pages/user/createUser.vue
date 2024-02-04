@@ -23,7 +23,9 @@ export default {
     },
     saveUser() {
       // Check if all fields are filled
-      if (!this.name || !this.email || !this.password || !this.locatie || !this.rechten) {
+      console.log((this.rechten === true || this.rechten === false))
+      console.log(this.name, this.email , this.password , this.locatie ,(this.rechten === true || this.rechten === false))
+      if (this.name == '' || this.email == '' || this.password == '' || this.locatie == '' || (this.rechten !== true && this.rechten !== false)) {
         this.errorMessage = "Please fill in all fields.";
         return;
       }
