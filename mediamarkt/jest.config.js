@@ -1,7 +1,17 @@
 module.exports = {
-    preset: '@vue/cli-plugin-unit-jest/presets/typescript',
-    testMatch: ['**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'],
-    transform: {
-        '^.+\\.vue$': 'vue-jest',
-    },
-};
+  preset: '@vue/cli-plugin-unit-jest',
+  transformIgnorePatterns: [
+    '/node_modules/(?!axios|xlsx)/'
+  ],
+  globals: {
+    "NODE_ENV": "test"
+  },
+  moduleFileExtensions: [
+    "js",
+    "vue"
+  ],
+  moduleDirectories: [
+    "node_modules",
+    "src/mediamarkt"
+  ]
+}

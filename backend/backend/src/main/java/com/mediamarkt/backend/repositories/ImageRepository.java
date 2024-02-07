@@ -66,6 +66,14 @@ public class ImageRepository {
         Image image = result.get(0);
         return image;
     }
+    public void deleteAllForEAN(String EAN) {
+        TypedQuery<Image> query = this.entityManager.createQuery("select i from Image i where i.ean = :ean", Image.class);
+        query.setParameter("ean", EAN);
+        List<Image> result = query.getResultList();
+        for (Image image: result) {
+            deleteImage(image.getId());
+        }
+    }
 
     public Image create(Image newImage) {
         this.entityManager.persist(newImage);

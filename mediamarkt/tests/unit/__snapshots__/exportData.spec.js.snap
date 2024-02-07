@@ -1,0 +1,218 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExportData renders correctly 1`] = `
+<div
+  data-v-app=""
+>
+  
+  <div
+    class="p-6"
+  >
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 mt-40 md:mt-0"
+    >
+      <div
+        class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5"
+      >
+        <div
+          class="flex justify-between mb-6"
+        >
+          <div>
+            <div
+              class="text-2xl font-semibold mb-1"
+            >
+              0
+            </div>
+            <div
+              class="text-sm font-medium text-gray-600"
+            >
+              Completed
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5"
+      >
+        <div
+          class="flex justify-between mb-6"
+        >
+          <div>
+            <div
+              class="text-2xl font-semibold mb-1"
+            >
+              0
+            </div>
+            <div
+              class="text-sm font-medium text-gray-600"
+            >
+              In progress
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5"
+      >
+        <div
+          class="flex justify-between mb-6"
+        >
+          <div>
+            <div
+              class="text-2xl font-semibold mb-1"
+            >
+              0
+            </div>
+            <div
+              class="text-sm font-medium text-gray-600"
+            >
+              Outdated
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="mb-6"
+    >
+      <div
+        class="bg-white border border-gray-100 shadow-md shadow-black/5 p-6 rounded-md"
+      >
+        <div
+          class="flex justify-center sm:justify-between mb-4 sm:items-start"
+        >
+          <div
+            class="font-medium"
+          >
+            Manage images
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center mb-4 order-tab"
+        >
+          <button
+            class="bg-gray-50 text-sm font-medium text-gray-400 py-2 px-4 rounded-tl-md rounded-bl-md hover:text-gray-600 focus:outline-none active"
+            type="button"
+          >
+            All
+          </button>
+          <button
+            class="text-gray-600 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600 focus:outline-none active"
+            type="button"
+          >
+            Completed
+          </button>
+          <button
+            class="text-gray-600 text-sm font-medium text-gray-400 py-2 px-4 hover:text-gray-600 focus:outline-none active"
+            type="button"
+          >
+            In progress
+          </button>
+          <button
+            class="text-gray-600 text-sm font-medium text-gray-400 py-2 px-4 rounded-tr-md rounded-br-md hover:text-gray-600 focus:outline-none active"
+            type="button"
+          >
+            Outdated
+          </button>
+          <button
+            class="sm:ml-auto bg-red-500 text-sm font-medium text-white py-2 px-4 rounded-tr-md rounded hover:bg-red-600"
+            type="button"
+          >
+            <router-link
+              to="[object Object]"
+            >
+              Create image
+            </router-link>
+          </button>
+        </div>
+        <div
+          class="flex items-center mb-4"
+        >
+          <div
+            class="relative w-full mr-2"
+          >
+            <input
+              class="py-2 pr-4 pl-10 bg-gray-50 w-full outline-none border border-gray-100 rounded-md text-sm focus:border-blue-500"
+              placeholder="Search..."
+              type="text"
+            />
+            <i
+              class="ri-search-line absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"
+            />
+          </div>
+        </div>
+        <div
+          class="overflow-x-auto"
+        >
+          <table
+            class="w-full min-w-[540px]"
+            data-page="active"
+            data-tab-for="order"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tl-md rounded-bl-md"
+                >
+                  Article number
+                </th>
+                <th
+                  class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left"
+                >
+                  EAN
+                </th>
+                <th
+                  class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left"
+                >
+                  Brand
+                </th>
+                <th
+                  class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left"
+                >
+                  Status
+                </th>
+                <th
+                  class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md"
+                >
+                  User
+                </th>
+                <th
+                  class="text-[12px] uppercase tracking-wide font-medium text-gray-400 py-2 px-4 bg-gray-50 text-left rounded-tr-md rounded-br-md"
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              
+            </tbody>
+          </table>
+          <div
+            class="flex justify-center mt-4"
+          >
+            <button
+              class="disabled bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600"
+              disabled=""
+            >
+               Previous 
+            </button>
+            <div
+              class="mx-4"
+            >
+               Page 1 of 0
+            </div>
+            <button
+              class="bg-red-500 text-sm font-medium text-white py-2 px-4 rounded hover:bg-red-600"
+            >
+               Next 
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-view />
+  
+</div>
+`;

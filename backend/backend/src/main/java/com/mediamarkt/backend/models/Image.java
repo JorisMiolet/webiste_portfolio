@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @JsonProperty("id")
     private Long id;
 
@@ -47,7 +47,7 @@ public class Image {
     @ManyToOne
     private User user;
 
-    public Image(Long id,
+    public Image(
                  String articleNumber,
                  String ean,
                  String brand,
@@ -61,7 +61,6 @@ public class Image {
                  String barcode,
                  String date,
                  String status) {
-        this.id = id;
         this.articleNumber = articleNumber;
         this.ean = ean;
         this.brand = brand;

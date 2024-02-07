@@ -25,12 +25,12 @@ public class UserRepository {
     }
 
     public List<User> getActiveUsers(){
-        TypedQuery<User> query = this.entityManager.createQuery("SELECT u FROM User u WHERE u.active = true", User.class);
+        TypedQuery<User> query = this.entityManager.createQuery("SELECT u FROM User u WHERE u.admin = true", User.class);
         return query.getResultList();
     }
 
     public List<User> getDisabledUsers(){
-        TypedQuery<User> query = this.entityManager.createQuery("SELECT u FROM User u WHERE u.active = false", User.class);
+        TypedQuery<User> query = this.entityManager.createQuery("SELECT u FROM User u WHERE u.admin = false", User.class);
         return query.getResultList();
     }
 

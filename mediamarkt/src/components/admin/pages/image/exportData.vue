@@ -3,6 +3,7 @@ import imageData from '../dummyData.json';
 import {PCImage} from "@/image.js";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import VueJwtDecode from "vue-jwt-decode";
 export default {
   name: 'exportData',
   components: {},
@@ -12,6 +13,7 @@ export default {
   },
   data() {
     return {
+      url: 'https://ewa-back-end-r7ie.onrender.com',
       images: [],
       dummyData: imageData,
       selectedImage: null,
@@ -20,15 +22,16 @@ export default {
       currentPage: 1,
       rowsPerPage: 10,
       activePage: 'all',
+      axios: axios
     }
   },
   created() {
+    this.validateAdmin();
     this.loadAllImages();
     this.loadImageSummary();
-
   },
   methods: {
-    createOffer(image) {
+    create_image(image) {
       image = PCImage.createSampleImage(
           image.ArticleNR,
           image.EAN,
@@ -51,11 +54,11 @@ export default {
         const urlWithQuery = `${this.url}/api/images/${image["id"]}`;
         axios.delete(urlWithQuery)
             .then(() => {
-              this.loadAllImages()
               this.loadCompletedImages()
               this.loadInCompletedImages()
               this.loadImageSummary()
               this.loadOutdatedImages()
+              this.loadAllImages()
             });
       }
     },
@@ -69,7 +72,6 @@ export default {
       const urlWithQuery = `${this.url}/api/images/search?Filter=${this.searchFilter}`;
       axios.get(urlWithQuery)
           .then(response => this.images = response.data)
-
     },
     loadAllImages() {
       this.activePage = 'all';
@@ -104,6 +106,13 @@ export default {
           .then(response => this.images = response.data)
 
     },
+    validateAdmin(){
+      let token = sessionStorage.getItem("token")
+      let decodedToken = VueJwtDecode.decode(token)
+      if (!JSON.parse(decodedToken.admin)){
+        this.$router.push("/")
+      }
+    },
     exportToExcel() {
       const worksheet = XLSX.utils.json_to_sheet(this.images);
       const workbook = XLSX.utils.book_new();
@@ -137,11 +146,11 @@ export default {
       }
       axios.post(urlWithQuery, data)
           .then(() => {
-            this.loadAllImages()
             this.loadCompletedImages()
             this.loadInCompletedImages()
             this.loadImageSummary()
             this.loadOutdatedImages()
+            this.loadAllImages()
           })
 
     },
@@ -156,16 +165,17 @@ export default {
       }
       axios.post(urlWithQuery, data)
           .then(() => {
-            this.loadAllImages()
             this.loadCompletedImages()
             this.loadInCompletedImages()
             this.loadImageSummary()
             this.loadOutdatedImages()
+            this.loadAllImages()
           })
     },
   },
   computed: {
     totalPages(){
+      console.log(this.url)
       return Math.ceil(this.images.length / this.rowsPerPage)
     },
     paginatedImages() {
@@ -184,6 +194,7 @@ export default {
         return imageId == loggedInUserId && (image.STATUS !== 'completed' || image.STATUS !== 'in progress');
       };
     },
+
 
   },
   watch: {
@@ -314,7 +325,7 @@ export default {
       </div>
     </div>
   </div>
-  <router-view :key="$route.fullPath"/>
+  <router-view/>
 </template>
 
 <style scoped>
